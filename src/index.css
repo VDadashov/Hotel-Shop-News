@@ -1,7 +1,6 @@
 /* Reset CSS */
 body {
-    font-family: "Manrope", sans-serif;
-
+  /* padding: 0; */
 }
 /* Box-sizing border-box for all elements */
 *,

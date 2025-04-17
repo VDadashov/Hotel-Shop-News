@@ -29,11 +29,10 @@ export const Container = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-    row-gap: ${({ r_gap }) => r_gap || '0'}; 
-    justify-content:${({ justify }) => justify || 'flex-start'};
-    margin: ${({ margin }) => margin || '0'};
-    align-items:${({ align }) => align || ''};
-;
+  row-gap: ${({ r_gap }) => r_gap || "0"};
+  justify-content: ${({ justify }) => justify || "flex-start"};
+  margin: ${({ margin }) => margin || "0"};
+  align-items: ${({ align }) => align || ""};
 `;
 
 const generateColumn = (cols) => css`

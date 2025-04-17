@@ -1,0 +1,292 @@
+{
+    "menu_items": [
+      {
+        "title": "•Otaq Ləvazimatları",
+        "url": "/#",
+        "children": [
+          {
+            "title": "•Tərliklər",
+            "url": "/#"
+          },
+          {
+            "title": "•Şampun,Saç Kremləri, Duş Geli,Bədən Lasyonu",
+            "url": "/#"
+          },
+          {
+            "title": "•Sabunlar",
+            "url": "/#"
+          },
+          {
+            "title": "•Kosmetik Ləvazimatlar",
+            "url": "/#",
+            "children": [
+              {
+                "title": "Diş Seti",
+                "url": "/#"
+              },
+              {
+                "title": "Təraş Seti",
+                "url": "/#"
+              },
+              {
+                "title": "Kosmetik Set",
+                "url": "/#"
+              },
+              {
+                "title": "Qulaq Çöpü",
+                "url": "/#"
+              },
+              {
+                "title": "Makiyaj Pambığı",
+                "url": "/#"
+              },
+              {
+                "title": "Daraqlar",
+                "url": "/#"
+              },
+              {
+                "title": "Duş Bonesi",
+                "url": "/#"
+              },
+              {
+                "title": "Bədən Süngəri",
+                "url": "/#"
+              }
+            ]
+          },
+          {
+            "title": "•Otaq Aksesuarları",
+            "url": "/#",
+            "children": [
+              {
+                "title": "Ayaqqabı cilaları",
+                "url": "/#"
+              },
+              {
+                "title": "Dabankeşlər",
+                "url": "/#"
+              },
+              {
+                "title": "Tikiş Seti",
+                "url": "/#"
+              },
+              {
+                "title": "Camaşır Torbaları",
+                "url": "/#"
+              },
+              {
+                "title": "Stəkanaltı və Qapaqlar",
+                "url": "/#"
+              },
+              {
+                "title": "DND Kartlar",
+                "url": "/#"
+              },
+              {
+                "title": "Qol Bantları",
+                "url": "/#"
+              },
+              {
+                "title": "Kibritlər",
+                "url": "/#"
+              },
+              {
+                "title": "Asılqanlar",
+                "url": "/#"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "•Tekstil",
+        "url": "/#",
+        "children": [
+          {
+            "title": "•Dəsmallar",
+            "url": "/#"
+          },
+          {
+            "title": "•Xalatlar",
+            "url": "/#"
+          },
+          {
+            "title": "•Yataq Dəsti",
+            "url": "/#",
+            "children": [
+              {
+                "title": "Yastıqlar",
+                "url": "/#"
+              },
+              {
+                "title": "Yorğanlar",
+                "url": "/#"
+              },
+              {
+                "title": "Yataq Ağları",
+                "url": "/#"
+              }
+            ]
+          },
+          {
+            "title": "•Yataq Qoruyucu (ALEZ)",
+            "url": "/#"
+          },
+          {
+            "title": "•Ortopedik Matras",
+            "url": "/#"
+          }
+        ]
+      },
+      {
+        "title": "•Hamam & Tualet Ləvazimatları",
+        "url": "/#"
+      },
+      {
+        "title": "•Kağız Məmulatları",
+        "url": "/#"
+      },
+      {
+        "title": "•Kimyəvi və Texniki Təmizləmə Vasitələri",
+        "url": "/#",
+        "children": [
+          {
+            "title": "Yuyucu Vasitələr",
+            "url": "/#"
+          },
+          {
+            "title": "Təmizləmə Vasitələri",
+            "url": "/#"
+          },
+          {
+            "title": "Gigiyenik Vasitələr",
+            "url": "/#"
+          },
+          {
+            "title": "Texniki Vasitələr",
+            "url": "/#"
+          },
+          {
+            "title": "Təravətləndiricilər",
+            "url": "/#"
+          },
+          {
+            "title": "Dezinfeksiya Edicilər",
+            "url": "/#"
+          }
+        ]
+      },
+      {
+        "title": "•Digər Məhsullar",
+        "url": "/#",
+        "children": [
+          {
+            "title": "Arabalar",
+            "url": "/#"
+          },
+          {
+            "title": "Dispenser & Makinalar",
+            "url": "/#"
+          },
+          {
+            "title": "Minibar & Soyuducular",
+            "url": "/#"
+          },
+          {
+            "title": "Seyflər",
+            "url": "/#"
+          }
+        ]
+      },
+      {
+        "title": "•Xidmətlər",
+        "url": "/#"
+      },
+      {
+        "title": "•Endirimli Məhsullar",
+        "url": "/#"
+      }
+    ]
+,
+    "brands": [
+      { "id": 1, "title": "HotelShop" },
+      { "id": 2, "title": "RoyalStay" },
+      { "id": 3, "title": "CleanPro" },
+      { "id": 4, "title": "RelaxLine" },
+      { "id": 5, "title": "SpaLux" },
+      { "id": 6, "title": "PureTouch" },
+      { "id": 7, "title": "FreshTowel" },
+      { "id": 8, "title": "SleepWell" }
+    ]
+    ,
+    
+      "products": [
+        {
+          "id": 1,
+          "name": "Product Name 1",
+          "oldPrice": "$75.00",
+          "newPrice": "$59.00",
+          "image": "images/products-1.webp"
+        },
+        {
+          "id": 2,
+          "name": "Product Name 2",
+          "oldPrice": "$75.00",
+          "newPrice": "$59.00",
+          "image": "images/products-2.webp"
+        },
+        {
+          "id": 3,
+          "name": "Product Name 3",
+          "oldPrice": "$75.00",
+          "newPrice": "$59.00",
+          "image": "images/products-3.webp"
+        },
+        {
+          "id": 4,
+          "name": "Product Name 4",
+          "oldPrice": "$75.00",
+          "newPrice": "$59.00",
+          "image": "images/products-4.webp"
+        }
+      ]
+    
+    , "promos": [
+  {
+    "id": 1,
+    "subtitle": "Limited Offer",
+    "title": "Spa Collection",
+    "description": "Enjoy 30% off on all spa essentials until the timer ends.",
+    "backgroundImage": "images/promo-spa.webp",
+    "startTime": "2025-04-17T00:00:00Z",
+    "endTime": "2025-04-22T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "subtitle": "Weekend Deal",
+    "title": "Hotel Linen Set",
+    "description": "Exclusive offer on luxury hotel linen set. Hurry up!",
+    "backgroundImage": "images/promo-linen.webp",
+    "startTime": "2025-04-17T00:00:00Z",
+    "endTime": "2025-04-22T00:00:00Z"
+  }
+],"testimonials": [
+  {
+    "id": 1,
+    "author": "Aysel Məmmədova",
+    "message": "HotelShop məhsulları ilə otelimiz tam fərqli bir səviyyəyə çatdı. Keyfiyyət və xidmət mükəmməldir."
+  },
+  {
+    "id": 2,
+    "author": "Kamran Quliyev",
+    "message": "Təqdim olunan dəsmallar və yataq dəstləri həm müasir, həm də rahatdır. Müştərilərimiz çox razıdır."
+  },
+  {
+    "id": 3,
+    "author": "Lalə Həsənova",
+    "message": "Spa aksesuarları və gigiyenik məhsullar gözlədiyimdən qat-qat keyfiyyətlidir. Təşəkkürlər!"
+  }
+]
+
+
+  }
