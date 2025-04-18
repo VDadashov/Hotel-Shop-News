@@ -45,7 +45,7 @@ const Footer = () => {
       </Row>
 
       <Copy>
-        Copyright © {new Date().getFullYear()} HotelShop | Powered by HotelShop.az
+        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by DevITGroup
       </Copy>
     </FooterWrapper>
   );

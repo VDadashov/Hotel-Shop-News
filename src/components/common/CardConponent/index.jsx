@@ -1,15 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import { FaShoppingBag } from "react-icons/fa";
+import { useCart } from "../../../providers/CartProvider";
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <CardWrapper>
       <Card>
         <ImageWrapper>
           <img src={product.image} alt={product.name} />
           <Badge>Sale!</Badge>
-          <CartIcon>
+          <CartIcon onClick={handleAddToCart}>
             <FaShoppingBag />
           </CartIcon>
         </ImageWrapper>
@@ -27,14 +34,8 @@ const ProductCard = ({ product }) => {
 
 export default ProductCard;
 
-// Styled Components
+// === Styled Components ===
 
-// Parent padding
-const CardWrapper = styled.div`
-  padding: 30px;
-`;
-
-// Icon əvvəl gəlməlidir
 const CartIcon = styled.span`
   position: absolute;
   top: 10px;
@@ -50,9 +51,7 @@ const CartIcon = styled.span`
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
-  opacity: 0;
-  transform: scale(0.8);
-  pointer-events: none;
+  cursor: pointer;
 
   &:hover {
     background: #cba589;
@@ -60,8 +59,15 @@ const CartIcon = styled.span`
   }
 `;
 
-const Card = styled.div`
+const CardWrapper = styled.div`
+  padding: 30px;
 
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
+
+const Card = styled.div`
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -72,10 +78,8 @@ const Card = styled.div`
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
   }
 
-  &:hover ${CartIcon} {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
+  @media (max-width: 768px) {
+    padding: 5px;
   }
 `;
 
@@ -94,6 +98,15 @@ const ImageWrapper = styled.div`
 
   ${Card}:hover & img {
     transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    padding: 5px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 

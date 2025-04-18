@@ -44,6 +44,7 @@ const PromoCountdownCard = ({
   }, [startTime, endTime]);
 
   return (
+    <Wrapper>
     <CardWrapper backgroundImage={backgroundImage}>
       <Overlay />
       <Content>
@@ -58,10 +59,17 @@ const PromoCountdownCard = ({
        <Button variant="light">Shop Now</Button>
       </Content>
     </CardWrapper>
+    </Wrapper>
   );
 };
 
 export default PromoCountdownCard;
+const Wrapper = styled.div`
+  padding: 20px 30px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+`;
 
 // Styled-components
 const CardWrapper = styled.div`
@@ -70,8 +78,7 @@ const CardWrapper = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 10px;
-  // min-height: 400px;
-  padding: 10rem 2.5rem;
+  padding: 9rem 2.5rem;
   color: #fff;
   display: flex;
   align-items: center;
@@ -93,22 +100,31 @@ const Content = styled.div`
 
 const SubTitle = styled.p`
   text-transform: uppercase;
-  font-size: 13px;
+  font-size:1.2rem;
   letter-spacing: 1.2px;
   color: #f0f0f0;
   margin-bottom: 10px;
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Title = styled.h2`
-  font-size: 34px;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 10px;
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const Description = styled.p`
-  font-size: 16px;
+  font-size: 1.2rem;
   color: #e1e1e1;
   margin-bottom: 25px;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const Timer = styled.div`

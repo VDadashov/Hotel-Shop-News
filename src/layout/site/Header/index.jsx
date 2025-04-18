@@ -6,12 +6,19 @@ import Navigation from "./Navigation";
 import MobileMenu from "./MobileMenu";
 import DropdownMenu from "./DropdownMenu";
 import BaseApi from "../../../utils/api/baseApi";
+import SearchOverlay from "./SearchOverlay";
+import CartPanel from "./CartPanel";
+import { useCart } from "../../../providers/CartProvider"; // ✅ context'ten import
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { getTotalPrice, getTotalCount } = useCart(); // ✅ sepət məlumatları
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
@@ -53,10 +60,10 @@ const Header = () => {
         <Col xs={2} md={2}>
           <RightSide>
             <Icons>
-              <FaSearch />
-              <Cart>
-                $0.00
-                <span>0</span>
+              <FaSearch onClick={() => setSearchOpen(true)} />
+              <Cart onClick={() => setIsCartOpen(true)}>
+                ${getTotalPrice().toFixed(2)}
+                <span>{getTotalCount()}</span>
                 <FaShoppingBag />
               </Cart>
             </Icons>
@@ -68,7 +75,14 @@ const Header = () => {
         </Col>
       </Row>
 
-      <MobileMenu  productsData={productsData}  open={mobileOpen} onClose={() => setMobileOpen(false)}>
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <CartPanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <MobileMenu
+        productsData={productsData}
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      >
         {!loading && !error && (
           <DropdownMenu data={productsData} isMobile={true} />
         )}
@@ -78,6 +92,7 @@ const Header = () => {
 };
 
 export default Header;
+
 
 // Styled Components
 const HeaderWrapper = styled.header`
@@ -114,6 +129,11 @@ const Icons = styled.div`
   gap: 20px;
   align-items: center;
 
+  svg {
+    cursor: pointer;
+    font-size: 20px;
+  }
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -125,6 +145,7 @@ const Cart = styled.div`
   align-items: center;
   gap: 5px;
   font-weight: 600;
+  cursor: pointer;
 
   span {
     position: absolute;

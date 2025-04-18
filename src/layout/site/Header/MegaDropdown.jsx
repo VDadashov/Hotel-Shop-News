@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const MegaDropdown = ({ data = [] }) => {
   const [activeParent, setActiveParent] = useState(null);
@@ -28,7 +28,7 @@ const MegaDropdown = ({ data = [] }) => {
           ))}
         </Column>
 
-        <Column>
+        <AnimatedColumn key={`child-col-${activeParent}`}>
           {childItems.map((item, index) => (
             <Item
               key={index}
@@ -38,15 +38,15 @@ const MegaDropdown = ({ data = [] }) => {
               {item.title}
             </Item>
           ))}
-        </Column>
+        </AnimatedColumn>
 
-        <Column>
+        <AnimatedColumn key={`grand-col-${activeParent}-${activeChild}`}>
           {grandChildren.map((item, index) => (
             <LinkItem key={index} href={item.url || "#"}>
               {item.title}
             </LinkItem>
           ))}
-        </Column>
+        </AnimatedColumn>
       </Inner>
     </Wrapper>
   );
@@ -54,19 +54,31 @@ const MegaDropdown = ({ data = [] }) => {
 
 export default MegaDropdown;
 
-// Styled Components
+// ==== Styled Components ====
+
+const slideFade = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Wrapper = styled.div`
-text-align: left;
+  text-align: left;
   position: absolute;
-  top: -25px;
-  left: 0.5vw;
-  width: 98vw;
+  top: -5px;
+  left: 0;
+  width: calc(100vw - 15px);
   background: #fff;
   padding: 30px 20px;
   z-index: 999;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   overflow-x: auto;
+  animation: ${slideFade} 0.4s ease forwards;
 
   @media (max-width: 768px) {
     display: none;
@@ -99,12 +111,16 @@ const Column = styled.div`
   }
 `;
 
+const AnimatedColumn = styled(Column)`
+  animation: ${slideFade} 0.3s ease;
+`;
+
 const Item = styled.div`
   padding: 12px 16px;
   font-weight: 500;
   color: #333;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
   font-size: 16px;
 
   &.active,
@@ -129,7 +145,7 @@ const LinkItem = styled.a`
   font-size: 15px;
   color: #333;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
   cursor: pointer;
 
   &:hover {
@@ -145,3 +161,4 @@ const LinkItem = styled.a`
     font-size: 13px;
   }
 `;
+

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../../styles/common/GridSystem";
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock } from "react-icons/fa";
 
 const ContactSection = () => {
   return (
@@ -8,26 +9,23 @@ const ContactSection = () => {
       <HeaderWrapper>
         <MainTitle>Bizimlə əlaqə</MainTitle>
         <Description>
-          Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya
-          bilərsiniz.
+          Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.
         </Description>
       </HeaderWrapper>
 
       <Row r_gap="30px" justify="space-between">
-        
-       
-      <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
+        <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
           <WrapperBox>
             <ContactInfo>
               <h4>Əlaqə məlumatları</h4>
-              <p>📍 Ünvan: Bakı şəhəri, Yasamal r.</p>
-              <p>📞 Telefon: +994 55 123 45 67</p>
-              <p>✉️ E-poçt: info@hotelshop.az</p>
-              <p>🕐 İş saatları: 09:00 - 18:00 (B.e - C.a)</p>
+              <InfoRow><FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span></InfoRow>
+              <InfoRow><FaPhoneAlt /> <span>+994 55 123 45 67</span></InfoRow>
+              <InfoRow><FaEnvelope /> <span>info@hotelshop.az</span></InfoRow>
+              <InfoRow><FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span></InfoRow>
             </ContactInfo>
           </WrapperBox>
         </Col>
-    
+
         <Col xs={12} sm={12} md={4} lg={4} xl={4} xxl={4}>
           <WrapperBox>
             <Form>
@@ -40,7 +38,6 @@ const ContactSection = () => {
           </WrapperBox>
         </Col>
 
-      
         <Col xs={12} sm={12} md={4} lg={4} xl={4} xxl={4}>
           <WrapperBox>
             <MapWrapper>
@@ -63,7 +60,8 @@ const ContactSection = () => {
 
 export default ContactSection;
 
-// styled-components
+// Styled Components
+
 const Section = styled.section`
   padding: 80px 20px;
   background: #fff;
@@ -75,9 +73,13 @@ const HeaderWrapper = styled.div`
 `;
 
 const MainTitle = styled.h3`
-  font-size: 28px;
+  font-size: 3rem;
   font-weight: 600;
   color: #000;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const Description = styled.p`
@@ -140,11 +142,18 @@ const ContactInfo = styled.div`
     margin-bottom: 15px;
     color: #000;
   }
+`;
 
-  p {
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 10px;
+const InfoRow = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+
+  svg {
+    color: #cba589;
   }
 `;
-  
+

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import MegaDropdown from "./MegaDropdown"; // Yeni komponenti import edirik
+import styled, { css } from "styled-components";
+import MegaDropdown from "./MegaDropdown";
 
 const Navigation = ({ productsData, loading, error }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -15,6 +15,7 @@ const Navigation = ({ productsData, loading, error }) => {
         <NavItem
           onMouseEnter={() => setIsDropdownOpen(true)}
           onMouseLeave={() => setIsDropdownOpen(false)}
+          withBefore
         >
           <NavLink href="#">Məhsullarımız</NavLink>
           {!loading && !error && isDropdownOpen && (
@@ -37,6 +38,8 @@ const Navigation = ({ productsData, loading, error }) => {
 };
 
 export default Navigation;
+
+// -------------------- Styled Components --------------------
 
 const NavContainer = styled.nav`
   flex: 1;
@@ -62,6 +65,23 @@ const NavList = styled.ul`
 
 const NavItem = styled.li`
   position: static;
+
+  ${({ withBefore }) =>
+    withBefore &&
+    css`
+    
+      &:hover&::before {
+        content: "";
+        position: absolute;
+        top: 80px;
+        left:0 ;
+        width: 100%;
+        height: 30px;
+        background: #00000000;
+        transform: translateY(-50%);
+        z-index: 1000000;
+      }
+    `}
 `;
 
 const NavLink = styled.a`
@@ -90,4 +110,16 @@ const DropdownWrapper = styled.div`
   top: 100%;
   left: 0;
   z-index: 999;
+  animation: fadeSlide 0.3s ease;
+
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
