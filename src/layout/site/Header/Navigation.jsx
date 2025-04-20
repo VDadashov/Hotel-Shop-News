@@ -17,7 +17,7 @@ const Navigation = ({ productsData, loading, error }) => {
           onMouseLeave={() => setIsDropdownOpen(false)}
           withBefore
         >
-          <NavLink href="#">Məhsullarımız</NavLink>
+          <NavLink href="/products">Məhsullarımız</NavLink>
           {!loading && !error && isDropdownOpen && (
             <DropdownWrapper>
               <MegaDropdown data={productsData} />

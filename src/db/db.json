@@ -2,97 +2,97 @@
     "menu_items": [
       {
         "title": "•Otaq Ləvazimatları",
-        "url": "/#",
+        "url": "/otaq-ləvazimatları",
         "children": [
           {
             "title": "•Tərliklər",
-            "url": "/#"
+            "url": "/otaq-ləvazimatları/tərliklər"
           },
           {
             "title": "•Şampun,Saç Kremləri, Duş Geli,Bədən Lasyonu",
-            "url": "/#"
+            "url": "/otaq-ləvazimatları/şampunsaç-kremləri-duş-gelibədən-lasyonu"
           },
           {
             "title": "•Sabunlar",
-            "url": "/#"
+            "url": "/otaq-ləvazimatları/sabunlar"
           },
           {
             "title": "•Kosmetik Ləvazimatlar",
-            "url": "/#",
+            "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar",
             "children": [
               {
                 "title": "Diş Seti",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/diş-seti"
               },
               {
                 "title": "Təraş Seti",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/təraş-seti"
               },
               {
                 "title": "Kosmetik Set",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/kosmetik-set"
               },
               {
                 "title": "Qulaq Çöpü",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/qulaq-çöpü"
               },
               {
                 "title": "Makiyaj Pambığı",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/makiyaj-pambığı"
               },
               {
                 "title": "Daraqlar",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/daraqlar"
               },
               {
                 "title": "Duş Bonesi",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/duş-bonesi"
               },
               {
                 "title": "Bədən Süngəri",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/kosmetik-ləvazimatlar/bədən-süngəri"
               }
             ]
           },
           {
             "title": "•Otaq Aksesuarları",
-            "url": "/#",
+            "url": "/otaq-ləvazimatları/otaq-aksesuarları",
             "children": [
               {
                 "title": "Ayaqqabı cilaları",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/ayaqqabı-cilaları"
               },
               {
                 "title": "Dabankeşlər",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/dabankeşlər"
               },
               {
                 "title": "Tikiş Seti",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/tikiş-seti"
               },
               {
                 "title": "Camaşır Torbaları",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/camaşır-torbaları"
               },
               {
                 "title": "Stəkanaltı və Qapaqlar",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/stəkanaltı-və-qapaqlar"
               },
               {
                 "title": "DND Kartlar",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/dnd-kartlar"
               },
               {
                 "title": "Qol Bantları",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/qol-bantları"
               },
               {
                 "title": "Kibritlər",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/kibritlər"
               },
               {
                 "title": "Asılqanlar",
-                "url": "/#"
+                "url": "/otaq-ləvazimatları/otaq-aksesuarları/asılqanlar"
               }
             ]
           }
@@ -100,111 +100,111 @@
       },
       {
         "title": "•Tekstil",
-        "url": "/#",
+        "url": "/tekstil",
         "children": [
           {
             "title": "•Dəsmallar",
-            "url": "/#"
+            "url": "/tekstil/dəsmallar"
           },
           {
             "title": "•Xalatlar",
-            "url": "/#"
+            "url": "/tekstil/xalatlar"
           },
           {
             "title": "•Yataq Dəsti",
-            "url": "/#",
+            "url": "/tekstil/yataq-dəsti",
             "children": [
               {
                 "title": "Yastıqlar",
-                "url": "/#"
+                "url": "/tekstil/yataq-dəsti/yastıqlar"
               },
               {
                 "title": "Yorğanlar",
-                "url": "/#"
+                "url": "/tekstil/yataq-dəsti/yorğanlar"
               },
               {
                 "title": "Yataq Ağları",
-                "url": "/#"
+                "url": "/tekstil/yataq-dəsti/yataq-ağları"
               }
             ]
           },
           {
             "title": "•Yataq Qoruyucu (ALEZ)",
-            "url": "/#"
+            "url": "/tekstil/yataq-qoruyucu-alez"
           },
           {
             "title": "•Ortopedik Matras",
-            "url": "/#"
+            "url": "/tekstil/ortopedik-matras"
           }
         ]
       },
       {
         "title": "•Hamam & Tualet Ləvazimatları",
-        "url": "/#"
+        "url": "/hamam-tualet-ləvazimatları"
       },
       {
         "title": "•Kağız Məmulatları",
-        "url": "/#"
+        "url": "/kağız-məmulatları"
       },
       {
         "title": "•Kimyəvi və Texniki Təmizləmə Vasitələri",
-        "url": "/#",
+        "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri",
         "children": [
           {
             "title": "Yuyucu Vasitələr",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/yuyucu-vasitələr"
           },
           {
             "title": "Təmizləmə Vasitələri",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/təmizləmə-vasitələri"
           },
           {
             "title": "Gigiyenik Vasitələr",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/gigiyenik-vasitələr"
           },
           {
             "title": "Texniki Vasitələr",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/texniki-vasitələr"
           },
           {
             "title": "Təravətləndiricilər",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/təravətləndiricilər"
           },
           {
             "title": "Dezinfeksiya Edicilər",
-            "url": "/#"
+            "url": "/kimyəvi-və-texniki-təmizləmə-vasitələri/dezinfeksiya-edicilər"
           }
         ]
       },
       {
         "title": "•Digər Məhsullar",
-        "url": "/#",
+        "url": "/digər-məhsullar",
         "children": [
           {
             "title": "Arabalar",
-            "url": "/#"
+            "url": "/digər-məhsullar/arabalar"
           },
           {
             "title": "Dispenser & Makinalar",
-            "url": "/#"
+            "url": "/digər-məhsullar/dispenser-makinalar"
           },
           {
             "title": "Minibar & Soyuducular",
-            "url": "/#"
+            "url": "/digər-məhsullar/minibar-soyuducular"
           },
           {
             "title": "Seyflər",
-            "url": "/#"
+            "url": "/digər-məhsullar/seyflər"
           }
         ]
       },
       {
         "title": "•Xidmətlər",
-        "url": "/#"
+        "url": "/xidmətlər"
       },
       {
         "title": "•Endirimli Məhsullar",
-        "url": "/#"
+        "url": "/endirimli-məhsullar"
       }
     ]
 ,

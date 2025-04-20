@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom"; // ✅ react-router Link
 
 const MegaDropdown = ({ data = [] }) => {
   const [activeParent, setActiveParent] = useState(null);
@@ -9,6 +10,10 @@ const MegaDropdown = ({ data = [] }) => {
     activeParent !== null ? data[activeParent]?.children || [] : [];
   const grandChildren =
     activeChild !== null ? childItems[activeChild]?.children || [] : [];
+
+  const getLink = (item) => {
+    return item?.url ? `/products/${encodeURIComponent(item.url)}` : "#";
+  };
 
   return (
     <Wrapper>
@@ -22,6 +27,7 @@ const MegaDropdown = ({ data = [] }) => {
                 setActiveChild(null);
               }}
               className={activeParent === index ? "active" : ""}
+              to={getLink(item)} // ✅ SPA link
             >
               {item.title}
             </Item>
@@ -34,6 +40,7 @@ const MegaDropdown = ({ data = [] }) => {
               key={index}
               onMouseEnter={() => setActiveChild(index)}
               className={activeChild === index ? "active" : ""}
+              to={getLink(item)} // ✅
             >
               {item.title}
             </Item>
@@ -42,7 +49,7 @@ const MegaDropdown = ({ data = [] }) => {
 
         <AnimatedColumn key={`grand-col-${activeParent}-${activeChild}`}>
           {grandChildren.map((item, index) => (
-            <LinkItem key={index} href={item.url || "#"}>
+            <LinkItem key={index} to={getLink(item)}> {/* ✅ */}
               {item.title}
             </LinkItem>
           ))}
@@ -114,14 +121,15 @@ const Column = styled.div`
 const AnimatedColumn = styled(Column)`
   animation: ${slideFade} 0.3s ease;
 `;
-
-const Item = styled.div`
+const Item = styled(Link)`
+  display: block;
   padding: 12px 16px;
   font-weight: 500;
   color: #333;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
   font-size: 16px;
+  text-decoration: none;
 
   &.active,
   &:hover {
@@ -138,7 +146,7 @@ const Item = styled.div`
   }
 `;
 
-const LinkItem = styled.a`
+const LinkItem = styled(Link)`
   display: block;
   padding: 12px 16px;
   font-weight: 500;
@@ -161,4 +169,5 @@ const LinkItem = styled.a`
     font-size: 13px;
   }
 `;
+
 

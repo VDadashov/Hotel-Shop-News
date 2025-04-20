@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
     <CardWrapper>
       <Card>
         <ImageWrapper>
-          <img src={product.image} alt={product.name} />
+          <img src={`/${product.image} `}alt={product.name} />
           <Badge>Sale!</Badge>
           <CartIcon onClick={handleAddToCart}>
             <FaShoppingBag />
