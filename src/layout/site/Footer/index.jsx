@@ -8,7 +8,7 @@ const Footer = () => {
     <FooterWrapper>
       <Row r_gap="40px" justify="space-between">
         <Col xs={12} sm={6} md={3} xl={3} xxl={3}>
-          <FooterLogo>
+          <FooterLogo href="/">
             <img src="/images/logo.png" alt="HotelShop Logo" />
             <p>HotelShop - Hər zaman keyfiyyətli otel məhsulları</p>
           </FooterLogo>
@@ -59,7 +59,8 @@ const FooterWrapper = styled.footer`
   color: #333;
 `;
 
-const FooterLogo = styled.div`
+const FooterLogo = styled.a`
+display: block;
   img {
     max-height: 60px;
     margin-bottom: 12px;

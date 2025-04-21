@@ -13,13 +13,23 @@ const CartPanel = ({ isOpen, onClose }) => {
     getTotalPrice,
   } = useCart();
 
+  const getWhatsappUrl = () => {
+    const productIds = cartItems.map((item) => item.id);
+    if (productIds.length === 0) return "#";
+
+    const productLink = `http://localhost:5174/feedbackproduct/${productIds.join(",")}`;
+    const message = `Salam, səbətimdəki məhsullar haqqında ətraflı məlumat almaq istəyirəm.\n\n${productLink}\n\nZəhmət olmasa mənimlə əlaqə saxlayın.\nTəşəkkür edirəm!`;
+
+    return `https://wa.me/994556810051?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <Overlay isOpen={isOpen}>
       <Header>
         <CloseIcon onClick={onClose}>
           <FaTimes />
         </CloseIcon>
-        <Title>Shopping Cart</Title>
+        <Title>Səbət</Title>
       </Header>
 
       <Content>
@@ -28,7 +38,7 @@ const CartPanel = ({ isOpen, onClose }) => {
         ) : (
           cartItems.map((item) => (
             <CartItem key={item.id}>
-              <Img src={item.image} alt={item.name} />
+              <Img src={`/${item.image}`} alt={item.name} />
               <Details>
                 <p>{item.name}</p>
                 <span>{item.quantity} × ${item.price.toFixed(2)}</span>
@@ -57,11 +67,14 @@ const CartPanel = ({ isOpen, onClose }) => {
       {cartItems.length > 0 && (
         <Footer>
           <Subtotal>
-            <span>Subtotal:</span>
+            <span>Toplam:</span>
             <strong>${getTotalPrice().toFixed(2)}</strong>
-            <span>{getTotalCount()} item</span>
+            <span>{getTotalCount()} məhsul</span>
           </Subtotal>
-          <ClearCartBtn onClick={clearCart}>SƏBƏTİ SIFIRLA</ClearCartBtn>
+          <ClearCartBtn onClick={clearCart}>SƏBƏTİ SİL</ClearCartBtn>
+          <a href={getWhatsappUrl()} target="_blank" rel="noopener noreferrer">
+            <WhatsappBtn>WhatsApp ilə göndər</WhatsappBtn>
+          </a>
         </Footer>
       )}
     </Overlay>
@@ -209,6 +222,23 @@ const ClearCartBtn = styled.button`
 
   &:hover {
     background: #333;
+  }
+`;
+
+const WhatsappBtn = styled.button`
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  background: #25d366;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background: #1ebc57;
   }
 `;
 

@@ -1,4 +1,53 @@
 {
+  "settings":[
+{
+        "key": "gizlilik-siyaseti",
+        "value": "<h2>Gizlilik Siyasəti</h2><p>Biz istifadəçilərimizin məlumatlarının gizliliyinə önəm veririk. Saytımızdan istifadə zamanı toplanan şəxsi məlumatlar (ad, email, telefon və s.) yalnız xidmət keyfiyyətini artırmaq və istifadəçi təcrübəsini yaxşılaşdırmaq məqsədilə istifadə olunur.</p><p>Heç bir şəxsi məlumat üçüncü şəxslərlə paylaşılmır, satılmır və ya kommersiya məqsədilə istifadə edilmir. Bütün məlumatlar müvafiq təhlükəsizlik tədbirləri ilə qorunur.</p><p>İstifadəçi istədiyi zaman məlumatlarının silinməsini və ya dəyişdirilməsini tələb edə bilər.</p>"
+      },
+      {
+        "key": "istifade-sertleri",
+        "value": "<h2>İstifadə Şərtləri</h2><p>Bu vebsaytdan istifadə etməklə aşağıdakı şərtlərlə razılaşırsınız:</p><ul><li>Siz təqdim etdiyiniz məlumatların doğru və tam olduğunu təsdiqləyirsiniz.</li><li>Sistemə zərər verəcək, təhlükə yaradacaq heç bir fəaliyyət həyata keçirməyəcəyinizi öhdənizə götürürsünüz.</li><li>Məhsul şəkilləri və məlumatları yalnız təqdimat məqsədilə verilir, dəyişiklik ola bilər.</li></ul><p>Əgər bu şərtlərlə razı deyilsinizsə, vebsaytdan istifadə etməməyinizi tövsiyə edirik.</p>"
+      },
+      {
+        "key": "qaytarilma-sertleri",
+        "value": "<h2>Qaytarılma Şərtləri</h2><p>Məhsulun qaytarılması aşağıdakı hallarda mümkündür:</p><ul><li>Məhsul zədəlidirsə və ya yanlış göndərilibsə</li><li>Məhsul istifadəyə verilməmiş və orijinal qablaşdırmasındadırsa</li><li>Qaytarılma 14 gün ərzində müraciət olunarsa</li></ul><p>Qaytarılacaq məhsul üçün ödəniş yalnız məhsul bizə çatdıqdan sonra və yoxlandıqdan sonra geri qaytarılacaq.</p><p>Qaytarılma prosesi haqqında ətraflı məlumat üçün bizimlə əlaqə saxlaya bilərsiniz.</p>"
+      }
+    
+  ]
+  ,
+  "faqs":[
+  {
+    "question": "Sifarişi necə edə bilərəm?",
+    "answer": "İstədiyiniz məhsulu səbətə əlavə edib, sifariş formasını dolduraraq sifariş edə bilərsiniz."
+  },
+  {
+    "question": "Ödəniş üsulları hansılardır?",
+    "answer": "Onlayn kartla ödəniş və ya kuryer vasitəsilə nağd ödəniş mümkündür."
+  },
+  {
+    "question": "Çatdırılma müddəti nə qədərdir?",
+    "answer": "Bakıda çatdırılma adətən 1-3 iş günü ərzində tamamlanır."
+  },
+  {
+    "question": "Sifarişi necə izləyə bilərəm?",
+    "answer": "Sifariş etdikdən sonra sizə təqdim olunan izləmə kodu ilə statusu izləyə bilərsiniz."
+  },
+  {
+    "question": "Məhsulu geri qaytara bilərəmmi?",
+    "answer": "Bəli, məhsulu 14 gün ərzində geri qaytara bilərsiniz. Məhsul istifadə edilməmiş olmalıdır."
+  },
+  {
+    "question": "Zəmanət necə işləyir?",
+    "answer": "Məhsullarımıza 6 aylıq zəmanət verilir. Problemlə üzləşsəniz, bizimlə əlaqə saxlayın."
+  },
+  {
+    "question": "Əlaqə üçün hansı yollar mövcuddur?",
+    "answer": "Bizə email, telefon və ya əlaqə formasından istifadə edərək yazın. Əlaqə məlumatları saytın Əlaqə bölməsində yerləşir."
+  }
+]
+
+
+  ,
     "menu_items": [
       {
         "title": "•Otaq Ləvazimatları",

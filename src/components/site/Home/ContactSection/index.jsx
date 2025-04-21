@@ -18,10 +18,21 @@ const ContactSection = () => {
           <WrapperBox>
             <ContactInfo>
               <h4>Əlaqə məlumatları</h4>
-              <InfoRow><FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span></InfoRow>
-              <InfoRow><FaPhoneAlt /> <span>+994 55 123 45 67</span></InfoRow>
-              <InfoRow><FaEnvelope /> <span>info@hotelshop.az</span></InfoRow>
-              <InfoRow><FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span></InfoRow>
+              <InfoRow>
+  <FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span>
+</InfoRow>
+<InfoRow>
+  <FaPhoneAlt />
+  <a href="tel:+994551234567">+994 55 123 45 67</a>
+</InfoRow>
+<InfoRow>
+  <FaEnvelope />
+  <a href="mailto:info@hotelshop.az">info@hotelshop.az</a>
+</InfoRow>
+<InfoRow>
+  <FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span>
+</InfoRow>
+
             </ContactInfo>
           </WrapperBox>
         </Col>
@@ -155,5 +166,15 @@ const InfoRow = styled.p`
   svg {
     color: #cba589;
   }
+    a {
+  color: #444;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: #b85c38;
+  }
+}
+
 `;
 

@@ -23,10 +23,10 @@ const ProductCard = ({ product }) => {
 
         <ProductName>{product.name}</ProductName>
 
-        <PriceArea>
+        {/* <PriceArea>
           <OldPrice>{product.oldPrice}</OldPrice>
           <NewPrice>{product.newPrice}</NewPrice>
-        </PriceArea>
+        </PriceArea> */}
       </Card>
     </CardWrapper>
   );

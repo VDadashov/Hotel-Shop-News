@@ -8,7 +8,7 @@ import DropdownMenu from "./DropdownMenu";
 import BaseApi from "../../../utils/api/baseApi";
 import SearchOverlay from "./SearchOverlay";
 import CartPanel from "./CartPanel";
-import { useCart } from "../../../providers/CartProvider"; // ✅ context'ten import
+import { useCart } from "../../../providers/CartProvider"; 
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -18,7 +18,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const { getTotalPrice, getTotalCount } = useCart(); // ✅ sepət məlumatları
+  const { getTotalPrice, getTotalCount } = useCart();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
@@ -46,7 +46,7 @@ const Header = () => {
     <HeaderWrapper>
       <Row justify="space-between" align="center">
         <Col xs={2} md={2}>
-          <Logo>
+          <Logo href="/">
             <img src="/images/logo.png" alt="Logo" />
           </Logo>
         </Col>
@@ -108,7 +108,7 @@ const HeaderWrapper = styled.header`
   }
 `;
 
-const Logo = styled.div`
+const Logo = styled.a`
   display: flex;
   align-items: center;
 
