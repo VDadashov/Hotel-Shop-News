@@ -1,20 +1,18 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import CategoryAccordion from "../../../components/site/ProductPage/CategoryAccordion";
 import SearchAndSort from "../../../components/site/ProductPage/SearchAndSort";
 import ProductList from "../../../components/site/ProductPage/ProductList";
 import PageBanner from "../../../components/common/PageBanner";
 
-// Baş hərfi böyük, sonrası kiçik – azərbaycan dilinə uyğun
-const capitalize = (word) => {
-  return word.charAt(0).toLocaleUpperCase("az") + word.slice(1).toLocaleLowerCase("az");
-};
+// Baş hərfi böyük yazan funksiya
+const capitalize = (word) =>
+  word.charAt(0).toLocaleUpperCase("az") + word.slice(1).toLocaleLowerCase("az");
 
-// Breadcrumb üçün formatlanan tam yol
+// Breadcrumb üçün format
 const formatBreadcrumb = (slug) => {
   if (!slug) return "";
-
   return decodeURIComponent(slug)
     .split("/")
     .map((part) =>
@@ -27,7 +25,7 @@ const formatBreadcrumb = (slug) => {
     .join(" / ");
 };
 
-// Title üçün yalnız son slug hissəsi
+// Başlıq üçün format
 const formatLastTitle = (slug) => {
   if (!slug) return "Məhsullar";
   const parts = decodeURIComponent(slug).split("/");
@@ -41,7 +39,14 @@ const formatLastTitle = (slug) => {
 
 const ProductPage = () => {
   const { "*": slug } = useParams();
-  const title = formatLastTitle(slug); // ✅ yalnız son hissə
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQueryParam = searchParams.get("search") || "";
+
+  const [searchQuery, setSearchQuery] = useState(searchQueryParam);
+  const [sortOrder, setSortOrder] = useState("");
+
+  const title = formatLastTitle(slug);
   const breadcrumb = slug
     ? `Ana səhifə > Məhsullar > ${formatBreadcrumb(slug)}`
     : `Ana səhifə > Məhsullar`;
@@ -55,8 +60,13 @@ const ProductPage = () => {
           <CategoryAccordion />
         </Col>
         <Col xs={12} md={9} lg={9} xl={9} xxl={9} style={{ padding: "1rem" }}>
-          <SearchAndSort />
-          <ProductList />
+          <SearchAndSort
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            sort={sortOrder}
+            onSortChange={setSortOrder}
+          />
+          <ProductList searchQuery={searchQuery} sort={sortOrder} />
         </Col>
       </Row>
     </>

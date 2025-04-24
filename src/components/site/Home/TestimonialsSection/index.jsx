@@ -16,7 +16,7 @@ const TestimonialsSection = ({ testimonials = [] }) => {
             <CardWrapper>
               <RefCard>
                 <RefMessage>&ldquo;{ref.message}&rdquo;</RefMessage>
-                <RefAuthor>{ref.author}</RefAuthor>
+                <RefAuthor>{ref.name}</RefAuthor>
               </RefCard>
             </CardWrapper>
           </Col>

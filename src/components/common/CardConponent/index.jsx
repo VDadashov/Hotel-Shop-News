@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaShoppingBag } from "react-icons/fa";
 import { useCart } from "../../../providers/CartProvider";
-
+import MediaApi from "../../../utils/api/MediaApi";
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
@@ -14,14 +14,14 @@ const ProductCard = ({ product }) => {
     <CardWrapper>
       <Card>
         <ImageWrapper>
-          <img src={`/${product.image} `}alt={product.name} />
+          <img src={`${MediaApi}${product.mainImg} `}alt={product.name} />
           <Badge>Sale!</Badge>
           <CartIcon onClick={handleAddToCart}>
             <FaShoppingBag />
           </CartIcon>
         </ImageWrapper>
 
-        <ProductName>{product.name}</ProductName>
+        <ProductName href={`/products/${product.id}`}>{product.name}</ProductName>
 
         {/* <PriceArea>
           <OldPrice>{product.oldPrice}</OldPrice>
@@ -123,7 +123,7 @@ const Badge = styled.span`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 `;
 
-const ProductName = styled.p`
+const ProductName = styled.a`
   font-weight: 600;
   font-size: 16px;
   margin: 15px 0 8px;

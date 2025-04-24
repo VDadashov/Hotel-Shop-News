@@ -12,13 +12,14 @@ import ContactSection  from "../../../components/site/Home/ContactSection";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
-
+  const [trending , setTrending] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${BaseApi}/products`);
         const result = await response.json();
         setProducts(result);
+        
       } catch (error) {
         console.error("Product fetch error:", error);
       }
@@ -26,7 +27,20 @@ const Home = () => {
 
     fetchProducts();
   }, []);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${BaseApi}/trending`);
+        const result = await response.json();
+        setTrending(result);
+        
+      } catch (error) {
+        console.error("Product fetch error:", error);
+      }
+    };
 
+    fetchProducts();
+  }, []);
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -49,8 +63,8 @@ const Home = () => {
 
       <HeroSection />
       <BrandSlider />
-      <TrendingProducts products={products} />
-      <BestSellingSection products={products} />
+      <TrendingProducts products={trending} />
+      <BestSellingSection products={products.slice(0, 4)} />
       <PromoCountdownSection />
       <TestimonialsSection testimonials={testimonials} />
       <WhyChooseUsSection/>

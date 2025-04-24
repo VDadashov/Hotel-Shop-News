@@ -10,7 +10,9 @@ const BrandSlider = () => {
       try {
         const response = await fetch(`${BaseApi}/brands`);
         const data = await response.json();
-        const mapped = data.map((b) => b.title);
+    
+        const mapped = data.map((b) => b.name);
+       
         setBrands(mapped);
       } catch (error) {
         console.error("Error fetching brands:", error);

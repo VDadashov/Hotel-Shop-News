@@ -44,7 +44,7 @@ const HeroWrapper = styled.section`
   @media (max-width: 768px) {
     background-attachment: scroll;
     height: auto;
-    padding: 60px 0;
+
   }
 `;
 
@@ -54,6 +54,11 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.6); // daha yumşaq overlay
   display: flex;
   align-items: center;
+   @media (max-width: 768px) {
+
+    height: auto;
+    padding: 60px 0;
+  }
 `;
 
 const TextContent = styled.div`

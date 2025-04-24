@@ -7,6 +7,7 @@ import ProductPage from "../pages/site/ProductPage";
 import Faq from "../pages/site/FAQ";
 import PolicyPage from "../pages/site/PolicyPage";
 import FeedbackProduct from "../pages/site/FeedbackProduct";
+import DetailsPage from "../pages/site/DetailsPage";
 const ROUTES = [
   {
     path: "/",
@@ -25,8 +26,12 @@ const ROUTES = [
         element: <AboutUs />,
       },
       {
-        path: "products/*", // ✅ dərin slug dəstəyi
+        path: "products/*", 
         element: <ProductPage />,
+      },
+      {
+        path: "products/:id",
+        element:<DetailsPage/>
       },
       {
         path:"/faq",

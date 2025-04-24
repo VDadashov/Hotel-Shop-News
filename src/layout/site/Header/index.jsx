@@ -18,7 +18,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const { getTotalPrice, getTotalCount } = useCart();
+  const {  getTotalCount } = useCart();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
@@ -28,9 +28,10 @@ const Header = () => {
     const fetchMenuData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BaseApi}/menu_items`);
+        const response = await fetch(`${BaseApi}/menu`);
         if (!response.ok) throw new Error("Network response was not ok");
         const rawData = await response.json();
+
         setProductsData(Array.isArray(rawData) ? rawData : []);
       } catch (err) {
         setError(err.message);
@@ -62,7 +63,7 @@ const Header = () => {
             <Icons>
               <FaSearch onClick={() => setSearchOpen(true)} />
               <Cart onClick={() => setIsCartOpen(true)}>
-                ${getTotalPrice().toFixed(2)}
+                
                 <span>{getTotalCount()}</span>
                 <FaShoppingBag />
               </Cart>

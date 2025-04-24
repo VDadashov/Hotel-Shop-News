@@ -1,2 +1,3 @@
-const BaseApi = "http://localhost:5000";
-export default BaseApi;
+const BaseApi = "https://hotelshopalternativ.onrender.com/api";
+
+export default  BaseApi 

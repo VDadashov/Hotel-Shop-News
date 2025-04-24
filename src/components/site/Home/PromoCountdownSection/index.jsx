@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseApi from "../../../../utils/api/baseApi";
+import MediaApi from "../../../../utils/api/MediaApi";
 import PromoCountdownCard from "./PromoCountdownCard";
 
 const PromoCountdownSection = () => {
@@ -9,11 +10,11 @@ const PromoCountdownSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("⏳ Promo datası sorğulanır...");
+
         const res = await fetch(`${BaseApi}/promos`);
         const json = await res.json();
 
-        console.log("✅ Gələn cavab:", json);
+
         setPromoData(json.promos || json || []);
       } catch (error) {
         console.error("❌ Promo məlumatı alınarkən xəta:", error);

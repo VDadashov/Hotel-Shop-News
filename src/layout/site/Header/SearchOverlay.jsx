@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SearchOverlay = ({ isOpen, onClose }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+      onClose(); // açıq overlay-i bağlayır
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <OverlayContainer isOpen={isOpen}>
       <CloseIcon onClick={onClose}>
@@ -11,8 +28,14 @@ const SearchOverlay = ({ isOpen, onClose }) => {
 
       <ContentWrapper>
         <SearchBox>
-          <input type="text" placeholder="Axtarış..." />
-          <SearchButton>Axtar</SearchButton>
+          <input
+            type="text"
+            placeholder="Axtarış..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <SearchButton onClick={handleSearch}>Axtar</SearchButton>
         </SearchBox>
       </ContentWrapper>
     </OverlayContainer>
@@ -20,6 +43,7 @@ const SearchOverlay = ({ isOpen, onClose }) => {
 };
 
 export default SearchOverlay;
+
 const OverlayContainer = styled.div`
 position: fixed;
 top: 0;

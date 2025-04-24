@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
 import BaseApi from "../../../utils/api/baseApi";
 
+
 const TITLES = {
   "gizlilik-siyaseti": "Gizlilik Siyasəti",
   "istifade-sertleri": "İstifadə Şərtləri",
@@ -12,13 +13,16 @@ const TITLES = {
 const PolicyPage = ({ type }) => {
   const [content, setContent] = useState("");
 
+
   useEffect(() => {
+
     const fetchData = async () => {
       try {
-        const res = await fetch(`${BaseApi}/settings`);
+        const res = await fetch(`${BaseApi}/settings/${type}`);
+        console.log(res,`${BaseApi}/settings/${type}`);
         const data = await res.json();
-        const match = data.find((x) => x.key === type);
-        setContent(match?.value || "<p>Məzmun tapılmadı.</p>");
+        
+        setContent(data?.value || "<p>Məzmun tapılmadı.</p>");
       } catch (err) {
         setContent("<p>Xəta baş verdi.</p>",err);
       }

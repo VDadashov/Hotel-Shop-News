@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useCart } from "../../../providers/CartProvider";
 import { FaTimes } from "react-icons/fa";
+import BaseApi from "../../../utils/api/baseApi";
+import MediaApi from "../../../utils/api/MediaApi";
 
 const CartPanel = ({ isOpen, onClose }) => {
+  const[wasp, setWasp] = useState("")
+  useEffect(() => {
+    fetch(`${BaseApi}/settings/WhatsappNumber`).then(res => res.json()).then(data => setWasp(data.value))
+  }, [])
   const {
     cartItems,
     removeFromCart,
     updateQuantity,
     clearCart,
-    getTotalCount,
-    getTotalPrice,
-  } = useCart();
+   
 
+  } = useCart();
+  
   const getWhatsappUrl = () => {
     const productIds = cartItems.map((item) => item.id);
     if (productIds.length === 0) return "#";
 
-    const productLink = `http://localhost:5174/feedbackproduct/${productIds.join(",")}`;
+    const productLink = `${window.location.origin}/feedbackproduct/${productIds.join(",")}`;
     const message = `Salam, səbətimdəki məhsullar haqqında ətraflı məlumat almaq istəyirəm.\n\n${productLink}\n\nZəhmət olmasa mənimlə əlaqə saxlayın.\nTəşəkkür edirəm!`;
 
-    return `https://wa.me/994556810051?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/${wasp}?text=${encodeURIComponent(message)}`;
   };
 
   return (
@@ -38,10 +44,10 @@ const CartPanel = ({ isOpen, onClose }) => {
         ) : (
           cartItems.map((item) => (
             <CartItem key={item.id}>
-              <Img src={`/${item.image}`} alt={item.name} />
+              <Img src={`${MediaApi}${item.mainImg}`} alt={item.name} />
               <Details>
                 <p>{item.name}</p>
-                <span>{item.quantity} × ${item.price.toFixed(2)}</span>
+                <span>{item.quantity} </span>
               </Details>
               <QuantityControls>
                 <button
@@ -66,11 +72,7 @@ const CartPanel = ({ isOpen, onClose }) => {
 
       {cartItems.length > 0 && (
         <Footer>
-          <Subtotal>
-            <span>Toplam:</span>
-            <strong>${getTotalPrice().toFixed(2)}</strong>
-            <span>{getTotalCount()} məhsul</span>
-          </Subtotal>
+         
           <ClearCartBtn onClick={clearCart}>SƏBƏTİ SİL</ClearCartBtn>
           <a href={getWhatsappUrl()} target="_blank" rel="noopener noreferrer">
             <WhatsappBtn>WhatsApp ilə göndər</WhatsappBtn>

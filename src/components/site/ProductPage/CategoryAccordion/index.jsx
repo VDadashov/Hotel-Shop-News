@@ -60,7 +60,8 @@ const CategoryAccordion = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(`${BaseApi}/menu_items`);
+        const response = await fetch(`${BaseApi}/menu`);
+
         if (!response.ok) throw new Error("Network response was not ok");
         const rawData = await response.json();
         setProductsData(Array.isArray(rawData) ? rawData : []);

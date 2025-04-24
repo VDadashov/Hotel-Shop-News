@@ -38,8 +38,6 @@ const Button = styled.button`
   }
 `;
 
-
-
 const Select = styled.select`
   padding: 0.6rem 1rem;
   border-radius: 8px;
@@ -47,17 +45,21 @@ const Select = styled.select`
   min-width: 180px;
 `;
 
-const SearchAndSort = () => {
+const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
   return (
     <Wrapper>
       <InputWrapper>
-        <Input type="text" placeholder="Search products..." />
-        <Button>Search</Button>
+        <Input
+          type="text"
+          placeholder="Məhsul axtar..."
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
+        />
+        <Button>Axtar</Button>
       </InputWrapper>
-      <Select>
-        <option value="default">Sort by</option>
-        <option value="low-high">Price: Low → High</option>
-        <option value="high-low">Price: High → Low</option>
+
+      <Select value={sort} onChange={(e) => onSortChange(e.target.value)}>
+        <option value="">Sırala</option>
         <option value="a-z">A → Z</option>
         <option value="z-a">Z → A</option>
       </Select>

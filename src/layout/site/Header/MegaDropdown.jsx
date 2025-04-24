@@ -12,7 +12,7 @@ const MegaDropdown = ({ data = [] }) => {
     activeChild !== null ? childItems[activeChild]?.children || [] : [];
 
   const getLink = (item) => {
-    return item?.url ? `/products/${encodeURIComponent(item.url)}` : "#";
+    return item?.url ? `/products//${encodeURIComponent(item.url)}` : "#";
   };
 
   return (
