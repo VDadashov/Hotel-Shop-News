@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
-
-const MobileDropdownPopup = ({ open, onClose, data = [] }) => {
+import { Link, useNavigate } from "react-router-dom";
+import MainContext from "../../../context"; 
+const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
   const [openIndexMap, setOpenIndexMap] = useState({});
+  const { setSelectedCategoryId } = useContext(MainContext); // ✅ Contextdən istifadə
+  const navigate = useNavigate();
 
   const toggle = (path) => {
     setOpenIndexMap((prev) => ({
@@ -12,24 +15,43 @@ const MobileDropdownPopup = ({ open, onClose, data = [] }) => {
     }));
   };
 
+  const handleItemClick = (item) => {
+    if (item.id) {
+      setSelectedCategoryId(item.id); // ✅ CategoryId dəyiş
+    }
+    if (item.url) {
+      navigate(`/products//${item.url.replace(/^\/+/, "")}`); // ✅ Routerdə yönləndir
+    }
+    closeAll(); // ✅ Menu və popup'u bağla
+  };
+
   const renderList = (items, parentPath = "") => (
     <ul>
       {items.map((item, index) => {
         const path = `${parentPath}${index}`;
         const isOpen = openIndexMap[path];
+        const hasChildren = item.children && item.children.length > 0;
 
         return (
           <li key={item.title + path}>
             <div className="item-row">
-              <a href={item.url || "#"}>{item.title}</a>
-              {item.children && (
-                <button onClick={() => toggle(path)}>
+              {hasChildren ? (
+                <ItemButton onClick={() => toggle(path)}>
+                  {item.title}
+                </ItemButton>
+              ) : (
+                <ItemButton onClick={() => handleItemClick(item)}>
+                  {item.title}
+                </ItemButton>
+              )}
+              {hasChildren && (
+                <ToggleButton onClick={() => toggle(path)}>
                   {isOpen ? "▲" : "▼"}
-                </button>
+                </ToggleButton>
               )}
             </div>
 
-            {item.children && (
+            {hasChildren && (
               <div className={`sub-list ${isOpen ? "open" : ""}`}>
                 {renderList(item.children, `${path}-`)}
               </div>
@@ -44,9 +66,9 @@ const MobileDropdownPopup = ({ open, onClose, data = [] }) => {
 
   return (
     <>
-      <Backdrop onClick={onClose} />
+      <Backdrop onClick={closePopup} />
       <PopupContainer>
-        <CloseButton onClick={onClose}>
+        <CloseButton onClick={closePopup}>
           <FaTimes />
         </CloseButton>
         <div className="content">{renderList(data)}</div>
@@ -57,7 +79,8 @@ const MobileDropdownPopup = ({ open, onClose, data = [] }) => {
 
 export default MobileDropdownPopup;
 
-// Styled Components
+// ======= Styled Components =======
+
 const Backdrop = styled.div`
   position: fixed;
   top: 0;
@@ -92,29 +115,10 @@ const PopupContainer = styled.div`
       border-bottom: 1px solid #eee;
       padding: 10px 0;
 
-      a {
-        font-size: 16px;
-        font-weight: 600;
-        color: #000;
-        text-decoration: none;
-
-        &:hover {
-          color: #cba589;
-        }
-      }
-
       .item-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        button {
-          background: none;
-          border: none;
-          font-size: 14px;
-          color: #888;
-          cursor: pointer;
-        }
       }
 
       .sub-list {
@@ -146,6 +150,26 @@ const PopupContainer = styled.div`
       }
     }
   }
+`;
+
+const ItemButton = styled.span`
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #cba589;
+  }
+`;
+
+const ToggleButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
 `;
 
 const CloseButton = styled.button`

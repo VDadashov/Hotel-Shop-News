@@ -46,6 +46,11 @@ const Select = styled.select`
 `;
 
 const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    onQueryChange(query); // Mövcud dəyəri təkrar çağırırıq (əslində lazım olmaya da bilər)
+  };
+
   return (
     <Wrapper>
       <InputWrapper>
@@ -55,7 +60,7 @@ const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
         />
-        <Button>Axtar</Button>
+        <Button onClick={handleButtonClick}>Axtar</Button>
       </InputWrapper>
 
       <Select value={sort} onChange={(e) => onSortChange(e.target.value)}>

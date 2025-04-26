@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
@@ -15,9 +14,15 @@ const MobileMenu = ({ productsData, open, onClose }) => {
         </CloseBtn>
         <nav>
           <ul>
-            <li><a href="/">Ana Səhifə</a></li>
-            <li><a href="/about">Haqqımızda</a></li>
-            <li><a href="/contact">Bizimlə Əlaqə</a></li>
+            <li>
+              <a href="/">Ana Səhifə</a>
+            </li>
+            <li>
+              <a href="/about">Haqqımızda</a>
+            </li>
+            <li>
+              <a href="/contact">Bizimlə Əlaqə</a>
+            </li>
             <li>
               <PopupTrigger onClick={() => setOpenPopup(true)}>
                 Məhsullarımız
@@ -28,10 +33,13 @@ const MobileMenu = ({ productsData, open, onClose }) => {
       </MenuWrapper>
 
       {open && <Backdrop onClick={onClose} />}
-      
       <MobileDropdownPopup
         open={openPopup}
-        onClose={() => setOpenPopup(false)}
+        closePopup={() => setOpenPopup(false)}
+        closeAll={() => {
+          setOpenPopup(false);
+          onClose(); // həm popup, həm menu bağlansın
+        }}
         data={productsData}
       />
     </>

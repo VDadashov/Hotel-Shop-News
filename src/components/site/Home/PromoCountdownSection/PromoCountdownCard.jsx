@@ -10,6 +10,7 @@ const PromoCountdownCard = ({
   subtitle,
   title,
   description,
+  product
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -18,11 +19,34 @@ const PromoCountdownCard = ({
     seconds: 0,
   });
 
+  const [validImg, setValidImg] = useState(backgroundImg); 
+  useEffect(() => {
+   
+    const checkImage = async () => {
+      if (!backgroundImg) {
+        setValidImg(product?.mainImg || "");
+        return;
+      }
+
+      try {
+        const res = await fetch(MediaApi + backgroundImg, { method: "HEAD" });
+        if (!res.ok) {
+          setValidImg(product?.mainImg || "");
+        } else {
+          setValidImg(backgroundImg);
+        }
+      } catch (err) {
+        setValidImg(product?.mainImg || "");
+        console.error(err);
+      }
+    };
+
+    checkImage();
+  }, [backgroundImg, product]);
+
   useEffect(() => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-
-    
 
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       console.error("❌ Invalid date format", { startDate, endDate });
@@ -31,23 +55,21 @@ const PromoCountdownCard = ({
 
     const interval = setInterval(() => {
       const now = new Date();
+      const diff = end - now;
 
-      if (now < start) {
+
+      if (now < start && diff <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        clearInterval(interval);
         return;
       }
 
-      const diff = end - now;
-      if (diff <= 0) {
-        clearInterval(interval);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        setTimeLeft({ days, hours, minutes, seconds });
-      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setTimeLeft({ days, hours, minutes, seconds });
     }, 1000);
 
     return () => clearInterval(interval);
@@ -55,7 +77,7 @@ const PromoCountdownCard = ({
 
   return (
     <Wrapper>
-      <CardWrapper backgroundImg={backgroundImg}>
+      <CardWrapper backgroundImg={validImg}>
         <Overlay />
         <Content>
           <SubTitle>{subtitle}</SubTitle>
@@ -67,7 +89,7 @@ const PromoCountdownCard = ({
             {String(timeLeft.minutes).padStart(2, "0")}:
             {String(timeLeft.seconds).padStart(2, "0")}
           </Timer>
-          <Button variant="light">Shop Now</Button>
+          <Button onClick={() => { window.location.href = `/products/${product?.id}`}} variant="light">Shop Now</Button>
         </Content>
       </CardWrapper>
     </Wrapper>
@@ -153,3 +175,4 @@ const Timer = styled.div`
   margin-bottom: 20px;
   letter-spacing: 1px;
 `;
+  

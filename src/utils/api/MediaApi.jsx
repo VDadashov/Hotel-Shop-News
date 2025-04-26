@@ -1,3 +1,3 @@
-const MediaApi = "https://hotelshopalternativ.onrender.com";
+const MediaApi = "";
 
 export default  MediaApi 

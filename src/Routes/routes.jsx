@@ -8,11 +8,16 @@ import Faq from "../pages/site/FAQ";
 import PolicyPage from "../pages/site/PolicyPage";
 import FeedbackProduct from "../pages/site/FeedbackProduct";
 import DetailsPage from "../pages/site/DetailsPage";
+import TestPage from "../pages/site/Test";
 const ROUTES = [
   {
     path: "/",
     element: <SiteRoot />,
     children: [
+      {
+        path: "test",
+        element: <TestPage />,
+      },
       {
         index: true,
         element: <Home />,

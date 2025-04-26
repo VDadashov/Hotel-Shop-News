@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet"; // ← dəyişdik
 import HeroSection from "../../../components/site/Home/HeroSection";
 import BrandSlider from "../../../components/site/Home/BrandSlider";
 import TrendingProducts from "../../../components/site/Home/TrendingProducts";
@@ -8,52 +8,48 @@ import PromoCountdownSection from "../../../components/site/Home/PromoCountdownS
 import TestimonialsSection from "../../../components/site/Home/TestimonialsSection";
 import BaseApi from "../../../utils/api/baseApi";
 import WhyChooseUsSection from "../../../components/site/Home/WhyChooseUsSection";
-import ContactSection  from "../../../components/site/Home/ContactSection";
+import ContactSection from "../../../components/site/Home/ContactSection";
+import LoadingLogo from "../../../components/common/Loading/Loading";
+
 const Home = () => {
-  const [products, setProducts] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
-  const [trending , setTrending] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${BaseApi}/products`);
-        const result = await response.json();
-        setProducts(result);
-        
+        const trendingResponse = await fetch(`${BaseApi}/trending`);
+        const trendingResult = await trendingResponse.json();
+        setTrending(trendingResult);
+
+        const testimonialsResponse = await fetch(`${BaseApi}/testimonials`);
+        const testimonialsResult = await testimonialsResponse.json();
+        setTestimonials(testimonialsResult);
+
+        const settingsResponse = await fetch(`${BaseApi}/settings/BestSellerProductIds`);
+        const settingsResult = await settingsResponse.json();
+
+        if (settingsResult && settingsResult.value) {
+          const ids = settingsResult.value;
+          const bestSellersResponse = await fetch(`${BaseApi}/bestseller/${ids}`);
+          const bestSellersResult = await bestSellersResponse.json();
+          setBestSellers(bestSellersResult);
+        }
       } catch (error) {
-        console.error("Product fetch error:", error);
+        console.error("Fetch error:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(`${BaseApi}/trending`);
-        const result = await response.json();
-        setTrending(result);
-        
-      } catch (error) {
-        console.error("Product fetch error:", error);
-      }
-    };
 
-    fetchProducts();
-  }, []);
-  useEffect(() => {
-    const fetchTestimonials = async () => {
-      try {
-        const response = await fetch(`${BaseApi}/testimonials`);
-        const result = await response.json();
-        setTestimonials(result);
-      } catch (error) {
-        console.error("Testimonials fetch error:", error);
-      }
-    };
-
-    fetchTestimonials();
-  }, []);
+  if (loading) {
+    return <LoadingLogo />;
+  }
 
   return (
     <>
@@ -64,10 +60,10 @@ const Home = () => {
       <HeroSection />
       <BrandSlider />
       <TrendingProducts products={trending} />
-      <BestSellingSection products={products.slice(0, 4)} />
+      <BestSellingSection products={bestSellers} />
       <PromoCountdownSection />
       <TestimonialsSection testimonials={testimonials} />
-      <WhyChooseUsSection/>
+      <WhyChooseUsSection />
       <ContactSection />
     </>
   );

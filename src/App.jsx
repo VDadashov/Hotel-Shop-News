@@ -10,11 +10,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("false");
   const [data, setdata] = useState([]);
-
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const router = createBrowserRouter(ROUTES);
 
   return (
-    <MainContext.Provider value={{ data, setdata, loading, setLoading, error, setError }}>
+    <MainContext.Provider value={{ selectedCategoryId, setSelectedCategoryId,data, setdata, loading, setLoading, error, setError }}>
       <CartProvider>
         <RouterProvider router={router} />
       </CartProvider>

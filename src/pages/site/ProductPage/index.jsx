@@ -6,11 +6,9 @@ import SearchAndSort from "../../../components/site/ProductPage/SearchAndSort";
 import ProductList from "../../../components/site/ProductPage/ProductList";
 import PageBanner from "../../../components/common/PageBanner";
 
-// Baş hərfi böyük yazan funksiya
 const capitalize = (word) =>
   word.charAt(0).toLocaleUpperCase("az") + word.slice(1).toLocaleLowerCase("az");
 
-// Breadcrumb üçün format
 const formatBreadcrumb = (slug) => {
   if (!slug) return "";
   return decodeURIComponent(slug)
@@ -25,7 +23,6 @@ const formatBreadcrumb = (slug) => {
     .join(" / ");
 };
 
-// Başlıq üçün format
 const formatLastTitle = (slug) => {
   if (!slug) return "Məhsullar";
   const parts = decodeURIComponent(slug).split("/");
@@ -41,10 +38,12 @@ const ProductPage = () => {
   const { "*": slug } = useParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const searchQueryParam = searchParams.get("search") || "";
+  const initialSearch = searchParams.get("search") || "";
 
-  const [searchQuery, setSearchQuery] = useState(searchQueryParam);
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [sortOrder, setSortOrder] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const title = formatLastTitle(slug);
   const breadcrumb = slug
@@ -57,16 +56,31 @@ const ProductPage = () => {
 
       <Row r_gap="2rem" margin="2rem 0">
         <Col xs={12} md={3} lg={3} xl={3} xxl={3} style={{ padding: "1rem" }}>
-          <CategoryAccordion />
+          <CategoryAccordion onCategoryChange={() => setCurrentPage(1)} />
+        
         </Col>
+
         <Col xs={12} md={9} lg={9} xl={9} xxl={9} style={{ padding: "1rem" }}>
           <SearchAndSort
             query={searchQuery}
-            onQueryChange={setSearchQuery}
+            onQueryChange={(q) => {
+              setSearchQuery(q);
+              setCurrentPage(1);
+            }}
             sort={sortOrder}
-            onSortChange={setSortOrder}
+            onSortChange={(s) => {
+              setSortOrder(s);
+              setCurrentPage(1);
+            }}
           />
-          <ProductList searchQuery={searchQuery} sort={sortOrder} />
+          <ProductList
+            searchQuery={searchQuery}
+            sort={sortOrder}
+            page={currentPage}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+          />
         </Col>
       </Row>
     </>

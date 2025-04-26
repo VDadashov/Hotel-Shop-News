@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "../../../../styles/common/GridSystem";
 import Button from "../../../../styles/common/Buttons";
-
+import { useNavigate } from "react-router-dom";
 const HeroSection = () => {
+  const navigator = useNavigate();
   return (
     <HeroWrapper>
       <Overlay>
@@ -18,7 +19,7 @@ const HeroSection = () => {
                 </Description>
                 <Row>
                   <Col xs={12} md={6} xl={6} xxl={6}>
-                    <Button variant="light">İNDİ AL</Button>
+                    <Button onClick={() => {navigator("/contact")}} variant="light">İNDİ AL</Button>
                   </Col>
                 </Row>
               </TextContent>

@@ -121,7 +121,7 @@ const Logo = styled.a`
 
 const RightSide = styled.div`
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
 `;
 
@@ -136,7 +136,11 @@ const Icons = styled.div`
   }
 
   @media (max-width: 768px) {
-    display: none;
+    // display: none;
+    padding-right: 10px;
+    svg{
+      font-size: 18px;
+    }
   }
 `;
 
