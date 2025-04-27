@@ -18,10 +18,10 @@ const PromoCountdownCard = ({
     minutes: 0,
     seconds: 0,
   });
+  const [validImg, setValidImg] = useState(backgroundImg);
+  const [isExpired, setIsExpired] = useState(false);
 
-  const [validImg, setValidImg] = useState(backgroundImg); 
   useEffect(() => {
-   
     const checkImage = async () => {
       if (!backgroundImg) {
         setValidImg(product?.mainImg || "");
@@ -45,29 +45,36 @@ const PromoCountdownCard = ({
   }, [backgroundImg, product]);
 
   useEffect(() => {
-    const start = new Date(startDate);
+    if (!startDate || !endDate) {
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      setIsExpired(true);
+      return;
+    }
+
     const end = new Date(endDate);
 
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      console.error("❌ Invalid date format", { startDate, endDate });
+    if (isNaN(end.getTime())) {
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      setIsExpired(true);
       return;
     }
 
     const interval = setInterval(() => {
       const now = new Date();
-      const diff = end - now;
+      const diff = end.getTime() - now.getTime();
 
-
-      if (now < start && diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      if (diff <= 0) {
         clearInterval(interval);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsExpired(true);
         return;
       }
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
 
       setTimeLeft({ days, hours, minutes, seconds });
     }, 1000);
@@ -83,13 +90,25 @@ const PromoCountdownCard = ({
           <SubTitle>{subtitle}</SubTitle>
           <Title>{title}</Title>
           <Description>{description}</Description>
+
+          {/* Timer */}
           <Timer>
             {timeLeft.days > 0 && <span>{timeLeft.days}g:</span>}
             {String(timeLeft.hours).padStart(2, "0")}:
             {String(timeLeft.minutes).padStart(2, "0")}:
             {String(timeLeft.seconds).padStart(2, "0")}
           </Timer>
-          <Button onClick={() => { window.location.href = `/products/${product?.id}`}} variant="light">Shop Now</Button>
+
+          {/* Button */}
+          <Button
+            onClick={() => {
+              window.location.href = `/products/${product?.id}`;
+            }}
+            variant="light"
+            disabled={isExpired}
+          >
+            {isExpired ? "Kampaniya bitdi" : "Shop Now"}
+          </Button>
         </Content>
       </CardWrapper>
     </Wrapper>
@@ -98,7 +117,8 @@ const PromoCountdownCard = ({
 
 export default PromoCountdownCard;
 
-// Styled-components
+// === STYLED COMPONENTS ===
+
 const Wrapper = styled.div`
   padding: 20px 30px;
   @media (max-width: 768px) {
@@ -175,4 +195,3 @@ const Timer = styled.div`
   margin-bottom: 20px;
   letter-spacing: 1px;
 `;
-  

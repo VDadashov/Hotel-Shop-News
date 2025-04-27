@@ -116,11 +116,22 @@ const LoadingLogo = () => {
   const orangeRealPath = "M150 430 C150 430, 200 450, 225 430 L300 260 Q290 240, 230 220 Q210 215, 155 202 C135 215, 150 340, 150 430 Z";
   const beigeRealPath = "M265 440 Q315 460, 345 430 Q360 300, 340 250 Q335 225, 300 300 Q243 420, 265 440 Z";
 
+  // === BURA ƏLAVƏ EDİLDİ ===
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, []);
+  // =========================
+
   useEffect(() => {
     const isDesktop = window.innerWidth > 900;
 
     if (isDesktop) {
-      // DESKTOP ANİMASİYASI
       const tl = gsap.timeline({ repeat: -1, defaults: { ease: "power2.inOut" } });
 
       tl.fromTo(greenCircleSvgRef.current, { y: -99, opacity: 1 }, { y: 0, opacity: 0, duration: 1 }, 0)
@@ -169,7 +180,6 @@ const LoadingLogo = () => {
           ">"
         );
 
-      // Wrapper böyüyüb-kiçilsin
       gsap.to(wrapperRef.current, {
         scale: 1.05,
         duration: 2,
@@ -179,7 +189,6 @@ const LoadingLogo = () => {
       });
 
     } else {
-      // MOBİL ANİMASİYASI
       const tl = gsap.timeline({ repeat: -1, defaults: { ease: "power2.inOut" } });
 
       tl.fromTo(greenCircleSvgRef.current, { y: -50, opacity: 1 }, { y: 0, opacity: 0, duration: 1 }, 0)

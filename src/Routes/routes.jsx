@@ -60,7 +60,7 @@ const ROUTES = [
         element: <ErrorPage />,
       },
       {
-        path: "feedbackproduct/:ids",
+        path: "feedbackproduct/:token",
         element: <FeedbackProduct />
       }
       

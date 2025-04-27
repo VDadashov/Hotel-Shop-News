@@ -6,27 +6,63 @@ import BaseApi from "../../../utils/api/baseApi";
 import MediaApi from "../../../utils/api/MediaApi";
 
 const CartPanel = ({ isOpen, onClose }) => {
-  const[wasp, setWasp] = useState("")
-  useEffect(() => {
-    fetch(`${BaseApi}/settings/WhatsappNumber`).then(res => res.json()).then(data => setWasp(data.value))
-  }, [])
+  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const [token, setToken] = useState(null);
   const {
     cartItems,
     removeFromCart,
     updateQuantity,
     clearCart,
-   
-
   } = useCart();
-  
-  const getWhatsappUrl = () => {
-    const productIds = cartItems.map((item) => item.id);
-    if (productIds.length === 0) return "#";
 
-    const productLink = `${window.location.origin}/feedbackproduct/${productIds.join(",")}`;
+  // Whatsapp nömrəsini çək
+  useEffect(() => {
+    fetch(`${BaseApi}/settings/WhatsappNumber`)
+      .then(res => res.json())
+      .then(data => setWhatsappNumber(data.value));
+  }, []);
+
+  // Cartı POST et və token al
+  useEffect(() => {
+    const createCartAndGetToken = async () => {
+      if (cartItems.length === 0) {
+        setToken(null);
+        return;
+      }
+
+      const formattedItems = cartItems.map(item => ({
+        id: item.id,
+        quantity: item.quantity
+      }));
+
+      try {
+        const res = await fetch(`${BaseApi}/cart/items`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ items: formattedItems }),
+        });
+
+        if (!res.ok) throw new Error("Cart creation failed");
+        const data = await res.json();
+        setToken(data.token);
+      } catch (error) {
+        console.error("Cart POST error:", error);
+      }
+    };
+
+    createCartAndGetToken();
+  }, [cartItems]); // cartItems dəyişəndə təkrar POST edilir
+
+  // Whatsapp URL yarad
+  const getWhatsappUrl = () => {
+    if (!token) return "#";
+
+    const productLink = `${window.location.origin}/feedbackproduct/${token}`;
     const message = `Salam, səbətimdəki məhsullar haqqında ətraflı məlumat almaq istəyirəm.\n\n${productLink}\n\nZəhmət olmasa mənimlə əlaqə saxlayın.\nTəşəkkür edirəm!`;
 
-    return `https://wa.me/${wasp}?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   };
 
   return (
@@ -47,7 +83,7 @@ const CartPanel = ({ isOpen, onClose }) => {
               <Img src={`${MediaApi}${item.mainImg}`} alt={item.name} />
               <Details>
                 <p>{item.name}</p>
-                <span>{item.quantity} </span>
+                <span>{item.quantity} ədəd</span>
               </Details>
               <QuantityControls>
                 <button
@@ -72,7 +108,6 @@ const CartPanel = ({ isOpen, onClose }) => {
 
       {cartItems.length > 0 && (
         <Footer>
-         
           <ClearCartBtn onClick={clearCart}>SƏBƏTİ SİL</ClearCartBtn>
           <a href={getWhatsappUrl()} target="_blank" rel="noopener noreferrer">
             <WhatsappBtn>WhatsApp ilə göndər</WhatsappBtn>
@@ -84,6 +119,9 @@ const CartPanel = ({ isOpen, onClose }) => {
 };
 
 export default CartPanel;
+
+
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;

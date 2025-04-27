@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ProductCard from "../../../common/CardConponent";
 import BaseApi from "../../../../utils/api/baseApi";
 import MainContext from "../../../../context";
+import { Col, Row } from "../../../../styles/common/GridSystem";
 
 const Grid = styled.div`
   display: flex;
@@ -115,15 +116,17 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
         </Select>
       </TopBar>
 
-      <Grid>
+      <Row>
         {products.length === 0 ? (
           <p>Heç bir məhsul tapılmadı.</p>
         ) : (
           products.map((product) => (
+            <Col xs={6} sm={6} md={6} xl={4} xxl={4} key={product.id} >
             <ProductCard product={product} key={product.id} />
+            </Col>
           ))
         )}
-      </Grid>
+      </Row>
 
       {pagination.totalPages > 1 && (
         <PaginationWrapper>
