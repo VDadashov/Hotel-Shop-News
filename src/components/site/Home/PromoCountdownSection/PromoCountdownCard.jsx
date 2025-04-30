@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../../../../styles/common/Buttons";
 import MediaApi from "../../../../utils/api/MediaApi";
+import theme from "../../../../styles/common/theme";
 
 const PromoCountdownCard = ({
   backgroundImg,
@@ -10,7 +11,7 @@ const PromoCountdownCard = ({
   subtitle,
   title,
   description,
-  product
+  product,
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -91,7 +92,6 @@ const PromoCountdownCard = ({
           <Title>{title}</Title>
           <Description>{description}</Description>
 
-          {/* Timer */}
           <Timer>
             {timeLeft.days > 0 && <span>{timeLeft.days}g:</span>}
             {String(timeLeft.hours).padStart(2, "0")}:
@@ -99,7 +99,6 @@ const PromoCountdownCard = ({
             {String(timeLeft.seconds).padStart(2, "0")}
           </Timer>
 
-          {/* Button */}
           <Button
             onClick={() => {
               window.location.href = `/products/${product?.id}`;
@@ -120,9 +119,9 @@ export default PromoCountdownCard;
 // === STYLED COMPONENTS ===
 
 const Wrapper = styled.div`
-  padding: 20px 30px;
+  padding: ${theme.spacing.md} ${theme.spacing.lg};
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: ${theme.spacing.sm};
   }
 `;
 
@@ -132,8 +131,8 @@ const CardWrapper = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 10px;
-  padding: 9rem 2.5rem;
-  color: #fff;
+  padding: 9rem ${theme.spacing.lg};
+  color: ${theme.colors.white};
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -154,30 +153,33 @@ const Content = styled.div`
 
 const SubTitle = styled.p`
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: ${theme.fontSizes.md};
   letter-spacing: 1.2px;
-  color: #f0f0f0;
-  margin-bottom: 10px;
+  color: ${theme.colors.accentLight};
+  margin-bottom: ${theme.spacing.xs};
+
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    font-size: ${theme.fontSizes.sm};
   }
 `;
 
 const Title = styled.h2`
-  font-size: 2.5rem;
+  font-size: ${theme.fontSizes.xxl};
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: ${theme.spacing.xs};
+
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: ${theme.fontSizes.xl};
   }
 `;
 
 const Description = styled.p`
-  font-size: 1.2rem;
-  color: #e1e1e1;
-  margin-bottom: 25px;
+  font-size: ${theme.fontSizes.lg};
+  color: ${theme.colors.mutedLight};
+  margin-bottom: ${theme.spacing.md};
+
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: ${theme.fontSizes.base};
   }
 `;
 
@@ -187,11 +189,11 @@ const Timer = styled.div`
   align-items: center;
   text-align: center;
   width: 80%;
-  font-size: 2rem;
+  font-size: ${theme.fontSizes.xl};
   font-weight: bold;
   background: rgba(255, 255, 255, 0.15);
-  padding: 14px 24px;
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.md};
   letter-spacing: 1px;
 `;

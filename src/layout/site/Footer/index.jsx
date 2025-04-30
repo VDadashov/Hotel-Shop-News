@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-
+import theme from "../../../styles/common/theme";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <FooterWrapper>
@@ -24,7 +25,7 @@ const Footer = () => {
           </FooterList>
         </Col>
 
-        <Col xs={12} sm={5} md={3} lg={3} xl={3}   xxl={3}>
+        <Col xs={12} sm={5} md={3} lg={3} xl={3} xxl={3}>
           <FooterTitle>Faydalı linklər</FooterTitle>
           <FooterList>
             <li><a href="/faq">FAQ</a></li>
@@ -45,7 +46,7 @@ const Footer = () => {
       </Row>
 
       <Copy>
-        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by DevITGroup
+        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by <Link to="https://devitgroup.com">DevITGroup</Link>
       </Copy>
     </FooterWrapper>
   );
@@ -53,72 +54,73 @@ const Footer = () => {
 
 export default Footer;
 
+// === Styled Components ===
+
 const FooterWrapper = styled.footer`
-  background: #f3f3f3;
-  padding: 60px 20px 30px;
-  color: #333;
+  background: ${theme.colors.footerBg};
+  padding: 60px ${theme.spacing.sm} 30px;
+  color: ${theme.colors.text};
 `;
 
 const FooterLogo = styled.a`
-display: block;
+  display: block;
+
   img {
     max-height: 60px;
-    margin-bottom: 12px;
-    
+    margin-bottom: ${theme.spacing.xs};
   }
 
   p {
-    font-size: 14px;
-    color: #777;
+    font-size: ${theme.fontSizes.sm};
+    color: ${theme.colors.footerText};
     max-width: 300px;
   }
 `;
 
 const FooterTitle = styled.h4`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   font-weight: 600;
-  margin-bottom: 16px;
-  color: #cba589;
+  margin-bottom: ${theme.spacing.sm};
+  color: ${theme.colors.sale};
 `;
 
 const FooterList = styled.ul`
-    
   list-style: none;
   padding: 0;
 
   li {
-    margin-bottom: 10px;
+    margin-bottom: ${theme.spacing.xs};
   }
 
   a {
     text-decoration: none;
-    color: #333;
-    font-size: 14px;
+    color: ${theme.colors.text};
+    font-size: ${theme.fontSizes.sm};
 
     &:hover {
-      color: #cba589;
+      color: ${theme.colors.sale};
     }
   }
 `;
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 15px;
+  gap: ${theme.spacing.sm};
 
   a {
-    color: #333;
-    font-size: 18px;
+    color: ${theme.colors.text};
+    font-size: ${theme.fontSizes.md};
     transition: 0.3s;
 
     &:hover {
-      color: #cba589;
+      color: ${theme.colors.sale};
     }
   }
 `;
 
 const Copy = styled.div`
-  margin-top: 40px;
+  margin-top: ${theme.spacing.lg};
   text-align: center;
-  font-size: 13px;
-  color: #999;
+  font-size: ${theme.fontSizes.xs};
+  color: ${theme.colors.mutedText};
 `;

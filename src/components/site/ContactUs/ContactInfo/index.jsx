@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import theme from "../../../../styles/common/theme";
 
 const ContactInfo = () => {
   return (
@@ -29,30 +30,30 @@ const ContactInfo = () => {
 export default ContactInfo;
 
 const InfoWrapper = styled.div`
-  padding: 50px 20px;
+  padding: 50px ${theme.spacing.sm};
   text-align: left;
 `;
 
 const Title = styled.h2`
-  font-size: 32px;
+  font-size: ${theme.fontSizes.xl};
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.sm};
 `;
 
 const Text = styled.p`
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 30px;
+  font-size: ${theme.fontSizes.base};
+  color: ${theme.colors.icon};
+  margin-bottom: ${theme.spacing.md};
 `;
 
 const ContactItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
-  color: #333;
+  gap: ${theme.spacing.sm};
+  margin-bottom: ${theme.spacing.sm};
+  color: ${theme.colors.text};
 
   svg {
-    color: #cba589;
+    color: ${theme.colors.sale};
   }
 `;

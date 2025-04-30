@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "../../../styles/common/theme";
 
 const PageBanner = ({ title, breadcrumb }) => {
   return (
@@ -15,6 +16,7 @@ const PageBanner = ({ title, breadcrumb }) => {
 };
 
 export default PageBanner;
+
 const Wrapper = styled.section`
   background-image: url(/images/breadcrumb-bg.webp);
   background-size: cover;
@@ -33,30 +35,30 @@ const Overlay = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
-  padding: 20px     40px;
+  padding: ${theme.spacing.md} ${theme.spacing.lg};
 `;
 
 const Content = styled.div`
-    
-  color: #fff;
+  color: ${theme.colors.white};
 `;
 
 const Breadcrumb = styled.p`
-  font-size: 1.2rem;
+  font-size: ${theme.fontSizes.md};
   color: #ddd;
-  padding: 0 30px;
-  margin-bottom: 10px;
-  @media (max-width: 768px) {   
-    font-size: 0.9rem;
-  }
+  padding: 0 ${theme.spacing.lg};
+  margin-bottom: ${theme.spacing.xs};
 
+  @media (max-width: 768px) {
+    font-size: ${theme.fontSizes.sm};
+  }
 `;
 
 const Title = styled.h1`
-  font-size: 3.5rem;
+  font-size: ${theme.fontSizes.xxl};
   font-weight: 700;
   line-height: 1.3;
+
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: ${theme.fontSizes.xl};
   }
 `;

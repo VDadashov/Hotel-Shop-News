@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import MainContext from "../../../context"; 
+import { useNavigate } from "react-router-dom";
+import MainContext from "../../../context";
+import theme from "../../../styles/common/theme";
+
 const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
   const [openIndexMap, setOpenIndexMap] = useState({});
-  const { setSelectedCategoryId } = useContext(MainContext); // ✅ Contextdən istifadə
+  const { setSelectedCategoryId } = useContext(MainContext);
   const navigate = useNavigate();
 
   const toggle = (path) => {
@@ -16,13 +18,9 @@ const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
   };
 
   const handleItemClick = (item) => {
-    if (item.id) {
-      setSelectedCategoryId(item.id); // ✅ CategoryId dəyiş
-    }
-    if (item.url) {
-      navigate(`/products//${item.url.replace(/^\/+/, "")}`); // ✅ Routerdə yönləndir
-    }
-    closeAll(); // ✅ Menu və popup'u bağla
+    if (item.id) setSelectedCategoryId(item.id);
+    if (item.url) navigate(`/products//${item.url.replace(/^\/+/, "")}`);
+    closeAll();
   };
 
   const renderList = (items, parentPath = "") => (
@@ -35,15 +33,9 @@ const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
         return (
           <li key={item.title + path}>
             <div className="item-row">
-              {hasChildren ? (
-                <ItemButton onClick={() => toggle(path)}>
-                  {item.title}
-                </ItemButton>
-              ) : (
-                <ItemButton onClick={() => handleItemClick(item)}>
-                  {item.title}
-                </ItemButton>
-              )}
+              <ItemButton onClick={() => (hasChildren ? toggle(path) : handleItemClick(item))}>
+                {item.title}
+              </ItemButton>
               {hasChildren && (
                 <ToggleButton onClick={() => toggle(path)}>
                   {isOpen ? "▲" : "▼"}
@@ -79,7 +71,7 @@ const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
 
 export default MobileDropdownPopup;
 
-// ======= Styled Components =======
+// === Styled Components ===
 
 const Backdrop = styled.div`
   position: fixed;
@@ -98,7 +90,7 @@ const PopupContainer = styled.div`
   z-index: 999;
   width: 320px;
   height: 100vh;
-  background: white;
+  background: ${theme.colors.white};
   padding: 60px 20px 20px;
   overflow-y: auto;
 
@@ -112,7 +104,7 @@ const PopupContainer = styled.div`
     margin: 0;
 
     li {
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid ${theme.colors.border};
       padding: 10px 0;
 
       .item-row {
@@ -128,16 +120,16 @@ const PopupContainer = styled.div`
         overflow: hidden;
         transition: all 0.4s ease;
         padding-left: 15px;
-        background: #f9f9f9;
+        background: ${theme.colors.background};
         margin-top: 0;
 
         ul {
           padding-left: 10px;
-          border-left: 2px dashed #ddd;
+          border-left: 2px dashed ${theme.colors.inputBorder};
         }
 
         li a {
-          font-size: 14px;
+          font-size: ${theme.fontSizes.sm};
           font-weight: 400;
         }
 
@@ -153,22 +145,22 @@ const PopupContainer = styled.div`
 `;
 
 const ItemButton = styled.span`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   font-weight: 400;
-  color: #000;
+  color: ${theme.colors.black};
   cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #cba589;
+    color: ${theme.colors.sale};
   }
 `;
 
 const ToggleButton = styled.button`
   background: none;
   border: none;
-  font-size: 14px;
-  color: #888;
+  font-size: ${theme.fontSizes.sm};
+  color: ${theme.colors.mutedText};
   cursor: pointer;
 `;
 
@@ -180,9 +172,9 @@ const CloseButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: ${theme.colors.text};
 
   &:hover {
-    color: #cba589;
+    color: ${theme.colors.sale};
   }
 `;

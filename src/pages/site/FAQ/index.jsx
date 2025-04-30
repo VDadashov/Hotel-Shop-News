@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
 import BaseApi from "../../../utils/api/baseApi";
+import theme from "../../../styles/common/theme";
 
 const Faq = () => {
   const [faqs, setFaqs] = useState([]);
@@ -46,39 +47,42 @@ const Faq = () => {
 };
 
 export default Faq;
+
+// ===== Styled Components =====
+
 const FaqWrapper = styled.div`
   max-width: 800px;
-  margin: 60px auto;
-  padding: 0 20px;
+  margin: ${theme.spacing.lg} auto;
+  padding: 0 ${theme.spacing.md};
   font-family: Arial, sans-serif;
 `;
 
 const FaqItem = styled.div`
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 25px;
+  border-bottom: 1px solid ${theme.colors.inputBorder};
+  margin-bottom: ${theme.spacing.md};
   overflow: hidden;
 `;
 
 const Question = styled.div`
   cursor: pointer;
   font-weight: 600;
-  font-size: 1.1rem;
-  padding: 18px 16px;
+  font-size: ${theme.fontSizes.md};
+  padding: ${theme.spacing.md};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9f9f9;
+  background: ${theme.colors.background};
   border-radius: 6px;
   transition: background 0.3s ease;
 
   &:hover {
-    background: #f1f1f1;
+    background: ${theme.colors.inputHover};
   }
 
   span {
-    font-size: 1.3rem;
+    font-size: ${theme.fontSizes.lg};
     font-weight: 400;
-    color: #888;
+    color: ${theme.colors.mutedText};
   }
 `;
 
@@ -88,13 +92,13 @@ const Answer = styled.div`
   opacity: ${({ expanded }) => (expanded ? "1" : "0")};
   transition: transform 0.35s ease, opacity 0.35s ease;
   overflow: hidden;
-  padding: ${({ expanded }) => (expanded ? "15px 16px" : "0 16px")};
+  padding: ${({ expanded }) => (expanded ? `${theme.spacing.sm} ${theme.spacing.md}` : `0 ${theme.spacing.md}`)};
   pointer-events: ${({ expanded }) => (expanded ? "auto" : "none")};
 
   p {
     margin: 0;
-    font-size: 0.95rem;
-    color: #444;
+    font-size: ${theme.fontSizes.base};
+    color: ${theme.colors.text};
     line-height: 1.7;
     font-family: Arial, sans-serif;
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "../../../../styles/common/theme";
 
 const ContactForm = () => {
   return (
@@ -20,34 +21,34 @@ const ContactForm = () => {
 export default ContactForm;
 
 const FormWrapper = styled.div`
-  background: #f9f9f9;
-  padding: 30px;
+  background: ${theme.colors.background};
+  padding: ${theme.spacing.md};
   border-radius: 8px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${theme.spacing.sm};
 
   label {
-    font-size: 14px;
+    font-size: ${theme.fontSizes.sm};
     font-weight: 500;
-    color: #444;
+    color: ${theme.colors.icon};
   }
 
   input,
   textarea {
-    padding: 12px 14px;
-    border: 1px solid #ccc;
+    padding: ${theme.spacing.sm} ${theme.spacing.md};
+    border: 1px solid ${theme.colors.border};
     border-radius: 6px;
-    font-size: 15px;
+    font-size: ${theme.fontSizes.base};
   }
 
   button {
-    padding: 14px;
-    background: #cba589;
-    color: #fff;
+    padding: ${theme.spacing.sm};
+    background: ${theme.colors.sale};
+    color: ${theme.colors.white};
     font-weight: 600;
     border: none;
     border-radius: 6px;
@@ -55,7 +56,7 @@ const Form = styled.form`
     transition: 0.3s ease;
 
     &:hover {
-      background: #b07c57;
+      background: #b07c57; /* istəsən bunu da theme.colors.saleHover kimi əlavə edə bilərik */
     }
   }
 `;

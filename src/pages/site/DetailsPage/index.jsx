@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import BaseApi from '../../../utils/api/baseApi';
 import { Container, Row, Col } from '../../../styles/common/GridSystem';
 import MediaApi from '../../../utils/api/MediaApi';
+import theme from '../../../styles/common/theme';
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -43,19 +44,19 @@ const DetailsPage = () => {
 
   return (
     <Wrapper>
-    <Container>
-      <Row style={{ alignItems: 'flex-start' }}>
-        <Col xs={12} sm={4}    md={4} lg={4} xl={4} xxl={4}>
-          <Image src={`${MediaApi}${product.mainImg}`} alt={product.name} />
-        </Col>
-        <Col xs={12} sm={8}    md={8} lg={8} xl={8} xxl={8}>
-          <Info>
-            <h2>{product.name}</h2>
-            <p>{product.description || "Açıqlama mövcud deyil."}</p>
-          </Info>
-        </Col>
-      </Row>
-    </Container>
+      <Container>
+        <Row style={{ alignItems: 'flex-start' }}>
+          <Col xs={12} sm={4} md={4} lg={4} xl={4} xxl={4}>
+            <Image src={`${MediaApi}${product.mainImg}`} alt={product.name} />
+          </Col>
+          <Col xs={12} sm={8} md={8} lg={8} xl={8} xxl={8}>
+            <Info>
+              <h2>{product.name}</h2>
+              <p>{product.description || "Açıqlama mövcud deyil."}</p>
+            </Info>
+          </Col>
+        </Row>
+      </Container>
     </Wrapper>
   );
 };
@@ -65,8 +66,9 @@ export default DetailsPage;
 // === STYLED COMPONENTS ===
 
 const Wrapper = styled.div`
-  padding: 200px 0;
-  font-size: 18px;
+  padding: 120px 0;
+  font-size: ${theme.fontSizes.base};
+  color: ${theme.colors.text};
   text-align: center;
 `;
 
@@ -76,20 +78,20 @@ const Image = styled.img`
   max-height: 400px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px ${theme.colors.cardShadow};
 `;
 
 const Info = styled.div`
   h2 {
     text-align: center;
-    font-size: 28px;
-    margin-bottom: 15px;
-    color: #222;
+    font-size: ${theme.fontSizes.xl};
+    margin-bottom: ${theme.spacing.sm};
+    color: ${theme.colors.darkText};
   }
 
   p {
-    font-size: 16px;
-    color: #555;
+    font-size: ${theme.fontSizes.base};
+    color: ${theme.colors.text};
     line-height: 1.6;
   }
 `;

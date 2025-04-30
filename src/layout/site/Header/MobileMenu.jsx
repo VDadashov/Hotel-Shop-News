@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import MobileDropdownPopup from "./MobileDropdownPopup";
+import theme from "../../../styles/common/theme";
 
 const MobileMenu = ({ productsData, open, onClose }) => {
   const [openPopup, setOpenPopup] = useState(false);
@@ -38,7 +39,7 @@ const MobileMenu = ({ productsData, open, onClose }) => {
         closePopup={() => setOpenPopup(false)}
         closeAll={() => {
           setOpenPopup(false);
-          onClose(); // həm popup, həm menu bağlansın
+          onClose();
         }}
         data={productsData}
       />
@@ -48,12 +49,14 @@ const MobileMenu = ({ productsData, open, onClose }) => {
 
 export default MobileMenu;
 
+// === Styled Components ===
+
 const PopupTrigger = styled.button`
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   font-weight: 600;
-  color: #000;
+  color: ${theme.colors.black};
   cursor: pointer;
   padding: 0;
   display: block;
@@ -61,7 +64,7 @@ const PopupTrigger = styled.button`
   text-align: left;
 
   &:hover {
-    color: #cba589;
+    color: ${theme.colors.sale};
   }
 `;
 
@@ -71,10 +74,10 @@ const MenuWrapper = styled.div`
   right: 0;
   width: 320px;
   height: 100vh;
-  background: #fff;
+  background: ${theme.colors.white};
   z-index: 999;
-  padding: 40px 20px;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+  padding: ${theme.spacing.lg} ${theme.spacing.md};
+  box-shadow: -2px 0 8px ${theme.colors.cardShadow};
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
 
@@ -88,17 +91,17 @@ const MenuWrapper = styled.div`
     margin: 60px 0 0;
 
     li {
-      margin-bottom: 20px;
+      margin-bottom: ${theme.spacing.md};
 
       a {
         text-decoration: none;
         font-weight: 600;
-        font-size: 16px;
-        color: #000;
+        font-size: ${theme.fontSizes.base};
+        color: ${theme.colors.black};
         transition: color 0.2s;
 
         &:hover {
-          color: #cba589;
+          color: ${theme.colors.sale};
         }
       }
     }
@@ -117,10 +120,10 @@ const CloseBtn = styled.button`
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: #333;
+  color: ${theme.colors.text};
 
   &:hover {
-    color: #cba589;
+    color: ${theme.colors.sale};
   }
 `;
 

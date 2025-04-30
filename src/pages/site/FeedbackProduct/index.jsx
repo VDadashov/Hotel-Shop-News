@@ -4,13 +4,14 @@ import styled from "styled-components";
 import BaseApi from "../../../utils/api/baseApi";
 import ProductCard from "../../../components/common/CardConponent";
 import { Row, Col } from "../../../styles/common/GridSystem";
+import theme from "../../../styles/common/theme";
 
 const FeedbackProduct = () => {
   const { token } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8); // ✅ seçilə bilən limit
+  const [limit, setLimit] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -24,22 +25,14 @@ const FeedbackProduct = () => {
         if (!res.ok) throw new Error("Server error");
 
         const data = await res.json();
-        console.log("Gələn data:", data);
-
         setProducts(Array.isArray(data.items) ? data.items : []);
         setTotalPages(data.totalPages || 1);
 
-        // ✅ Cart-ı təsdiqləmək üçün yalnız 1-ci səhifədə PATCH edək
         if (page === 1) {
           await fetch(`${BaseApi}/cart/items`, {
             method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              token,
-              isConfirmed: true,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, isConfirmed: true }),
           });
         }
       } catch (err) {
@@ -50,19 +43,13 @@ const FeedbackProduct = () => {
     };
 
     fetchCartProducts();
-  }, [token, page, limit]); // ✅ limit dəyişəndə də fetch edilir
+  }, [token, page, limit]);
 
-  const handlePrev = () => {
-    if (page > 1) setPage(prev => prev - 1);
-  };
-
-  const handleNext = () => {
-    if (page < totalPages) setPage(prev => prev + 1);
-  };
-
+  const handlePrev = () => page > 1 && setPage((p) => p - 1);
+  const handleNext = () => page < totalPages && setPage((p) => p + 1);
   const handleLimitChange = (e) => {
     setLimit(Number(e.target.value));
-    setPage(1); // limit dəyişəndə səhifəni sıfırla
+    setPage(1);
   };
 
   return (
@@ -97,13 +84,9 @@ const FeedbackProduct = () => {
           </Row>
 
           <PaginationWrapper>
-            <PageButton onClick={handlePrev} disabled={page === 1}>
-              ⬅ Prev
-            </PageButton>
+            <PageButton onClick={handlePrev} disabled={page === 1}>⬅ Prev</PageButton>
             <PageInfo>{page} / {totalPages}</PageInfo>
-            <PageButton onClick={handleNext} disabled={page === totalPages}>
-              Next ➡
-            </PageButton>
+            <PageButton onClick={handleNext} disabled={page === totalPages}>Next ➡</PageButton>
           </PaginationWrapper>
         </>
       )}
@@ -113,91 +96,91 @@ const FeedbackProduct = () => {
 
 export default FeedbackProduct;
 
-// === INTERNAL COMPONENTS & STYLED COMPONENTS ===
-
 const QuantityBadge = ({ quantity }) => {
   if (typeof quantity !== "number") return null;
   return <Badge>{quantity} ədəd</Badge>;
 };
 
 const Title = styled.h2`
-  font-size: 32px;
+  font-size: ${theme.fontSizes.xl};
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.md};
   text-align: center;
+  color: ${theme.colors.darkText};
 `;
 
 const OptionsBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  gap: 8px;
+  margin-bottom: ${theme.spacing.md};
+  gap: ${theme.spacing.xs};
 `;
 
 const Label = styled.label`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   font-weight: 600;
 `;
 
 const Select = styled.select`
-  padding: 8px 12px;
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
   border-radius: 6px;
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
+  border: 1px solid ${theme.colors.inputBorder};
 `;
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: ${theme.spacing.xs};
+  margin-bottom: ${theme.spacing.lg};
 `;
 
 const Badge = styled.div`
-  background-color: #8b5e3c;
-  color: white;
-  padding: 6px 12px;
+  background-color: ${theme.colors.sale};
+  color: ${theme.colors.white};
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
   border-radius: 16px;
-  font-size: 14px;
+  font-size: ${theme.fontSizes.sm};
   font-weight: 600;
-  display: inline-block;
-  text-align: center;
-  margin-top: 8px;
+  margin-top: ${theme.spacing.xs};
 `;
 
 const Message = styled.p`
   text-align: center;
-  font-size: 18px;
+  font-size: ${theme.fontSizes.md};
   font-weight: 500;
-  margin-top: 40px;
+  margin-top: ${theme.spacing.lg};
+  color: ${theme.colors.mutedText};
 `;
 
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-  padding: 12px 0;
+  gap: ${theme.spacing.sm};
+  margin-top: ${theme.spacing.md};
+  padding: ${theme.spacing.sm} 0;
 `;
 
 const PageButton = styled.button`
-  padding: 8px 16px;
-  background-color: #8b5e3c;
-  color: white;
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  background-color: ${theme.colors.sale};
+  color: ${theme.colors.white};
   border: none;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
 
   &:disabled {
-    background-color: #ccc;
+    background-color: ${theme.colors.inputBorder};
     cursor: not-allowed;
   }
 `;
 
 const PageInfo = styled.span`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   font-weight: 600;
+  color: ${theme.colors.text};
 `;

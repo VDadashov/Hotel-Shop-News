@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "../../../../styles/common/theme";
 
 const ContactHeroSection = () => {
   return (
@@ -16,6 +17,7 @@ const ContactHeroSection = () => {
 };
 
 export default ContactHeroSection;
+
 const Wrapper = styled.section`
   width: 100%;
   min-height: 450px;
@@ -26,12 +28,12 @@ const Wrapper = styled.section`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 60px 40px;
-  color: #fff;
+  padding: 60px ${theme.spacing.md};
+  color: ${theme.colors.white};
   position: relative;
 
   @media (max-width: 768px) {
-    padding: 40px 20px;
+    padding: 40px ${theme.spacing.sm};
     text-align: center;
     justify-content: center;
   }
@@ -40,7 +42,7 @@ const Wrapper = styled.section`
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.4); // overlay
+    background-color: rgba(0, 0, 0, 0.4);
     z-index: 1;
   }
 `;
@@ -52,17 +54,17 @@ const Content = styled.div`
 `;
 
 const SmallTitle = styled.p`
-  font-size: 14px;
+  font-size: ${theme.fontSizes.sm};
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 12px;
-  color: #ffdfcc;
+  margin-bottom: ${theme.spacing.xs};
+  color: ${theme.colors.accentLight};
 `;
 
 const MainTitle = styled.h1`
   font-size: 38px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.sm};
 
   @media (max-width: 576px) {
     font-size: 28px;
@@ -72,5 +74,5 @@ const MainTitle = styled.h1`
 const Description = styled.p`
   font-size: 17px;
   line-height: 1.7;
-  color: #eaeaea;
+  color: ${theme.colors.mutedLight};
 `;

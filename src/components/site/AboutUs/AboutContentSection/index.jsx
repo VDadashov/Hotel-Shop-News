@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import theme from "../../../../styles/common/theme";
 
 const AboutContentSection = () => {
   return (
@@ -36,9 +37,10 @@ const AboutContentSection = () => {
 };
 
 export default AboutContentSection;
+
 const Wrapper = styled.section`
-  padding: 80px 20px;
-  background: #fff;
+  padding: 80px ${theme.spacing.sm};
+  background: ${theme.colors.white};
 `;
 
 const Content = styled.div`
@@ -51,22 +53,22 @@ const Title = styled.h2`
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #111;
+  color: ${theme.colors.darkText};
 `;
 
 const Paragraph = styled.p`
-  font-size: 16px;
-  color: #444;
+  font-size: ${theme.fontSizes.base};
+  color: ${theme.colors.icon};
   line-height: 1.8;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.md};
 
   strong {
-    color: #2d2d2d;
+    color: ${theme.colors.text};
     font-weight: 600;
   }
 
   .highlight {
-    color: #cba589;
+    color: ${theme.colors.sale};
     font-weight: 600;
   }
 `;

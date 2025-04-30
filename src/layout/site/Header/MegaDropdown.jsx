@@ -1,29 +1,23 @@
 import React, { useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import MainContext from "../../../context"; // ✅ Düz import
+import MainContext from "../../../context";
+import theme from "../../../styles/common/theme";
 
 const MegaDropdown = ({ data = [] }) => {
   const [activeParent, setActiveParent] = useState(null);
   const [activeChild, setActiveChild] = useState(null);
-  const { setSelectedCategoryId } = useContext(MainContext); // ✅ Contextdən id dəyişmək üçün
-
+  const { setSelectedCategoryId } = useContext(MainContext);
   const navigate = useNavigate();
 
   const childItems = activeParent !== null ? data[activeParent]?.children || [] : [];
   const grandChildren = activeChild !== null ? childItems[activeChild]?.children || [] : [];
 
-  const getLink = (item) => {
-    return item?.url ? `/products//${encodeURIComponent(item.url)}` : "#";
-  };
+  const getLink = (item) => item?.url ? `/products//${encodeURIComponent(item.url)}` : "#";
 
   const handleItemClick = (item) => {
-    if (item.id) {
-      setSelectedCategoryId(item.id); // ✅ İd-ni global saxlayırıq
-    }
-    if (item.url) {
-      navigate(`/products//${encodeURIComponent(item.url)}`); // ✅ Yoluna yönləndir
-    }
+    if (item.id) setSelectedCategoryId(item.id);
+    if (item.url) navigate(`/products//${encodeURIComponent(item.url)}`);
   };
 
   return (
@@ -39,7 +33,7 @@ const MegaDropdown = ({ data = [] }) => {
               }}
               className={activeParent === index ? "active" : ""}
               as="div"
-              onClick={() => handleItemClick(item)} // ✅
+              onClick={() => handleItemClick(item)}
             >
               {item.title}
             </Item>
@@ -53,7 +47,7 @@ const MegaDropdown = ({ data = [] }) => {
               onMouseEnter={() => setActiveChild(index)}
               className={activeChild === index ? "active" : ""}
               as="div"
-              onClick={() => handleItemClick(item)} // ✅
+              onClick={() => handleItemClick(item)}
             >
               {item.title}
             </Item>
@@ -65,7 +59,7 @@ const MegaDropdown = ({ data = [] }) => {
             <LinkItem
               key={index}
               to={getLink(item)}
-              onClick={() => setSelectedCategoryId(item.id)} // ✅ Grandchildren üçün də
+              onClick={() => setSelectedCategoryId(item.id)}
             >
               {item.title}
             </LinkItem>
@@ -91,10 +85,10 @@ const Wrapper = styled.div`
   top: -5px;
   left: 0;
   width: calc(100vw - 15px);
-  background: #fff;
-  padding: 30px 20px;
+  background: ${theme.colors.white};
+  padding: ${theme.spacing.lg} ${theme.spacing.md};
   z-index: 999;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px ${theme.colors.cardShadow};
   overflow-x: auto;
   animation: ${slideFade} 0.4s ease forwards;
 
@@ -114,7 +108,7 @@ const Inner = styled.div`
 const Column = styled.div`
   flex: 1;
   min-width: 250px;
-  border-right: 1px solid #eee;
+  border-right: 1px solid ${theme.colors.border};
 
   &:last-child {
     border-right: none;
@@ -137,24 +131,24 @@ const Item = styled.div`
   display: block;
   padding: 12px 16px;
   font-weight: 500;
-  color: #333;
+  color: ${theme.colors.text};
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
-  font-size: 16px;
+  font-size: ${theme.fontSizes.base};
   text-decoration: none;
 
   &.active,
   &:hover {
-    background: #f7f7f7;
-    color: #cba589;
+    background: ${theme.colors.background};
+    color: ${theme.colors.sale};
   }
 
   @media (max-width: 992px) {
-    font-size: 15px;
+    font-size: ${theme.fontSizes.sm};
   }
 
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: ${theme.fontSizes.xs};
   }
 `;
 
@@ -162,19 +156,19 @@ const LinkItem = styled(Link)`
   display: block;
   padding: 12px 16px;
   font-weight: 500;
-  font-size: 15px;
-  color: #333;
+  font-size: ${theme.fontSizes.sm};
+  color: ${theme.colors.text};
   text-decoration: none;
   transition: background 0.3s ease, color 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    background: #f7f7f7;
-    color: #cba589;
+    background: ${theme.colors.background};
+    color: ${theme.colors.sale};
   }
 
   @media (max-width: 992px) {
-    font-size: 14px;
+    font-size: ${theme.fontSizes.xs};
   }
 
   @media (max-width: 768px) {

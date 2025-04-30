@@ -1,60 +1,62 @@
 import React from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "../../../../styles/common/GridSystem";
-import ProductCard from "../../../common/CardConponent/index"; // Düzgün adlandırılmışsa belə olsun
+import ProductCard from "../../../common/CardConponent/index";
+import theme from "../../../../styles/common/theme";
 
 const TrendingNowSection = ({ products }) => {
   if (!Array.isArray(products)) return null;
 
   return (
     <Section>
- 
-        <TitleArea>
-          <SubTitle>POPULAR PRODUCTS</SubTitle>
-          <MainTitle>Trending Now</MainTitle>
-        </TitleArea>
+      <TitleArea>
+        <SubTitle>POPULAR PRODUCTS</SubTitle>
+        <MainTitle>Trending Now</MainTitle>
+      </TitleArea>
 
-        <Row r_gap="40px" justify="center">
-          {products.map((product) => (
-            <Col xs={6} sm={6} md={3} xl={3} xxl={3} key={product.id}>
-              <ProductCard product={product} />
-            </Col>
-          ))}
-        </Row>
-
+      <Row r_gap="40px" justify="center">
+        {products.map((product) => (
+          <Col xs={6} sm={6} md={3} xl={3} xxl={3} key={product.id}>
+            <ProductCard product={product} />
+          </Col>
+        ))}
+      </Row>
     </Section>
   );
 };
 
 export default TrendingNowSection;
 
-// Styled Components
+// === Styled Components ===
+
 const Section = styled.section`
-  padding: 60px 0;
-  background: #fff;
+  padding: ${theme.spacing.lg} 0;
+  background: ${theme.colors.white};
 `;
 
 const TitleArea = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: ${theme.spacing.lg};
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.2rem;
+  font-size: ${theme.fontSizes.md};
   letter-spacing: 1px;
-  color: #7b7b7b;
+  color: ${theme.colors.mutedText};
   text-transform: uppercase;
+
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    font-size: ${theme.fontSizes.sm};
   }
 `;
 
 const MainTitle = styled.h2`
-  font-size: 3rem;
+  font-size: ${theme.fontSizes.xxl};
   font-weight: 600;
-  color: #000;
-  margin-top: 10px;
+  color: ${theme.colors.black};
+  margin-top: ${theme.spacing.xs};
+
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: ${theme.fontSizes.xl};
   }
 `;

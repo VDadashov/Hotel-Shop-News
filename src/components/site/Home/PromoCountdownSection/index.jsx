@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseApi from "../../../../utils/api/baseApi";
-import MediaApi from "../../../../utils/api/MediaApi";
 import PromoCountdownCard from "./PromoCountdownCard";
+import theme from "../../../../styles/common/theme";
 
 const PromoCountdownSection = () => {
   const [promoData, setPromoData] = useState([]);
@@ -10,10 +10,8 @@ const PromoCountdownSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const res = await fetch(`${BaseApi}/promos`);
         const json = await res.json();
-
 
         setPromoData(json.promos || json || []);
       } catch (error) {
@@ -36,8 +34,8 @@ const PromoCountdownSection = () => {
 export default PromoCountdownSection;
 
 const Section = styled.section`
-  padding: 60px 10px;
+  padding: ${theme.spacing.lg} ${theme.spacing.xs};
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  gap: ${theme.spacing.md};
 `;

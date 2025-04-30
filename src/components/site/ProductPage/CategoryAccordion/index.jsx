@@ -3,16 +3,17 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import MainContext from "../../../../context";
 import BaseApi from "../../../../utils/api/baseApi";
+import theme from "../../../../styles/common/theme";
 
 const Wrapper = styled.div`
-  background: #f9f9f9;
-  padding: 1rem;
+  background: ${theme.colors.background};
+  padding: ${theme.spacing.sm};
   border-radius: 8px;
 `;
 
 const AccordionItem = styled.div`
-  margin-bottom: 0.8rem;
-  border-bottom: 1px solid #ddd;
+  margin-bottom: ${theme.spacing.xs};
+  border-bottom: 1px solid ${theme.colors.border};
 `;
 
 const AccordionHeader = styled.div`
@@ -21,12 +22,12 @@ const AccordionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  color: #333;
+  padding: ${theme.spacing.xs} 0;
+  color: ${theme.colors.text};
   transition: color 0.3s ease;
 
   &:hover {
-    color: #b85c38;
+    color: ${theme.colors.accent};
   }
 `;
 
@@ -35,8 +36,8 @@ const AccordionContent = styled.div`
   max-height: ${({ expanded }) => (expanded ? "1000px" : "0")};
   opacity: ${({ expanded }) => (expanded ? "1" : "0")};
   transition: all 0.4s ease;
-  padding-left: 1rem;
-  padding-top: ${({ expanded }) => (expanded ? "0.5rem" : "0")};
+  padding-left: ${theme.spacing.sm};
+  padding-top: ${({ expanded }) => (expanded ? theme.spacing.xs : "0")};
 `;
 
 const CategoryAccordion = ({ onCategoryChange }) => {
@@ -79,7 +80,7 @@ const CategoryAccordion = ({ onCategoryChange }) => {
 
   const handleAllProductsClick = () => {
     navigate("/products");
-    setSelectedCategoryId(null); // ✅ bütün məhsullar üçün null
+    setSelectedCategoryId(null);
     if (onCategoryChange) onCategoryChange();
   };
 
@@ -113,10 +114,9 @@ const CategoryAccordion = ({ onCategoryChange }) => {
     <Wrapper>
       <AccordionItem>
         <AccordionHeader onClick={handleAllProductsClick}>
-          <span>Bütün Məhsullar</span> {/* ✅ Əlavə olundu */}
+          <span>Bütün Məhsullar</span>
         </AccordionHeader>
       </AccordionItem>
-
       {renderChildren(productsData)}
     </Wrapper>
   );

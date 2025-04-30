@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import MegaDropdown from "./MegaDropdown";
+import theme from "../../../styles/common/theme";
 
 const Navigation = ({ productsData, loading, error }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -53,13 +54,13 @@ const NavContainer = styled.nav`
 
 const NavList = styled.ul`
   display: flex;
-  gap: 30px;
+  gap: ${theme.spacing.lg};
   list-style: none;
   margin: 0;
   padding: 0;
 
   @media (max-width: 1028px) {
-    gap: 10px;
+    gap: ${theme.spacing.sm};
   }
 `;
 
@@ -69,15 +70,14 @@ const NavItem = styled.li`
   ${({ withBefore }) =>
     withBefore &&
     css`
-    
       &:hover&::before {
         content: "";
         position: absolute;
         top: 80px;
-        left:0 ;
+        left: 0;
         width: 100%;
         height: 30px;
-        background: #00000000;
+        background: transparent;
         transform: translateY(-50%);
         z-index: 1000000;
       }
@@ -87,20 +87,20 @@ const NavItem = styled.li`
 const NavLink = styled.a`
   text-decoration: none;
   font-weight: 600;
-  color: #000;
+  color: ${theme.colors.black};
   padding: 10px 15px;
   display: block;
   transition: 0.3s;
   white-space: nowrap;
+  border-radius: 3px;
 
   &:hover {
-    background: #cba589;
-    color: #fff;
-    border-radius: 3px;
+    background: ${theme.colors.sale};
+    color: ${theme.colors.white};
   }
 
   @media (max-width: 1028px) {
-    font-size: 14px;
+    font-size: ${theme.fontSizes.sm};
     padding: 8px 12px;
   }
 `;

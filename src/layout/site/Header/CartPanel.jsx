@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { FaTimes, FaPen } from "react-icons/fa";
 import { useCart } from "../../../providers/CartProvider";
-import { FaTimes } from "react-icons/fa";
 import BaseApi from "../../../utils/api/baseApi";
 import MediaApi from "../../../utils/api/MediaApi";
+import theme from "../../../styles/common/theme";
 
 const CartPanel = ({ isOpen, onClose }) => {
   const [whatsappNumber, setWhatsappNumber] = useState("");
   const [token, setToken] = useState(null);
+  const [editItemId, setEditItemId] = useState(null);
+  const [editQuantity, setEditQuantity] = useState("");
+
   const {
     cartItems,
     removeFromCart,
@@ -15,14 +19,12 @@ const CartPanel = ({ isOpen, onClose }) => {
     clearCart,
   } = useCart();
 
-  // Whatsapp nömrəsini çək
   useEffect(() => {
     fetch(`${BaseApi}/settings/WhatsappNumber`)
       .then(res => res.json())
       .then(data => setWhatsappNumber(data.value));
   }, []);
 
-  // Cartı POST et və token al
   useEffect(() => {
     const createCartAndGetToken = async () => {
       if (cartItems.length === 0) {
@@ -38,9 +40,7 @@ const CartPanel = ({ isOpen, onClose }) => {
       try {
         const res = await fetch(`${BaseApi}/cart/items`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ items: formattedItems }),
         });
 
@@ -53,24 +53,28 @@ const CartPanel = ({ isOpen, onClose }) => {
     };
 
     createCartAndGetToken();
-  }, [cartItems]); // cartItems dəyişəndə təkrar POST edilir
+  }, [cartItems]);
 
-  // Whatsapp URL yarad
   const getWhatsappUrl = () => {
     if (!token) return "#";
-
     const productLink = `${window.location.origin}/feedbackproduct/${token}`;
     const message = `Salam, səbətimdəki məhsullar haqqında ətraflı məlumat almaq istəyirəm.\n\n${productLink}\n\nZəhmət olmasa mənimlə əlaqə saxlayın.\nTəşəkkür edirəm!`;
-
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  };
+
+  const handleQuantitySave = (item) => {
+    if (editQuantity && Number(editQuantity) > 0 && Number(editQuantity) !== item.quantity) {
+      const newQty = Math.min(Number(editQuantity), 99999);
+      updateQuantity(item.id, newQty);
+    }
+    setEditItemId(null);
+    setEditQuantity("");
   };
 
   return (
     <Overlay isOpen={isOpen}>
       <Header>
-        <CloseIcon onClick={onClose}>
-          <FaTimes />
-        </CloseIcon>
+        <CloseIcon onClick={onClose}><FaTimes /></CloseIcon>
         <Title>Səbət</Title>
       </Header>
 
@@ -83,24 +87,53 @@ const CartPanel = ({ isOpen, onClose }) => {
               <Img src={`${MediaApi}${item.mainImg}`} alt={item.name} />
               <Details>
                 <p>{item.name}</p>
-                <span>{item.quantity} ədəd</span>
+                {editItemId === item.id ? (
+                  <input
+                    type="number"
+                    value={editQuantity}
+                    onChange={(e) => {
+                      const value = Math.min(Number(e.target.value), 99999);
+                      setEditQuantity(value);
+                    }}
+                    onBlur={() => handleQuantitySave(item)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleQuantitySave(item);
+                      if (e.key === "Escape") {
+                        setEditItemId(null);
+                        setEditQuantity("");
+                      }
+                    }}
+                    autoFocus
+                    min={1}
+                    max={99999}
+                    style={{
+                      width: "80px",
+                      fontSize: theme.fontSizes.base,
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      border: `1px solid ${theme.colors.inputBorder}`,
+                    }}
+                  />
+                ) : (
+                  <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    {item.quantity} ədəd
+                    <FaPen
+                      onClick={() => {
+                        setEditItemId(item.id);
+                        setEditQuantity(item.quantity);
+                      }}
+                      style={{ fontSize: "12px", color: theme.colors.mutedText, cursor: "pointer" }}
+                    />
+                  </span>
+                )}
               </Details>
+
               <QuantityControls>
-                <button
-                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  disabled={item.quantity === 1}
-                >
-                  −
-                </button>
-                <button
-                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                >
-                  +
-                </button>
+                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>−</button>
+                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} disabled={item.quantity >= 99999}>+</button>
               </QuantityControls>
-              <RemoveBtn onClick={() => removeFromCart(item.id)}>
-                <FaTimes />
-              </RemoveBtn>
+
+              <RemoveBtn onClick={() => removeFromCart(item.id)}><FaTimes /></RemoveBtn>
             </CartItem>
           ))
         )}
@@ -120,7 +153,7 @@ const CartPanel = ({ isOpen, onClose }) => {
 
 export default CartPanel;
 
-
+// === Styled Components ===
 
 const Overlay = styled.div`
   position: fixed;
@@ -128,9 +161,9 @@ const Overlay = styled.div`
   right: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
   width: 360px;
   height: 100vh;
-  background: #fff;
+  background: ${theme.colors.white};
   z-index: 1000;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 0 10px ${theme.colors.cardShadow};
   transition: right 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -141,34 +174,34 @@ const Overlay = styled.div`
 `;
 
 const Header = styled.div`
-  padding: 20px;
-  border-bottom: 1px solid #eee;
+  padding: ${theme.spacing.md};
+  border-bottom: 1px solid ${theme.colors.border};
   position: relative;
 `;
 
 const Title = styled.h4`
-  font-size: 18px;
+  font-size: ${theme.fontSizes.md};
   font-weight: 600;
 `;
 
 const CloseIcon = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 20px;
+  top: ${theme.spacing.md};
+  right: ${theme.spacing.md};
+  font-size: ${theme.fontSizes.lg};
   cursor: pointer;
 `;
 
 const Content = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: ${theme.spacing.md};
 `;
 
 const CartItem = styled.div`
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: ${theme.spacing.sm};
+  margin-bottom: ${theme.spacing.md};
   align-items: center;
 `;
 
@@ -183,14 +216,15 @@ const Details = styled.div`
   flex: 1;
 
   p {
-    font-size: 14px;
+    font-size: ${theme.fontSizes.sm};
     font-weight: 600;
     margin-bottom: 5px;
   }
 
   span {
-    font-size: 13px;
-    color: #666;
+    font-size: ${theme.fontSizes.xs};
+    color: ${theme.colors.icon};
+    cursor: default;
   }
 `;
 
@@ -200,19 +234,18 @@ const QuantityControls = styled.div`
   gap: 4px;
 
   button {
-    background: #f0f0f0;
+    background: ${theme.colors.inputBg};
     border: none;
     width: 24px;
     height: 24px;
     cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
+    font-size: ${theme.fontSizes.base};
     font-weight: bold;
     border-radius: 4px;
     transition: 0.2s;
 
     &:hover {
-      background: #ddd;
+      background: ${theme.colors.inputHover};
     }
 
     &:disabled {
@@ -223,54 +256,37 @@ const QuantityControls = styled.div`
 `;
 
 const RemoveBtn = styled.div`
-  font-size: 14px;
-  color: #999;
+  font-size: ${theme.fontSizes.sm};
+  color: ${theme.colors.mutedText};
   cursor: pointer;
 `;
 
 const Footer = styled.div`
-  padding: 20px;
-  border-top: 1px solid #eee;
-`;
-
-const Subtotal = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-
-  span {
-    font-size: 14px;
-    color: #555;
-  }
-
-  strong {
-    font-size: 16px;
-    font-weight: 600;
-    color: #000;
-  }
+  padding: ${theme.spacing.md};
+  border-top: 1px solid ${theme.colors.border};
 `;
 
 const ClearCartBtn = styled.button`
   width: 100%;
-  padding: 14px;
-  background: #000;
-  color: #fff;
+  padding: ${theme.spacing.md};
+  background: ${theme.colors.black};
+  color: ${theme.colors.white};
   font-weight: 600;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 
   &:hover {
-    background: #333;
+    background: ${theme.colors.text};
   }
 `;
 
 const WhatsappBtn = styled.button`
   width: 100%;
-  margin-top: 10px;
-  padding: 14px;
-  background: #25d366;
-  color: white;
+  margin-top: ${theme.spacing.sm};
+  padding: ${theme.spacing.md};
+  background: ${theme.colors.whatsapp};
+  color: ${theme.colors.white};
   font-weight: 600;
   border: none;
   border-radius: 6px;
@@ -278,12 +294,12 @@ const WhatsappBtn = styled.button`
   transition: 0.3s;
 
   &:hover {
-    background: #1ebc57;
+    background: ${theme.colors.whatsappHover};
   }
 `;
 
 const EmptyMessage = styled.p`
   text-align: center;
-  color: #777;
+  color: ${theme.colors.footerText};
   margin-top: 50px;
 `;

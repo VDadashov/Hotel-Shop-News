@@ -32,6 +32,7 @@ export const Row = styled.div`
   row-gap: ${({ r_gap }) => r_gap || "0"};
   justify-content: ${({ justify }) => justify || "flex-start"};
   margin: ${({ margin }) => margin || "0"};
+  padding: ${({ padding }) => padding || "0"};
   align-items: ${({ align }) => align || ""};
 `;
 

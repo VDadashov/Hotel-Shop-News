@@ -4,29 +4,27 @@ import ProductCard from "../../../common/CardConponent";
 import BaseApi from "../../../../utils/api/baseApi";
 import MainContext from "../../../../context";
 import { Col, Row } from "../../../../styles/common/GridSystem";
+import theme from "../../../../styles/common/theme";
 
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-`;
+// === Styled Components ===
 
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  gap: 0.5rem;
+  margin-top: ${theme.spacing.lg};
+  gap: ${theme.spacing.xs};
   flex-wrap: wrap;
 `;
 
 const PageButton = styled.button`
-  padding: 0.6rem 1rem;
-  border: 1px solid #ccc;
-  background-color: ${({ active }) => (active ? "#8b5e3c" : "white")};
-  color: ${({ active }) => (active ? "white" : "#333")};
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  border: 1px solid ${theme.colors.border};
+  background-color: ${({ active }) => (active ? theme.colors.saleHover : theme.colors.white)};
+  color: ${({ active }) => (active ? theme.colors.white : theme.colors.text)};
   border-radius: 8px;
   cursor: pointer;
   min-width: 40px;
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -36,15 +34,27 @@ const PageButton = styled.button`
 const TopBar = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1.5rem;
-  gap: 1rem;
+  margin-bottom: ${theme.spacing.md};
+  gap: ${theme.spacing.md};
 `;
 
 const Select = styled.select`
-  padding: 0.6rem 1rem;
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid ${theme.colors.border};
+  font-size: ${theme.fontSizes.base};
 `;
+
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSizeChange }) => {
   const [products, setProducts] = useState([]);
@@ -52,17 +62,24 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
     totalItems: 0,
     totalPages: 1,
     currentPage: 1,
-    pageSize: 12,
+    pageSize: 10,
   });
 
   const { selectedCategoryId } = useContext(MainContext);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let url = searchQuery
-          ? `${BaseApi}/search/products?query=${encodeURIComponent(searchQuery)}&page=${page}&pageSize=${pageSize}`
-          : `${BaseApi}/products?page=${page}&pageSize=${pageSize}`;
+        let url = `${BaseApi}/products?page=${page}&pageSize=${pageSize}`;
+
+        if (debouncedSearchQuery) {
+          url += `&searchQuery=${encodeURIComponent(debouncedSearchQuery)}`;
+        }
+
+        if (sort) {
+          url += `&sort=${sort}`;
+        }
 
         if (selectedCategoryId) {
           url += `&categoryId=${selectedCategoryId}`;
@@ -72,32 +89,19 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
         const result = await response.json();
 
         if (result.data) {
-          let sortedProducts = [...result.data];
-
-          if (sort === "a-z") {
-            sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-          } else if (sort === "z-a") {
-            sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
-          }
-
-          setProducts(sortedProducts);
+          setProducts(result.data);
           setPagination(result.pagination);
         } else {
           setProducts([]);
-          setPagination({
-            totalItems: 0,
-            totalPages: 1,
-            currentPage: 1,
-            pageSize: pageSize,
-          });
+          setPagination({ totalItems: 0, totalPages: 1, currentPage: 1, pageSize });
         }
       } catch (error) {
-        console.error("🔴 Product fetch error:", error);
+        console.error("Product fetch error:", error);
       }
     };
 
     fetchProducts();
-  }, [searchQuery, sort, page, pageSize, selectedCategoryId]);
+  }, [debouncedSearchQuery, sort, page, pageSize, selectedCategoryId]);
 
   return (
     <>
@@ -121,8 +125,8 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
           <p>Heç bir məhsul tapılmadı.</p>
         ) : (
           products.map((product) => (
-            <Col xs={6} sm={6} md={6} xl={4} xxl={4} key={product.id} >
-            <ProductCard product={product} key={product.id} />
+            <Col xs={6} sm={6} md={6} xl={4} xxl={4} key={product.id}>
+              <ProductCard product={product} />
             </Col>
           ))
         )}
@@ -146,10 +150,7 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
             .map((p, index, array) => (
               <React.Fragment key={p}>
                 {index > 0 && p - array[index - 1] > 1 && <span>...</span>}
-                <PageButton
-                  active={page === p}
-                  onClick={() => onPageChange(p)}
-                >
+                <PageButton active={page === p} onClick={() => onPageChange(p)}>
                   {p}
                 </PageButton>
               </React.Fragment>
