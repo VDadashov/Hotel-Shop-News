@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import theme from "../../../../styles/common/theme";
+
+// Loading animasiyası
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,10 +40,28 @@ const Button = styled.button`
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: ${theme.colors.sale};
   }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top: 2px solid ${theme.colors.white};
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite;
 `;
 
 const Select = styled.select`
@@ -48,7 +72,7 @@ const Select = styled.select`
   font-size: ${theme.fontSizes.base};
 `;
 
-const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
+const SearchAndSort = ({ loading, setLoading, query, onQueryChange, sort, onSortChange }) => {
   const [inputValue, setInputValue] = useState(query || "");
 
   useEffect(() => {
@@ -59,14 +83,21 @@ const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
     setInputValue(e.target.value);
   };
 
-  const handleButtonClick = (e) => {
+  const handleButtonClick = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     onQueryChange(inputValue.trim());
+
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      setLoading(true);
+
+      // await new Promise((resolve) => setTimeout(resolve, 0));
+
       onQueryChange(inputValue.trim());
     }
   };
@@ -81,7 +112,16 @@ const SearchAndSort = ({ query, onQueryChange, sort, onSortChange }) => {
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
         />
-        <Button onClick={handleButtonClick}>Axtar</Button>
+        <Button onClick={handleButtonClick} disabled={loading}>
+          {loading ? (
+            <>
+              <LoadingSpinner />
+              Axtarır...
+            </>
+          ) : (
+            "Axtar"
+          )}
+        </Button>
       </InputWrapper>
 
       <Select value={sort} onChange={(e) => onSortChange(e.target.value)}>

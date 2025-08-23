@@ -106,7 +106,7 @@ const PromoCountdownCard = ({
             variant="light"
             disabled={isExpired}
           >
-            {isExpired ? "Kampaniya bitdi" : "Shop Now"}
+            {isExpired ? "Kampaniya bitdi" : "Indi al"}
           </Button>
         </Content>
       </CardWrapper>

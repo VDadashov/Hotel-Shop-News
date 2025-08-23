@@ -5,6 +5,8 @@ import MainContext from "../../../context";
 import theme from "../../../styles/common/theme";
 
 const MegaDropdown = ({ data = [] }) => {
+  console.log(data);
+  
   const [activeParent, setActiveParent] = useState(null);
   const [activeChild, setActiveChild] = useState(null);
   const { setSelectedCategoryId } = useContext(MainContext);
@@ -13,11 +15,11 @@ const MegaDropdown = ({ data = [] }) => {
   const childItems = activeParent !== null ? data[activeParent]?.children || [] : [];
   const grandChildren = activeChild !== null ? childItems[activeChild]?.children || [] : [];
 
-  const getLink = (item) => item?.url ? `/products//${encodeURIComponent(item.url)}` : "#";
+  const getLink = (item) => item?.url ? `/products${(item.url)}` : "#";
 
   const handleItemClick = (item) => {
     if (item.id) setSelectedCategoryId(item.id);
-    if (item.url) navigate(`/products//${encodeURIComponent(item.url)}`);
+    if (item.url) navigate(`/products${(item.url)}`);
   };
 
   return (

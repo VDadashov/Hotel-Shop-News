@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import { Container, Row, Col } from "../../../../styles/common/GridSystem";
+import { Row, Col } from "../../../../styles/common/GridSystem";
 import ProductCard from "../../../common/CardConponent/index";
 import theme from "../../../../styles/common/theme";
 
@@ -10,8 +9,8 @@ const BestSellingSection = ({ products }) => {
   return (
     <Section>
       <TitleArea>
-        <SubTitle>SHOP</SubTitle>
-        <MainTitle>Best Selling</MainTitle>
+        <SubTitle>MAĞAZA</SubTitle>
+        <MainTitle>Ən çox satılan</MainTitle>
       </TitleArea>
 
       <Row r_gap="40px" justify="center">

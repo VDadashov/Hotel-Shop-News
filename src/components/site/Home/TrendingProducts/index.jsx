@@ -10,8 +10,8 @@ const TrendingNowSection = ({ products }) => {
   return (
     <Section>
       <TitleArea>
-        <SubTitle>POPULAR PRODUCTS</SubTitle>
-        <MainTitle>Trending Now</MainTitle>
+        <SubTitle>POPULLAR MƏHSULLAR</SubTitle>
+        <MainTitle>İndi Trend</MainTitle>
       </TitleArea>
 
       <Row r_gap="40px" justify="center">

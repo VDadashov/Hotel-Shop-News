@@ -7,7 +7,6 @@ import ProductPage from "../pages/site/ProductPage";
 import Faq from "../pages/site/FAQ";
 import PolicyPage from "../pages/site/PolicyPage";
 import FeedbackProduct from "../pages/site/FeedbackProduct";
-import DetailsPage from "../pages/site/DetailsPage";
 import TestPage from "../pages/site/Test";
 const ROUTES = [
   {
@@ -31,12 +30,12 @@ const ROUTES = [
         element: <AboutUs />,
       },
       {
-        path: "products/*", 
+        path: "products*", 
         element: <ProductPage />,
       },
       {
         path: "products/:id",
-        element:<DetailsPage/>
+        element:<ProductPage/>
       },
       {
         path:"/faq",

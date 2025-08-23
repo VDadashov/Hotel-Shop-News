@@ -6,7 +6,6 @@ import MainContext from "../../../../context";
 import { Col, Row } from "../../../../styles/common/GridSystem";
 import theme from "../../../../styles/common/theme";
 
-// === Styled Components ===
 
 const PaginationWrapper = styled.div`
   display: flex;
@@ -56,7 +55,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSizeChange }) => {
+const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSizeChange, loading, setLoading }) => {
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({
     totalItems: 0,
@@ -89,6 +88,7 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
         const result = await response.json();
 
         if (result.data) {
+          setLoading(false);
           setProducts(result.data);
           setPagination(result.pagination);
         } else {

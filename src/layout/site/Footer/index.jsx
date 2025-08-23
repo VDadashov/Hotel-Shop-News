@@ -18,35 +18,58 @@ const Footer = () => {
         <Col xs={12} sm={5} md={3} lg={3} xl={3} xxl={3}>
           <FooterTitle>Əsas səhifələr</FooterTitle>
           <FooterList>
-            <li><a href="/">Ana Səhifə</a></li>
-            <li><a href="/products">Məhsullar</a></li>
-            <li><a href="/about">Haqqımızda</a></li>
-            <li><a href="/contact">Əlaqə</a></li>
+            <li>
+              <a href="/">Ana Səhifə</a>
+            </li>
+            <li>
+              <a href="/products">Məhsullar</a>
+            </li>
+            <li>
+              <a href="/about">Haqqımızda</a>
+            </li>
+            <li>
+              <a href="/contact">Əlaqə</a>
+            </li>
           </FooterList>
         </Col>
 
         <Col xs={12} sm={5} md={3} lg={3} xl={3} xxl={3}>
           <FooterTitle>Faydalı linklər</FooterTitle>
           <FooterList>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="/privacy">Gizlilik siyasəti</a></li>
-            <li><a href="/terms">İstifadə şərtləri</a></li>
-            <li><a href="/returns">Qaytarılma şərtləri</a></li>
+            <li>
+              <a href="/faq">FAQ</a>
+            </li>
+            <li>
+              <a href="/privacy">Gizlilik siyasəti</a>
+            </li>
+            <li>
+              <a href="/terms">İstifadə şərtləri</a>
+            </li>
+            <li>
+              <a href="/returns">Qaytarılma şərtləri</a>
+            </li>
           </FooterList>
         </Col>
 
         <Col xs={12} sm={5} md={3} lg={1} xl={1} xxl={1}>
           <FooterTitle>Bizi izləyin</FooterTitle>
           <SocialIcons>
-            <a href="https://facebook.com"><FaFacebookF /></a>
-            <a href="https://twitter.com"><FaTwitter /></a>
-            <a href="https://instagram.com"><FaInstagram /></a>
+            <a href="https://facebook.com">
+              <FaFacebookF />
+            </a>
+            <a href="https://twitter.com">
+              <FaTwitter />
+            </a>
+            <a href="https://instagram.com">
+              <FaInstagram />
+            </a>
           </SocialIcons>
         </Col>
       </Row>
 
       <Copy>
-        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by <Link to="https://devitgroup.com">DevITGroup</Link>
+        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by{" "}
+        <Link to="https://rockvelltechnology.com/en/">Rockvell</Link>
       </Copy>
     </FooterWrapper>
   );
