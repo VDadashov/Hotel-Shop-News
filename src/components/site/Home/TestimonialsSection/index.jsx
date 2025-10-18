@@ -4,6 +4,7 @@ import { Container, Row, Col } from "../../../../styles/common/GridSystem";
 import theme from "../../../../styles/common/theme";
 
 const TestimonialsSection = ({ testimonials = [] }) => {
+  
   return (
     <Wrapper>
       <TitleArea>
@@ -12,7 +13,7 @@ const TestimonialsSection = ({ testimonials = [] }) => {
       </TitleArea>
 
       <Row r_gap="30px" justify="center">
-        {testimonials.slice(0, 3).map((ref, idx) => (
+        {testimonials?.data?.slice(0, 3).map((ref, idx) => (
           <Col xs={12} sm={4} md={4} lg={4} xl={4} xxl={4} key={idx}>
             <CardWrapper>
               <RefCard>

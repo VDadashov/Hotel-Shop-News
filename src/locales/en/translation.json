@@ -1,0 +1,82 @@
+{
+  "header": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact",
+    "search": "Search",
+    "cart": "Cart",
+    "menu": "Menu",
+    "mainPage": "Main Page",
+    "ourProducts": "Our Products",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  },
+  "home": {
+    "hero": {
+      "title": "Professional Solutions for Hotels",
+      "subtitle": "Quality, affordable appearance and reliable standards with hotel supplies to your institution and business.",
+      "cta": "SHOP NOW",
+      "newArrivals": "NEW ARRIVALS"
+    },
+    "trending": {
+      "title": "Trending Products",
+      "viewAll": "View All"
+    },
+    "bestSellers": {
+      "title": "Best Sellers",
+      "viewAll": "View All"
+    },
+    "testimonials": {
+      "title": "Customer Testimonials"
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Us"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send"
+    }
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "price": "Price",
+    "description": "Description",
+    "details": "Details",
+    "reviews": "Reviews",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continueShopping": "Continue Shopping",
+    "remove": "Remove",
+    "quantity": "Quantity"
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "followUs": "Follow Us",
+    "newsletter": "Subscribe to Newsletter",
+    "allRightsReserved": "All Rights Reserved"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "noResults": "No Results Found"
+  }
+}

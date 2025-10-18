@@ -1,3 +1,3 @@
-const BaseApi = "https://hotelshopback-production.up.railway.app/api"; // Fallback default
+const BaseApi = "https://api.hotelshop.az/api"; // Fallback default
 
 export default BaseApi;

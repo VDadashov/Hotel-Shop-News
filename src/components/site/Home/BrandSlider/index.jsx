@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import BaseApi from "../../../../utils/api/baseApi";
 import MediaApi from "../../../../utils/api/MediaApi";
+import { LanguageContext } from "../../../../context/LanguageContext";
 import theme from "../../../../styles/common/theme";
 
 const BrandSlider = () => {
   const [brands, setBrands] = useState([]);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch(`${BaseApi}/brands`);
+        const response = await fetch(
+          `${BaseApi}/brands?page=1&limit=10&isActive=true`,
+          {
+            headers: {
+              "accept-language": lang,
+            },
+          }
+        );
         const data = await response.json();
-        setBrands(data || []);
+
+        setBrands(data.data || []);
       } catch (error) {
         console.error("Error fetching brands:", error);
       }
     };
 
     fetchBrands();
-  }, []);
+  }, [lang]);
 
   const repeatedBrands = [...brands, ...brands, ...brands];
 

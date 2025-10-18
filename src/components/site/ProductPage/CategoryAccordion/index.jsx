@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import MainContext from "../../../../context";
+import { LanguageContext } from "../../../../context/LanguageContext";
 import BaseApi from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
 
@@ -43,23 +44,29 @@ const AccordionContent = styled.div`
 const CategoryAccordion = ({ onCategoryChange }) => {
   const [openIndexes, setOpenIndexes] = useState({});
   const [productsData, setProductsData] = useState([]);
+  console.log(productsData);
   const { setSelectedCategoryId } = useContext(MainContext);
+  const { lang } = useContext(LanguageContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(`${BaseApi}/menu`);
+        const response = await fetch(`${BaseApi}/categories/menu`, {
+          headers: {
+            "accept-language": lang,
+          },
+        });
         if (!response.ok) throw new Error("Network error");
-        const data = await response.json();
-        setProductsData(Array.isArray(data) ? data : []);
+        const result = await response.json();
+        setProductsData(Array.isArray(result.data) ? result.data : []);
       } catch (error) {
         console.error("Menu fetch error:", error);
       }
     };
 
     fetchMenuData();
-  }, []);
+  }, [lang]);
 
   const toggle = (path) => {
     setOpenIndexes((prev) => ({

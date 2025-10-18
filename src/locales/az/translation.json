@@ -1,0 +1,82 @@
+{
+  "header": {
+    "home": "Ana Səhifə",
+    "products": "Məhsullarımız",
+    "about": "Haqqımızda",
+    "contact": "Bizimlə Əlaqə",
+    "search": "Axtar",
+    "cart": "Səbət",
+    "menu": "Menyu",
+    "mainPage": "Ana Səhifə",
+    "ourProducts": "Məhsullarımız",
+    "aboutUs": "Haqqımızda",
+    "contactUs": "Bizimlə Əlaqə"
+  },
+  "home": {
+    "hero": {
+      "title": "Peşəkar Otellər üçün Peşəkar Həllər",
+      "subtitle": "Müasir keyfiyyət, zərif görünüş və etibarlı standartlarla otelinizə və ya müəssisənizə peşəkar toxunuş gətirin.",
+      "cta": "İNDİ AL",
+      "newArrivals": "YENİ SEÇİMLƏR"
+    },
+    "trending": {
+      "title": "Trend Məhsullar",
+      "viewAll": "Hamısına Bax"
+    },
+    "bestSellers": {
+      "title": "Ən Çox Satılanlar",
+      "viewAll": "Hamısına Bax"
+    },
+    "testimonials": {
+      "title": "Müştəri Rəyləri"
+    },
+    "whyChooseUs": {
+      "title": "Niyə Bizi Seçməlisiniz"
+    },
+    "contact": {
+      "title": "Bizimlə Əlaqə",
+      "name": "Ad",
+      "email": "Email",
+      "message": "Mesaj",
+      "send": "Göndər"
+    }
+  },
+  "product": {
+    "addToCart": "Səbətə At",
+    "price": "Qiymət",
+    "description": "Təsvir",
+    "details": "Təfərrüatlar",
+    "reviews": "Rəylər",
+    "inStock": "Stokda Var",
+    "outOfStock": "Stokda Yoxdur"
+  },
+  "cart": {
+    "title": "Alış-veriş Səbəti",
+    "empty": "Səbətiniz boşdur",
+    "total": "Cəmi",
+    "checkout": "Sifarişi Tamamla",
+    "continueShopping": "Alış-verişə Davam Et",
+    "remove": "Sil",
+    "quantity": "Miqdar"
+  },
+  "footer": {
+    "aboutUs": "Haqqımızda",
+    "followUs": "Bizi İzləyin",
+    "newsletter": "Xəbər Lentinə Abunə Ol",
+    "allRightsReserved": "Bütün Hüquqlar Qorunur"
+  },
+  "common": {
+    "loading": "Yüklənir...",
+    "error": "Xəta",
+    "success": "Uğurlu",
+    "cancel": "Ləğv et",
+    "save": "Yadda saxla",
+    "delete": "Sil",
+    "edit": "Redaktə et",
+    "view": "Bax",
+    "search": "Axtar",
+    "filter": "Filtr",
+    "sort": "Sırala",
+    "noResults": "Nəticə Tapılmadı"
+  }
+}

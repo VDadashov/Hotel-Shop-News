@@ -5,7 +5,6 @@ import MainContext from "../../../context";
 import theme from "../../../styles/common/theme";
 
 const MegaDropdown = ({ data = [] }) => {
-  console.log(data);
   
   const [activeParent, setActiveParent] = useState(null);
   const [activeChild, setActiveChild] = useState(null);

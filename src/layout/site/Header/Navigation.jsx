@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { useTranslation } from "react-i18next";
 import MegaDropdown from "./MegaDropdown";
 import theme from "../../../styles/common/theme";
 
 const Navigation = ({ productsData, loading, error }) => {
+  const { t } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <NavContainer>
       <NavList>
         <NavItem>
-          <NavLink href="/">Ana Səhifə</NavLink>
+          <NavLink href="/">{t("header.home")}</NavLink>
         </NavItem>
 
         <NavItem
@@ -18,7 +20,7 @@ const Navigation = ({ productsData, loading, error }) => {
           onMouseLeave={() => setIsDropdownOpen(false)}
           withBefore
         >
-          <NavLink href="/products">Məhsullarımız</NavLink>
+          <NavLink href="/products">{t("header.products")}</NavLink>
           {!loading && !error && isDropdownOpen && (
             <DropdownWrapper>
               <MegaDropdown data={productsData} />
@@ -27,11 +29,11 @@ const Navigation = ({ productsData, loading, error }) => {
         </NavItem>
 
         <NavItem>
-          <NavLink href="/about">Haqqımızda</NavLink>
+          <NavLink href="/about">{t("header.about")}</NavLink>
         </NavItem>
 
         <NavItem>
-          <NavLink href="/contact">Bizimlə Əlaqə</NavLink>
+          <NavLink href="/contact">{t("header.contact")}</NavLink>
         </NavItem>
       </NavList>
     </NavContainer>

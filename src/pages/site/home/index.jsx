@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet"; // ← dəyişdik
+import { Helmet } from "react-helmet";
 import HeroSection from "../../../components/site/Home/HeroSection";
 import BrandSlider from "../../../components/site/Home/BrandSlider";
 import TrendingProducts from "../../../components/site/Home/TrendingProducts";
@@ -20,20 +20,39 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const trendingResponse = await fetch(`${BaseApi}/trending`);
+        // Dil seçimini əldə et (localStorage-dan və ya i18n context-dən)
+        const currentLanguage = localStorage.getItem("language") || "az";
+
+        // Headers obyekti
+        const headers = {
+          "Accept-Language": currentLanguage,
+          "Content-Type": "application/json",
+        };
+
+        const trendingResponse = await fetch(`${BaseApi}/trending`, {
+          headers,
+        });
         const trendingResult = await trendingResponse.json();
         setTrending(trendingResult);
 
-        const testimonialsResponse = await fetch(`${BaseApi}/testimonials`);
+        const testimonialsResponse = await fetch(`${BaseApi}/testimonials`, {
+          headers,
+        });
         const testimonialsResult = await testimonialsResponse.json();
         setTestimonials(testimonialsResult);
 
-        const settingsResponse = await fetch(`${BaseApi}/settings/BestSellerProductIds`);
+        const settingsResponse = await fetch(
+          `${BaseApi}/settings/BestSellerProductIds`,
+          { headers }
+        );
         const settingsResult = await settingsResponse.json();
 
         if (settingsResult && settingsResult.value) {
           const ids = settingsResult.value;
-          const bestSellersResponse = await fetch(`${BaseApi}/bestseller/${ids}`);
+          const bestSellersResponse = await fetch(
+            `${BaseApi}/bestseller/${ids}`,
+            { headers }
+          );
           const bestSellersResult = await bestSellersResponse.json();
           setBestSellers(bestSellersResult);
         }

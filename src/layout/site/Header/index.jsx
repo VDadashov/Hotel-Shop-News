@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import { FaShoppingBag, FaBars, FaSearch } from "react-icons/fa";
@@ -9,11 +9,14 @@ import BaseApi from "../../../utils/api/baseApi";
 import SearchOverlay from "./SearchOverlay";
 import CartPanel from "./CartPanel";
 import { useCart } from "../../../providers/CartProvider";
+import { LanguageContext } from "../../../context/LanguageContext";
 import theme from "../../../styles/common/theme";
+import LanguageSelector from "./LanguageSelector";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsData, setProductsData] = useState([]);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -21,6 +24,7 @@ const Header = () => {
   const [isFixed, setIsFixed] = useState(false);
 
   const { getTotalCount } = useCart();
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
@@ -30,10 +34,16 @@ const Header = () => {
     const fetchMenuData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BaseApi}/menu`);
+        const response = await fetch(`${BaseApi}/categories/menu`, {
+          headers: {
+            "accept-language": lang,
+          },
+        });
+        console.log(response);
+
         if (!response.ok) throw new Error("Network response was not ok");
-        const rawData = await response.json();
-        setProductsData(Array.isArray(rawData) ? rawData : []);
+        const result = await response.json();
+        setProductsData(Array.isArray(result.data) ? result.data : []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -41,7 +51,7 @@ const Header = () => {
       }
     };
     fetchMenuData();
-  }, []);
+  }, [lang]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,10 +75,16 @@ const Header = () => {
               </Logo>
             </Col>
 
-            <Navigation productsData={productsData} loading={loading} error={error} />
+            <Navigation
+              productsData={productsData}
+              loading={loading}
+              error={error}
+            />
 
             <Col xs={2} md={2}>
               <RightSide>
+                <LanguageSelector />
+
                 <Icons>
                   <FaSearch onClick={() => setSearchOpen(true)} />
                   <Cart onClick={() => setIsCartOpen(true)}>
@@ -84,11 +100,20 @@ const Header = () => {
             </Col>
           </Row>
 
-          <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+          <SearchOverlay
+            isOpen={searchOpen}
+            onClose={() => setSearchOpen(false)}
+          />
           <CartPanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-          <MobileMenu productsData={productsData} open={mobileOpen} onClose={() => setMobileOpen(false)}>
-            {!loading && !error && <DropdownMenu data={productsData} isMobile={true} />}
+          <MobileMenu
+            productsData={productsData}
+            open={mobileOpen}
+            onClose={() => setMobileOpen(false)}
+          >
+            {!loading && !error && (
+              <DropdownMenu data={productsData} isMobile={true} />
+            )}
           </MobileMenu>
         </HeaderWrapper>
       </FixedHeader>
