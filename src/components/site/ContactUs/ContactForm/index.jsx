@@ -22,7 +22,7 @@ export default ContactForm;
 
 const FormWrapper = styled.div`
   background: ${theme.colors.background};
-  padding: ${theme.spacing.md};
+  padding: 20px;
   border-radius: 8px;
 `;
 

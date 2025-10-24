@@ -1,75 +1,120 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import theme from "../../../styles/common/theme";
 import { Link } from "react-router-dom";
+import { apiEndpoints } from "../../../utils/api/baseApi";
+import { LanguageContext } from "../../../context/LanguageContext";
+import MediaApi from "../../../utils/api/MediaApi";
+
 const Footer = () => {
+  const [footerData, setFooterData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { lang } = useContext(LanguageContext);
+
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const result = await apiEndpoints.getSections("footer", lang);
+        setFooterData(result.data?.[0] || result?.[0]);
+      } catch (error) {
+        console.error("Footer data fetch error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFooterData();
+  }, [lang]);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    }
+    return 'N/A';
+  };
+
+  // Helper function to get image URL
+  const getImageUrl = (media) => {
+    if (!media?.url) return '/images/logo.png';
+    if (media.url.startsWith('http')) return media.url;
+    return `${MediaApi}${media.url}`;
+  };
+
+  if (loading) {
+    return (
+      <FooterWrapper>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          Loading...
+        </div>
+      </FooterWrapper>
+    );
+  }
+
+  if (!footerData) {
+    return (
+      <FooterWrapper>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          Footer data not available
+        </div>
+      </FooterWrapper>
+    );
+  }
+
+  const { additionalData, media } = footerData;
+  const { logo, copyright, mainPages, socialMedia, usefulLinks } = additionalData || {};
+
   return (
     <FooterWrapper>
-      <Row r_gap="40px" justify="space-between">
-        <Col xs={12} sm={6} md={3} xl={3} xxl={3}>
+      <Row $r_gap="40px" $justify="space-between">
+        <Col $xs={12} $sm={6} $md={3} $xl={3} $xxl={3}>
           <FooterLogo href="/">
-            <img src="/images/logo.png" alt="HotelShop Logo" />
-            <p>HotelShop - Hər zaman keyfiyyətli otel məhsulları</p>
+            <img src={getImageUrl(media)} alt={media?.alt || "HotelShop Logo"} />
+            <p>{logo?.subtitle || "HotelShop - Hər zaman keyfiyyətli otel məhsulları"}</p>
           </FooterLogo>
         </Col>
 
-        <Col xs={12} sm={5} md={3} lg={3} xl={3} xxl={3}>
-          <FooterTitle>Əsas səhifələr</FooterTitle>
+        <Col $xs={12} $sm={5} $md={3} $lg={3} $xl={3} $xxl={3}>
+          <FooterTitle>{getLocalizedText(mainPages?.title)}</FooterTitle>
           <FooterList>
-            <li>
-              <a href="/">Ana Səhifə</a>
-            </li>
-            <li>
-              <a href="/products">Məhsullar</a>
-            </li>
-            <li>
-              <a href="/about">Haqqımızda</a>
-            </li>
-            <li>
-              <a href="/contact">Əlaqə</a>
-            </li>
+            {mainPages?.links?.map((link, index) => (
+              <li key={index}>
+                <a href={link.url}>{getLocalizedText(link.text)}</a>
+              </li>
+            ))}
           </FooterList>
         </Col>
 
-        <Col xs={12} sm={5} md={3} lg={3} xl={3} xxl={3}>
-          <FooterTitle>Faydalı linklər</FooterTitle>
+        <Col $xs={12} $sm={5} $md={3} $lg={3} $xl={3} $xxl={3}>
+          <FooterTitle>{getLocalizedText(usefulLinks?.title)}</FooterTitle>
           <FooterList>
-            <li>
-              <a href="/faq">FAQ</a>
-            </li>
-            <li>
-              <a href="/privacy">Gizlilik siyasəti</a>
-            </li>
-            <li>
-              <a href="/terms">İstifadə şərtləri</a>
-            </li>
-            <li>
-              <a href="/returns">Qaytarılma şərtləri</a>
-            </li>
+            {usefulLinks?.links?.map((link, index) => (
+              <li key={index}>
+                <a href={link.url}>{getLocalizedText(link.text)}</a>
+              </li>
+            ))}
           </FooterList>
         </Col>
 
-        <Col xs={12} sm={5} md={3} lg={1} xl={1} xxl={1}>
-          <FooterTitle>Bizi izləyin</FooterTitle>
+        <Col $xs={12} $sm={5} $md={3} $lg={1} $xl={1} $xxl={1}>
+          <FooterTitle>{getLocalizedText(socialMedia?.title)}</FooterTitle>
           <SocialIcons>
-            <a href="https://facebook.com">
-              <FaFacebookF />
-            </a>
-            <a href="https://twitter.com">
-              <FaTwitter />
-            </a>
-            <a href="https://instagram.com">
-              <FaInstagram />
-            </a>
+            {socialMedia?.platforms?.map((platform, index) => (
+              <a key={index} href={platform.url} target="_blank" rel="noopener noreferrer">
+                {platform.platform === 'facebook' && <FaFacebookF />}
+                {platform.platform === 'twitter' && <FaTwitter />}
+                {platform.platform === 'instagram' && <FaInstagram />}
+              </a>
+            ))}
           </SocialIcons>
         </Col>
       </Row>
 
       <Copy>
-        Copyright &copy; {new Date().getFullYear()} HotelShop | Powered by{" "}
-        <Link to="https://rockvelltechnology.com/en/">Rockvell</Link>
+        {getLocalizedText(copyright?.fullText) || 
+          `Copyright © ${copyright?.year || new Date().getFullYear()} ${copyright?.companyName || "HotelShop"} | Powered by ${copyright?.poweredBy || "Rockvell"}`}
       </Copy>
     </FooterWrapper>
   );

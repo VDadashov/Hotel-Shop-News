@@ -4,6 +4,7 @@ import ContactUs from "../pages/site/ContactUs";
 import AboutUs from "../pages/site/AboutUs";
 import ErrorPage from "../pages/site/error";
 import ProductPage from "../pages/site/ProductPage";
+import DetailsPage from "../pages/site/DetailsPage";
 import Faq from "../pages/site/FAQ";
 import PolicyPage from "../pages/site/PolicyPage";
 import FeedbackProduct from "../pages/site/FeedbackProduct";
@@ -30,12 +31,12 @@ const ROUTES = [
         element: <AboutUs />,
       },
       {
-        path: "products*", 
+        path: "products",
         element: <ProductPage />,
       },
       {
         path: "products/:id",
-        element:<ProductPage/>
+        element: <DetailsPage />,
       },
       {
         path:"/faq",

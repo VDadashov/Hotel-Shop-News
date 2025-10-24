@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { FaTimes, FaPen } from "react-icons/fa";
 import { useCart } from "../../../providers/CartProvider";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
 import MediaApi from "../../../utils/api/MediaApi";
 import theme from "../../../styles/common/theme";
+import { LanguageContext } from "../../../context/LanguageContext";
 
 const CartPanel = ({ isOpen, onClose }) => {
   const [whatsappNumber, setWhatsappNumber] = useState("");
@@ -19,11 +20,34 @@ const CartPanel = ({ isOpen, onClose }) => {
     clearCart,
   } = useCart();
 
+  const { lang } = useContext(LanguageContext);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    }
+    return 'N/A';
+  };
+
   useEffect(() => {
-    fetch(`${BaseApi}/settings/WhatsappNumber`)
-      .then(res => res.json())
-      .then(data => setWhatsappNumber(data.value));
+    const fetchWhatsappNumber = async () => {
+      try {
+        const data = await apiEndpoints.getSettings("WhatsappNumber");
+        setWhatsappNumber(data.value);
+      } catch (error) {
+        console.warn("WhatsApp number endpoint not available:", error.message);
+        setWhatsappNumber("+994501234567"); // Fallback number
+      }
+    };
+    fetchWhatsappNumber();
   }, []);
+
+  // Force re-render when language changes
+  useEffect(() => {
+    // This effect will trigger a re-render when lang changes
+  }, [lang]);
 
   useEffect(() => {
     const createCartAndGetToken = async () => {
@@ -38,14 +62,7 @@ const CartPanel = ({ isOpen, onClose }) => {
       }));
 
       try {
-        const res = await fetch(`${BaseApi}/cart/items`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items: formattedItems }),
-        });
-
-        if (!res.ok) throw new Error("Cart creation failed");
-        const data = await res.json();
+        const data = await apiEndpoints.createCart(formattedItems);
         setToken(data.token);
       } catch (error) {
         console.error("Cart POST error:", error);
@@ -84,9 +101,9 @@ const CartPanel = ({ isOpen, onClose }) => {
         ) : (
           cartItems.map((item) => (
             <CartItem key={item.id}>
-              <Img src={`${MediaApi}${item.mainImg}`} alt={item.name} />
+              <Img src={item.imageUrl || `${MediaApi}${item.mainImg}`} alt={getLocalizedText(item.name)} />
               <Details>
-                <p>{item.name}</p>
+                <p>{getLocalizedText(item.name)}</p>
                 {editItemId === item.id ? (
                   <input
                     type="number"

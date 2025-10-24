@@ -1,7 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import ContactHero from '../../../components/site/ContactUs/ContactHero'
-import MapSection from '../../../components/site/ContactUs/MapSection'
 import ContactFormSection from '../../../components/site/ContactUs/ContactFormSection'
 const ContactUs = () => {
     
@@ -12,7 +11,6 @@ const ContactUs = () => {
     </Helmet>
     <ContactHero/>
     <ContactFormSection/>
-    <MapSection/>
     </>
   )
 }

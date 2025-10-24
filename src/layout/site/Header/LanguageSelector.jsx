@@ -41,7 +41,7 @@ const LanguageSelector = () => {
       <LanguageButton onClick={() => setIsOpen(!isOpen)}>
         <img width={20} src={currentLanguage.flag} alt="flag" />
         <Label>{currentLanguage.label}</Label>
-        <Arrow isOpen={isOpen}>▼</Arrow>
+        <Arrow $isOpen={isOpen}>▼</Arrow>
       </LanguageButton>
 
       {isOpen && (
@@ -50,7 +50,7 @@ const LanguageSelector = () => {
             <DropdownItem
               key={language.code}
               onClick={() => handleLanguageChange(language.code)}
-              isActive={lang === language.code}
+              $isActive={lang === language.code}
             >
               <img width={20} src={language.flag} alt="flag" />
               <Label>{language.label}</Label>
@@ -119,7 +119,7 @@ const Arrow = styled.span`
   font-size: 10px;
   color: ${theme.colors.gray};
   transition: transform 0.3s ease;
-  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0)")};
+  transform: ${({ $isOpen }) => ($isOpen ? "rotate(180deg)" : "rotate(0)")};
 `;
 
 const DropdownList = styled.div`
@@ -154,14 +154,14 @@ const DropdownItem = styled.div`
   padding: 10px 14px;
   cursor: pointer;
   transition: background 0.2s ease;
-  background: ${({ isActive }) =>
-    isActive ? theme.colors.lightGray : "transparent"};
+  background: ${({ $isActive }) =>
+    $isActive ? theme.colors.lightGray : "transparent"};
 
   &:hover {
     background: ${theme.colors.lightGray};
   }
 
   ${Label} {
-    font-weight: ${({ isActive }) => (isActive ? "700" : "600")};
+    font-weight: ${({ $isActive }) => ($isActive ? "700" : "600")};
   }
 `;

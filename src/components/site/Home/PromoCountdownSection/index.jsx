@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import BaseApi from "../../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../../utils/api/baseApi";
+import { LanguageContext } from "../../../../context/LanguageContext";
 import PromoCountdownCard from "./PromoCountdownCard";
 import theme from "../../../../styles/common/theme";
 
 const PromoCountdownSection = () => {
   const [promoData, setPromoData] = useState([]);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${BaseApi}/promos`);
-        const json = await res.json();
-
+        const json = await apiEndpoints.getPromos(lang);
         setPromoData(json.promos || json || []);
       } catch (error) {
         console.error("❌ Promo məlumatı alınarkən xəta:", error);
@@ -20,7 +20,7 @@ const PromoCountdownSection = () => {
     };
 
     fetchData();
-  }, []);
+  }, [lang]);
 
   return (
     <Section>

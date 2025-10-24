@@ -6,7 +6,7 @@ const MapSection = () => {
   return (
     <MapWrapper>
       <Row>
-        <Col xs={12}>
+        <Col $xs={12}>
           <MapContainer>
             <iframe
               title="HotelShop Location"

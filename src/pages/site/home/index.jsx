@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 import HeroSection from "../../../components/site/Home/HeroSection";
 import BrandSlider from "../../../components/site/Home/BrandSlider";
@@ -6,55 +6,50 @@ import TrendingProducts from "../../../components/site/Home/TrendingProducts";
 import BestSellingSection from "../../../components/site/Home/BestSellingSection";
 import PromoCountdownSection from "../../../components/site/Home/PromoCountdownSection";
 import TestimonialsSection from "../../../components/site/Home/TestimonialsSection";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
 import WhyChooseUsSection from "../../../components/site/Home/WhyChooseUsSection";
 import ContactSection from "../../../components/site/Home/ContactSection";
 import LoadingLogo from "../../../components/common/Loading/Loading";
+import { LanguageContext } from "../../../context/LanguageContext";
 
 const Home = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [trending, setTrending] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Dil seçimini əldə et (localStorage-dan və ya i18n context-dən)
-        const currentLanguage = localStorage.getItem("language") || "az";
+        // Fetch trending products
+        try {
+          const trendingResult = await apiEndpoints.getTrendingProducts(lang);
+          setTrending(trendingResult);
+        } catch (trendingError) {
+          console.warn("Trending endpoint not available:", trendingError.message);
+          setTrending([]); // Set empty array as fallback
+        }
 
-        // Headers obyekti
-        const headers = {
-          "Accept-Language": currentLanguage,
-          "Content-Type": "application/json",
-        };
+        // Fetch testimonials
+        const testimonialsResult = await apiEndpoints.getTestimonials(lang);
+        
+        // Handle API response structure - extract data from response
+        const testimonialsData = testimonialsResult?.data || testimonialsResult || [];
+        setTestimonials(testimonialsData);
 
-        const trendingResponse = await fetch(`${BaseApi}/trending`, {
-          headers,
-        });
-        const trendingResult = await trendingResponse.json();
-        setTrending(trendingResult);
-
-        const testimonialsResponse = await fetch(`${BaseApi}/testimonials`, {
-          headers,
-        });
-        const testimonialsResult = await testimonialsResponse.json();
-        setTestimonials(testimonialsResult);
-
-        const settingsResponse = await fetch(
-          `${BaseApi}/settings/BestSellerProductIds`,
-          { headers }
-        );
-        const settingsResult = await settingsResponse.json();
-
-        if (settingsResult && settingsResult.value) {
-          const ids = settingsResult.value;
-          const bestSellersResponse = await fetch(
-            `${BaseApi}/bestseller/${ids}`,
-            { headers }
-          );
-          const bestSellersResult = await bestSellersResponse.json();
-          setBestSellers(bestSellersResult);
+        // Fetch best sellers settings and products
+        try {
+          const settingsResult = await apiEndpoints.getSettings("BestSellerProductIds", lang);
+          
+          if (settingsResult && settingsResult.value) {
+            const ids = settingsResult.value;
+            const bestSellersResult = await apiEndpoints.getBestSellers(ids, lang);
+            setBestSellers(bestSellersResult);
+          }
+        } catch (settingsError) {
+          console.warn("Settings endpoint not available:", settingsError.message);
+          setBestSellers([]); // Set empty array as fallback
         }
       } catch (error) {
         console.error("Fetch error:", error);
@@ -64,7 +59,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, []);
+  }, [lang]);
 
   if (loading) {
     return <LoadingLogo />;

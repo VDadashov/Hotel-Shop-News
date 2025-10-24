@@ -5,7 +5,7 @@ import { FaShoppingBag, FaBars, FaSearch } from "react-icons/fa";
 import Navigation from "./Navigation";
 import MobileMenu from "./MobileMenu";
 import DropdownMenu from "./DropdownMenu";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
 import SearchOverlay from "./SearchOverlay";
 import CartPanel from "./CartPanel";
 import { useCart } from "../../../providers/CartProvider";
@@ -34,15 +34,7 @@ const Header = () => {
     const fetchMenuData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BaseApi}/categories/menu`, {
-          headers: {
-            "accept-language": lang,
-          },
-        });
-        console.log(response);
-
-        if (!response.ok) throw new Error("Network response was not ok");
-        const result = await response.json();
+        const result = await apiEndpoints.getCategoriesMenu(lang);
         setProductsData(Array.isArray(result.data) ? result.data : []);
       } catch (err) {
         setError(err.message);
@@ -66,22 +58,24 @@ const Header = () => {
   return (
     <>
       {isFixed && <HeaderSpacer />}
-      <FixedHeader isFixed={isFixed}>
+      <FixedHeader $isFixed={isFixed}>
         <HeaderWrapper>
-          <Row justify="space-between" align="center">
-            <Col xs={2} md={2}>
+          <Row $justify="space-between" $align="center">
+            <Col $xs={2} $md={2}>
               <Logo href="/">
                 <img src="/images/logo.png" alt="Logo" />
               </Logo>
             </Col>
 
-            <Navigation
-              productsData={productsData}
-              loading={loading}
-              error={error}
-            />
+            <Col $xs={8} $md={8}>
+              <Navigation
+                productsData={productsData}
+                loading={loading}
+                error={error}
+              />
+            </Col>
 
-            <Col xs={2} md={2}>
+            <Col $xs={2} $md={2}>
               <RightSide>
                 <LanguageSelector />
 
@@ -130,7 +124,7 @@ const HeaderSpacer = styled.div`
 `;
 
 const FixedHeader = styled.div`
-  position: ${({ isFixed }) => (isFixed ? "fixed" : "relative")};
+  position: ${({ $isFixed }) => ($isFixed ? "fixed" : "relative")};
   top: 0;
   left: 0;
   width: 100%;
@@ -138,8 +132,8 @@ const FixedHeader = styled.div`
   background: ${theme.colors.white};
   border-bottom: 1px solid ${theme.colors.border};
 
-  ${({ isFixed }) =>
-    isFixed &&
+  ${({ $isFixed }) =>
+    $isFixed &&
     `
     animation: slideDown 0.4s ease forwards;
   `}

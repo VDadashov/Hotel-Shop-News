@@ -78,5 +78,22 @@
     "filter": "Filtr",
     "sort": "Sırala",
     "noResults": "Nəticə Tapılmadı"
+  },
+  "detailsPage": {
+    "loading": "Məhsul yüklənir...",
+    "notFound": "Məhsul tapılmadı",
+    "backToProducts": "Məhsullara qayıt",
+    "breadcrumb": {
+      "home": "Ana səhifə",
+      "products": "Məhsullar"
+    },
+    "category": "Kateqoriya:",
+    "noDescription": "Bu məhsul haqqında ətraflı məlumat mövcud deyil.",
+    "quantity": "Miqdar:",
+    "addToCart": "Səbətə əlavə et"
+  },
+  "promo": {
+    "buyNow": "İndi al",
+    "campaignEnded": "Kampaniya bitdi"
   }
 }

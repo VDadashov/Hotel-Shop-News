@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
+import { LanguageContext } from "../../../context/LanguageContext";
 import ProductCard from "../../../components/common/CardConponent";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import theme from "../../../styles/common/theme";
@@ -13,6 +14,7 @@ const FeedbackProduct = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     if (!token) return;
@@ -21,19 +23,12 @@ const FeedbackProduct = () => {
       try {
         setLoading(true);
 
-        const res = await fetch(`${BaseApi}/cart/items?token=${token}&page=${page}&limit=${limit}`);
-        if (!res.ok) throw new Error("Server error");
-
-        const data = await res.json();
+        const data = await apiEndpoints.getCartItems(token, page, limit, lang);
         setProducts(Array.isArray(data.items) ? data.items : []);
         setTotalPages(data.totalPages || 1);
 
         if (page === 1) {
-          await fetch(`${BaseApi}/cart/items`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, isConfirmed: true }),
-          });
+          await apiEndpoints.confirmCart(token, lang);
         }
       } catch (err) {
         console.error("Məhsullar yüklənə bilmədi və ya Cart təsdiqlənmədi:", err);
@@ -43,7 +38,7 @@ const FeedbackProduct = () => {
     };
 
     fetchCartProducts();
-  }, [token, page, limit]);
+  }, [token, page, limit, lang]);
 
   const handlePrev = () => page > 1 && setPage((p) => p - 1);
   const handleNext = () => page < totalPages && setPage((p) => p + 1);

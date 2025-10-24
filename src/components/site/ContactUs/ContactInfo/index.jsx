@@ -30,7 +30,7 @@ const ContactInfo = () => {
 export default ContactInfo;
 
 const InfoWrapper = styled.div`
-  padding: 50px ${theme.spacing.sm};
+  padding: 30px ${theme.spacing.sm};
   text-align: left;
 `;
 

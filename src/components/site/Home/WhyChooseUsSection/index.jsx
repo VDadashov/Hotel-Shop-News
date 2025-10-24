@@ -30,9 +30,9 @@ const WhyChooseUsSection = () => {
         <MainTitle>HotelShop fərqi</MainTitle>
       </TitleArea>
 
-      <Row justify="center" r_gap="30px">
+      <Row $justify="center" $r_gap="30px">
         {features.map((item, i) => (
-          <Col xs={12} sm={12} md={4} lg={4} xl={4} xxl={4} key={i}>
+          <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4} key={i}>
             <CardWrapper>
               <FeatureCard>
                 <IconCircle>{item.icon}</IconCircle>
@@ -60,15 +60,18 @@ const TitleArea = styled.div`
 `;
 
 const SubTitle = styled.p`
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
   letter-spacing: 1px;
   color: ${theme.colors.sale};
   text-transform: uppercase;
 `;
 
 const MainTitle = styled.h2`
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.xl};
-  font-weight: 600;
+  font-weight: ${theme.fontWeights.bold};
   color: ${theme.colors.black};
   margin-top: ${theme.spacing.xs};
 `;
@@ -105,14 +108,17 @@ const IconCircle = styled.div`
 `;
 
 const FeatureTitle = styled.h3`
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.md};
-  font-weight: 600;
+  font-weight: ${theme.fontWeights.semiBold};
   margin-bottom: ${theme.spacing.xs};
   color: ${theme.colors.black};
 `;
 
 const FeatureText = styled.p`
+  font-family: ${theme.fonts.secondary};
   font-size: ${theme.fontSizes.base};
+  font-weight: ${theme.fontWeights.regular};
   color: ${theme.colors.icon};
   line-height: 1.6;
 `;

@@ -7,15 +7,16 @@ import theme from "../../../../styles/common/theme";
 const ContactSection = () => {
   return (
     <Section>
-      <HeaderWrapper>
-        <MainTitle>Bizimlə əlaqə</MainTitle>
-        <Description>
-          Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.
-        </Description>
-      </HeaderWrapper>
+      <Container>
+        <HeaderWrapper>
+          <MainTitle>Bizimlə əlaqə</MainTitle>
+          <Description>
+            Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.
+          </Description>
+        </HeaderWrapper>
 
-      <Row r_gap="30px" justify="space-between">
-        <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
+        <Row $r_gap="20px" $c_gap="20px" $justify="center">
+        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
           <WrapperBox>
             <ContactInfo>
               <h4>Əlaqə məlumatları</h4>
@@ -37,7 +38,7 @@ const ContactSection = () => {
           </WrapperBox>
         </Col>
 
-        <Col xs={12} sm={12} md={4} lg={4} xl={4} xxl={4}>
+        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
           <WrapperBox>
             <Form>
               <input type="text" placeholder="Adınız (vacib)" required />
@@ -49,13 +50,13 @@ const ContactSection = () => {
           </WrapperBox>
         </Col>
 
-        <Col xs={12} sm={12} md={4} lg={4} xl={4} xxl={4}>
+        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
           <WrapperBox>
             <MapWrapper>
             <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.9945528856555!2d49.82821567636126!3d40.377194158390344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d69dfc5844d%3A0x93069d13e2f4ae43!2sHotelstore!5e0!3m2!1sen!2saz!4v1713355404019!5m2!1sen!2saz"
             width="100%"
-            height="350"
+            height="250"
             style={{ border: 0 }}
             allowFullScreen=""
             loading="lazy"
@@ -66,6 +67,7 @@ const ContactSection = () => {
           </WrapperBox>
         </Col>
       </Row>
+      </Container>
     </Section>
   );
 };
@@ -73,13 +75,23 @@ const ContactSection = () => {
 export default ContactSection;
 
 const Section = styled.section`
-  padding: 80px ${theme.spacing.sm};
+  padding: 60px 0;
   background: ${theme.colors.white};
+`;
+
+const Container = styled.div`
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 ${theme.spacing.md};
+
+  @media (max-width: 768px) {
+    padding: 0 ${theme.spacing.sm};
+  }
 `;
 
 const HeaderWrapper = styled.div`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 const MainTitle = styled.h3`
@@ -105,7 +117,7 @@ const WrapperBox = styled.div`
 
 const MapWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 250px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 6px 16px ${theme.colors.cardShadow};
@@ -114,7 +126,9 @@ const MapWrapper = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.sm};
+  gap: 12px;
+  min-height: 250px;
+  justify-content: space-between;
 
   input,
   textarea {
@@ -143,9 +157,13 @@ const Form = styled.form`
 
 const ContactInfo = styled.div`
   background: ${theme.colors.background};
-  padding: ${theme.spacing.md} ${theme.spacing.sm};
+  padding: 20px ${theme.spacing.sm};
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
   h4 {
     font-size: ${theme.fontSizes.md};

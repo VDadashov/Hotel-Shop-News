@@ -18,7 +18,7 @@ const Navigation = ({ productsData, loading, error }) => {
         <NavItem
           onMouseEnter={() => setIsDropdownOpen(true)}
           onMouseLeave={() => setIsDropdownOpen(false)}
-          withBefore
+          $withBefore
         >
           <NavLink href="/products">{t("header.products")}</NavLink>
           {!loading && !error && isDropdownOpen && (
@@ -45,7 +45,7 @@ export default Navigation;
 // -------------------- Styled Components --------------------
 
 const NavContainer = styled.nav`
-  flex: 1;
+  width: 100%;
   display: flex;
   justify-content: center;
 
@@ -69,8 +69,8 @@ const NavList = styled.ul`
 const NavItem = styled.li`
   position: static;
 
-  ${({ withBefore }) =>
-    withBefore &&
+  ${({ $withBefore }) =>
+    $withBefore &&
     css`
       &:hover&::before {
         content: "";

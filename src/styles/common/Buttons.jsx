@@ -51,7 +51,7 @@ const variants = {
 };
 
 const Button = styled.button`
-  ${({ variant }) => variants[variant || "primary"]}
+  ${({ $variant }) => variants[$variant || "primary"]}
 `;
 
 export default Button;

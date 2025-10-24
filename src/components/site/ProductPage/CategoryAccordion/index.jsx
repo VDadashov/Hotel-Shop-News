@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import MainContext from "../../../../context";
 import { LanguageContext } from "../../../../context/LanguageContext";
-import BaseApi from "../../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
 
 const Wrapper = styled.div`
@@ -52,13 +52,7 @@ const CategoryAccordion = ({ onCategoryChange }) => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(`${BaseApi}/categories/menu`, {
-          headers: {
-            "accept-language": lang,
-          },
-        });
-        if (!response.ok) throw new Error("Network error");
-        const result = await response.json();
+        const result = await apiEndpoints.getCategoriesMenu(lang);
         setProductsData(Array.isArray(result.data) ? result.data : []);
       } catch (error) {
         console.error("Menu fetch error:", error);
@@ -85,6 +79,15 @@ const CategoryAccordion = ({ onCategoryChange }) => {
     if (onCategoryChange) onCategoryChange();
   };
 
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    }
+    return 'N/A';
+  };
+
   const handleAllProductsClick = () => {
     navigate("/products");
     setSelectedCategoryId(null);
@@ -98,13 +101,13 @@ const CategoryAccordion = ({ onCategoryChange }) => {
       const isOpen = openIndexes[currentPath];
 
       return (
-        <AccordionItem key={item.title + currentPath}>
+        <AccordionItem key={getLocalizedText(item.title) + currentPath}>
           <AccordionHeader
             onClick={() =>
               hasChildren ? toggle(currentPath) : handleCategorySelect(item)
             }
           >
-            <span>{item.title}</span>
+            <span>{getLocalizedText(item.title)}</span>
             {hasChildren && <span>{isOpen ? "−" : "+"}</span>}
           </AccordionHeader>
           {hasChildren && (

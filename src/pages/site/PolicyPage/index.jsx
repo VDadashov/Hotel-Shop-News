@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
+import { LanguageContext } from "../../../context/LanguageContext";
 import theme from "../../../styles/common/theme";
 
 const TITLES = {
@@ -12,12 +13,12 @@ const TITLES = {
 
 const PolicyPage = ({ type }) => {
   const [content, setContent] = useState("");
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${BaseApi}/settings/${type}`);
-        const data = await res.json();
+        const data = await apiEndpoints.getSettings(type, lang);
         setContent(data?.value || "<p>Məzmun tapılmadı.</p>");
       } catch (err) {
         console.error("Polisiyə sorğusunda xəta:", err);
@@ -26,7 +27,7 @@ const PolicyPage = ({ type }) => {
     };
 
     fetchData();
-  }, [type]);
+  }, [type, lang]);
 
   return (
     <>

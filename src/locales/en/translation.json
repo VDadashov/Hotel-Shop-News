@@ -78,5 +78,22 @@
     "filter": "Filter",
     "sort": "Sort",
     "noResults": "No Results Found"
+  },
+  "detailsPage": {
+    "loading": "Loading product...",
+    "notFound": "Product not found",
+    "backToProducts": "Back to Products",
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products"
+    },
+    "category": "Category:",
+    "noDescription": "No detailed information available for this product.",
+    "quantity": "Quantity:",
+    "addToCart": "Add to Cart"
+  },
+  "promo": {
+    "buyNow": "Buy Now",
+    "campaignEnded": "Campaign Ended"
   }
 }

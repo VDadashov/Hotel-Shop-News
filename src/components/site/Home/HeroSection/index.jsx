@@ -11,8 +11,8 @@ const HeroSection = () => {
     <HeroWrapper>
       <Overlay>
         <Container>
-          <Row align="center">
-            <Col xs={12} md={6} xl={6} xxl={5}>
+          <Row $align="center">
+            <Col $xs={12} $md={6} $xl={6} $xxl={5}>
               <TextContent>
                 <SmallTitle>YENİ SEÇİMLƏR</SmallTitle>
                 <MainTitle>Peşəkar Otellər üçün Peşəkar Həllər</MainTitle>
@@ -22,8 +22,8 @@ const HeroSection = () => {
                   otelinizə və ya müəssisənizə peşəkar toxunuş gətirin.
                 </Description>
                 <Row>
-                  <Col xs={12} md={6} xl={6} xxl={6}>
-                    <Button onClick={() => navigator("/contact")} variant="light">
+                  <Col $xs={12} $md={6} $xl={6} $xxl={6}>
+                    <Button onClick={() => navigator("/contact")} $variant="light">
                       İNDİ AL
                     </Button>
                   </Col>
@@ -76,16 +76,18 @@ const TextContent = styled.div`
 `;
 
 const SmallTitle = styled.h4`
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.sm};
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: ${theme.colors.sale};
 `;
 
 const MainTitle = styled.h1`
+  font-family: ${theme.fonts.primary};
   font-size: 46px;
-  font-weight: 600;
-  font-family: Arial, serif;
+  font-weight: 700;
   line-height: 1.2;
 
   @media (max-width: 768px) {
@@ -94,6 +96,7 @@ const MainTitle = styled.h1`
 `;
 
 const Description = styled.p`
+  font-family: ${theme.fonts.secondary};
   font-size: ${theme.fontSizes.base};
   line-height: 1.7;
   color: ${theme.colors.mutedLight};

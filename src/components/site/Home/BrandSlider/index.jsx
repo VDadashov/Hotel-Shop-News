@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
-import BaseApi from "../../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../../utils/api/baseApi";
 import MediaApi from "../../../../utils/api/MediaApi";
 import { LanguageContext } from "../../../../context/LanguageContext";
 import theme from "../../../../styles/common/theme";
@@ -12,16 +12,11 @@ const BrandSlider = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch(
-          `${BaseApi}/brands?page=1&limit=10&isActive=true`,
-          {
-            headers: {
-              "accept-language": lang,
-            },
-          }
-        );
-        const data = await response.json();
-
+        const data = await apiEndpoints.getBrands({
+          page: 1,
+          limit: 10,
+          isActive: true
+        }, lang);
         setBrands(data.data || []);
       } catch (error) {
         console.error("Error fetching brands:", error);
@@ -30,6 +25,15 @@ const BrandSlider = () => {
 
     fetchBrands();
   }, [lang]);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    }
+    return 'N/A';
+  };
 
   const repeatedBrands = [...brands, ...brands, ...brands];
 
@@ -40,11 +44,11 @@ const BrandSlider = () => {
           <BrandItem key={index}>
             {brand.imageUrl ? (
               <BrandLogo
-                src={`${MediaApi}${brand.imageUrl}`}
-                alt={brand.name}
+                src={brand.imageUrl}
+                alt={getLocalizedText(brand.name)}
               />
             ) : (
-              <BrandNameOnly>{brand.name}</BrandNameOnly>
+              <BrandNameOnly>{getLocalizedText(brand.name)}</BrandNameOnly>
             )}
           </BrandItem>
         ))}
@@ -97,7 +101,11 @@ const Figure = styled.figure`
 const BrandLogo = styled.img`
   max-height: 120px;
   max-width: 120px;
+  height: auto;
+  width: auto;
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 `;
 
 const FigCaption = styled.figcaption`

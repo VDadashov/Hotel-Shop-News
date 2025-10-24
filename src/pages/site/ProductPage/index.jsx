@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import styled from "styled-components";
 import { Row, Col } from "../../../styles/common/GridSystem";
 import CategoryAccordion from "../../../components/site/ProductPage/CategoryAccordion";
 import SearchAndSort from "../../../components/site/ProductPage/SearchAndSort";
 import ProductList from "../../../components/site/ProductPage/ProductList";
 import PageBanner from "../../../components/common/PageBanner";
+import theme from "../../../styles/common/theme";
 
 const capitalize = (word) =>
   word.charAt(0).toLocaleUpperCase("az") +
@@ -63,32 +65,44 @@ const ProductPage = () => {
   return (
     <>
       <PageBanner title={title} breadcrumb={breadcrumb} />
-      <Row r_gap="2rem" margin="2rem 0" padding="0 1.5rem">
-        <Col xs={12} md={3} lg={3} xl={3} xxl={3}>
-          <CategoryAccordion onCategoryChange={() => setCurrentPage(1)} />
-        </Col>
-        <Col xs={12} md={9} lg={9} xl={9} xxl={9}>
-          <SearchAndSort
-            query={searchQuery}
-            setLoading={setLoading}
-            loading={loading}
-            onQueryChange={handleSearchChange}  
-            sort={sortOrder}
-            onSortChange={handleSortChange}
-          />
-          <ProductList
-            setLoading={setLoading}
-            searchQuery={searchQuery}
-            sort={sortOrder}
-            page={currentPage}
-            pageSize={pageSize}
-            onPageChange={setCurrentPage}
-            onPageSizeChange={setPageSize}
-          />
-        </Col>
-      </Row>
+      <Container>
+        <Row $r_gap="2rem" $c_gap="20px" $justify="flex-start" $align="flex-start">
+          <Col $xs={12} $md={3} $lg={3} $xl={3} $xxl={3}>
+            <CategoryAccordion onCategoryChange={() => setCurrentPage(1)} />
+          </Col>
+          <Col $xs={12} $md={9} $lg={9} $xl={9} $xxl={9}>
+            <SearchAndSort
+              query={searchQuery}
+              setLoading={setLoading}
+              loading={loading}
+              onQueryChange={handleSearchChange}  
+              sort={sortOrder}
+              onSortChange={handleSortChange}
+            />
+            <ProductList
+              setLoading={setLoading}
+              searchQuery={searchQuery}
+              sort={sortOrder}
+              page={currentPage}
+              pageSize={pageSize}
+              onPageChange={setCurrentPage}
+              onPageSizeChange={setPageSize}
+            />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
 
 export default ProductPage;
+
+const Container = styled.div`
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 40px ${theme.spacing.md};
+
+  @media (max-width: 768px) {
+    padding: 20px ${theme.spacing.sm};
+  }
+`;

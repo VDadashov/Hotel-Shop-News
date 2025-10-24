@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
-import BaseApi from "../../../utils/api/baseApi";
+import { apiEndpoints } from "../../../utils/api/baseApi";
+import { LanguageContext } from "../../../context/LanguageContext";
 import theme from "../../../styles/common/theme";
 
 const Faq = () => {
   const [faqs, setFaqs] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const res = await fetch(`${BaseApi}/faqs`);
-        const data = await res.json();
+        const data = await apiEndpoints.getFaqs(lang);
         setFaqs(data || []);
       } catch (err) {
         console.error("FAQ sorğusu uğursuz oldu:", err);
@@ -20,7 +21,16 @@ const Faq = () => {
     };
 
     fetchFaqs();
-  }, []);
+  }, [lang]);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    }
+    return 'N/A';
+  };
 
   const toggleIndex = (index) => {
     setActiveIndex((prev) => (prev === index ? null : index));
@@ -33,11 +43,11 @@ const Faq = () => {
         {faqs.map((item, index) => (
           <FaqItem key={index}>
             <Question onClick={() => toggleIndex(index)}>
-              {item.question}
+              {getLocalizedText(item.question)}
               <span>{activeIndex === index ? "−" : "+"}</span>
             </Question>
             <Answer expanded={activeIndex === index}>
-              <p>{item.answer}</p>
+              <p>{getLocalizedText(item.answer)}</p>
             </Answer>
           </FaqItem>
         ))}
