@@ -1,4 +1,4 @@
-const BaseApi = "http://localhost:3001/api"; // Fallback default
+const BaseApi = "https://api.hotelshop.az/api"; // Fallback default
 
 // API utility functions for multilingual support
 export const createApiHeaders = (language = "az") => {
