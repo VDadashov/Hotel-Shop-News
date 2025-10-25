@@ -20,7 +20,7 @@ const ContactFormSection = () => {
           <MapContainer>
             <iframe
               title="HotelShop Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.650568764408!2d49.86709267604011!3d40.40924375526407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d0459618c4f%3A0x93069d13e2f4ae43!2sHotelStore!5e0!3m2!1sen!2saz!4v1713449500000"
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
