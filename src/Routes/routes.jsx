@@ -35,6 +35,10 @@ const ROUTES = [
         element: <ProductPage />,
       },
       {
+        path: "products/:categorySlug",
+        element: <ProductPage />,
+      },
+      {
         path: "products/:id",
         element: <DetailsPage />,
       },

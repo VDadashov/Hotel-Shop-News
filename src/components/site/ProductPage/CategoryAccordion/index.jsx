@@ -44,7 +44,6 @@ const AccordionContent = styled.div`
 const CategoryAccordion = ({ onCategoryChange }) => {
   const [openIndexes, setOpenIndexes] = useState({});
   const [productsData, setProductsData] = useState([]);
-  console.log(productsData);
   const { setSelectedCategoryId } = useContext(MainContext);
   const { lang } = useContext(LanguageContext);
   const navigate = useNavigate();

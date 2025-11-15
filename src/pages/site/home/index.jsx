@@ -21,24 +21,22 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const startTime = Date.now();
+      
       try {
-        // Fetch trending products
         try {
           const trendingResult = await apiEndpoints.getTrendingProducts(lang);
           setTrending(trendingResult);
         } catch (trendingError) {
           console.warn("Trending endpoint not available:", trendingError.message);
-          setTrending([]); // Set empty array as fallback
+          setTrending([]);
         }
 
-        // Fetch testimonials
         const testimonialsResult = await apiEndpoints.getTestimonials(lang);
         
-        // Handle API response structure - extract data from response
         const testimonialsData = testimonialsResult?.data || testimonialsResult || [];
         setTestimonials(testimonialsData);
 
-        // Fetch best sellers settings and products
         try {
           const settingsResult = await apiEndpoints.getSettings("BestSellerProductIds", lang);
           
@@ -49,12 +47,17 @@ const Home = () => {
           }
         } catch (settingsError) {
           console.warn("Settings endpoint not available:", settingsError.message);
-          setBestSellers([]); // Set empty array as fallback
+          setBestSellers([]);
         }
       } catch (error) {
         console.error("Fetch error:", error);
       } finally {
-        setLoading(false);
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(6000 - elapsedTime, 0);
+        
+        setTimeout(() => {
+          setLoading(false);
+        }, remainingTime);
       }
     };
 

@@ -43,7 +43,6 @@ export const apiFetch = async (endpoint, options = {}, language = "az") => {
 
 // Specific API functions for common endpoints
 export const apiEndpoints = {
-  // Home page endpoints
   getTrendingProducts: (language = "az") => 
     apiFetch("/trending", {}, language),
   
@@ -56,7 +55,6 @@ export const apiEndpoints = {
   getSettings: (key, language = "az") => 
     apiFetch(`/settings/${key}`, {}, language),
   
-  // Product endpoints
   getProducts: (params = {}, language = "az") => {
     const queryString = new URLSearchParams(params).toString();
     const endpoint = queryString ? `/products?${queryString}` : "/products";
@@ -67,6 +65,13 @@ export const apiEndpoints = {
     const params = allLanguages ? "?allLanguages=true" : "";
     return apiFetch(`/products/${id}${params}`, {}, language);
   },
+
+  //Contact endpoints
+  submitContactForm: (data, language = "az") => 
+    apiFetch("/contact", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }, language),
   
   // Category endpoints
   getCategoriesMenu: (language = "az") => 

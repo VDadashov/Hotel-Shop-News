@@ -1,17 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../../../styles/common/theme";
+import { Container } from "../../../../styles/common/GridSystem";
 
 const ContactHeroSection = () => {
   return (
     <Wrapper>
-      <Content>
+      <Container>
+        <Content>
         <SmallTitle>Əlaqə saxlayın</SmallTitle>
         <MainTitle>Bizimlə əlaqə qurmaq çox asandır</MainTitle>
         <Description>
           Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz. Komandamız sizə yardım etməyə həmişə hazırdır.
         </Description>
       </Content>
+      </Container>
     </Wrapper>
   );
 };

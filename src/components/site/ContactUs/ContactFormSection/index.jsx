@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../../styles/common/GridSystem";
 import ContactInfo from "../ContactInfo";
@@ -27,7 +26,7 @@ const ContactFormSection = () => {
             ></iframe>
           </MapContainer>
         </Col>
-      </Row>
+        </Row>
       </Container>
     </Wrapper>
   );
