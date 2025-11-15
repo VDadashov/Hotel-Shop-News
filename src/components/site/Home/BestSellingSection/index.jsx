@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { Row, Col } from "../../../../styles/common/GridSystem";
-import ProductCard from "../../../common/CardConponent/index";
+import { Row, Col, Container } from "../../../../styles/common/GridSystem";
 import theme from "../../../../styles/common/theme";
+import CardModel from "../../../common/CardConponent/cardmodel";
 
 const BestSellingSection = ({ products }) => {
-  if (!Array.isArray(products)) return null;
+  console.log(products);
+  
+  if (!Array.isArray(products.data)) return null;
 
   return (
     <Section>
@@ -13,13 +15,15 @@ const BestSellingSection = ({ products }) => {
         <MainTitle>Ən çox satılan</MainTitle>
       </TitleArea>
 
-      <Row r_gap="40px" justify="center">
-        {products.map((product) => (
-          <Col xs={6} sm={6} md={3} lg={3} xl={3} xxl={3} key={product.id}>
-            <ProductCard product={product} />
-          </Col>
-        ))}
+      <Container>
+        <Row $r_gap="30px" $c_gap="120px" $justify="flex-start">
+        {products?.data.slice(0, 6).map((product) => (
+            <Col $xs={6} $sm={6} $md={4} $lg={3} $xl={2} $xxl={2} key={product.id}>
+              <CardModel product={product} />
+            </Col>
+          ))}
       </Row>
+      </Container>
     </Section>
   );
 };

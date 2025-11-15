@@ -6,7 +6,7 @@ import { LanguageContext } from "../../../context/LanguageContext";
 import MediaApi from "../../../utils/api/MediaApi";
 import theme from "../../../styles/common/theme"; // theme importu
 
-const ProductCard = ({ product }) => {
+const CardModel = ({ product }) => {
   const { addToCart } = useCart();
   const { lang } = useContext(LanguageContext);
 
@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
   );
 };
 
-export default ProductCard;
+export default CardModel;
 
 // === Styled Components ===
 
@@ -99,6 +99,7 @@ const CardWrapper = styled.div`
 `;
 
 const Card = styled.div`
+  width: 200px;
   padding: 0;
   border-radius: 12px;
   text-align: center;

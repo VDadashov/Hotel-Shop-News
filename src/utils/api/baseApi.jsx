@@ -44,13 +44,13 @@ export const apiFetch = async (endpoint, options = {}, language = "az") => {
 // Specific API functions for common endpoints
 export const apiEndpoints = {
   getTrendingProducts: (language = "az") => 
-    apiFetch("/trending", {}, language),
+    apiFetch("/products?page=1&pageSize=10&isActive=true&sort=most-viewed", {}, language),
   
   getTestimonials: (language = "az") => 
     apiFetch("/testimonials", {}, language),
   
   getBestSellers: (ids, language = "az") => 
-    apiFetch(`/bestseller/${ids}`, {}, language),
+    apiFetch(`/products?page=1&pageSize=10&isActive=true&sort=oldest`, {}, language),
   
   getSettings: (key, language = "az") => 
     apiFetch(`/settings/${key}`, {}, language),

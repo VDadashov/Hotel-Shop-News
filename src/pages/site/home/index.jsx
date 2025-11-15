@@ -77,7 +77,7 @@ const Home = () => {
       <HeroSection />
       <BrandSlider />
       <TrendingProducts products={trending} />
-      <BestSellingSection products={bestSellers} />
+      <BestSellingSection products={trending} />
       <PromoCountdownSection />
       <TestimonialsSection testimonials={testimonials} />
       <WhyChooseUsSection />
