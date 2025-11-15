@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "../../../../styles/common/GridSystem";
-import ProductCard from "../../../common/CardConponent/index";
 import theme from "../../../../styles/common/theme";
-import CardModel from "../../../common/CardConponent/cardmodel";
+
+import CardModel from "../../../common/CardConponent/CardModel.jsx";
 
 const TrendingNowSection = ({ products }) => {
   console.log(products);
