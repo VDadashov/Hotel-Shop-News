@@ -1,10 +1,66 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../../styles/common/GridSystem";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import { apiEndpoints } from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
+import { toast } from "react-toastify";
 
 const ContactSection = () => {
+  const { i18n } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error("Bütün xanaları doldurun");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Düzgün email daxil edin");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await apiEndpoints.submitContactForm(formData, i18n.language);
+      
+      toast.success("Mesajınız uğurla göndərildi!");
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast.error("Mesaj göndərilərkən xəta baş verdi");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Section>
       <Container>
@@ -16,57 +72,81 @@ const ContactSection = () => {
         </HeaderWrapper>
 
         <Row $r_gap="20px" $c_gap="20px" $justify="center">
-        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-          <WrapperBox>
-            <ContactInfo>
-              <h4>Əlaqə məlumatları</h4>
-              <InfoRow>
-                <FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span>
-              </InfoRow>
-              <InfoRow>
-                <FaPhoneAlt />
-                <a href="tel:+994551234567">+994 55 123 45 67</a>
-              </InfoRow>
-              <InfoRow>
-                <FaEnvelope />
-                <a href="mailto:info@hotelshop.az">info@hotelshop.az</a>
-              </InfoRow>
-              <InfoRow>
-                <FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span>
-              </InfoRow>
-            </ContactInfo>
-          </WrapperBox>
-        </Col>
+          <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+            <WrapperBox>
+              <ContactInfo>
+                <h4>Əlaqə məlumatları</h4>
+                <InfoRow>
+                  <FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span>
+                </InfoRow>
+                <InfoRow>
+                  <FaPhoneAlt />
+                  <a href="tel:+994551234567">+994 55 123 45 67</a>
+                </InfoRow>
+                <InfoRow>
+                  <FaEnvelope />
+                  <a href="mailto:info@hotelshop.az">info@hotelshop.az</a>
+                </InfoRow>
+                <InfoRow>
+                  <FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span>
+                </InfoRow>
+              </ContactInfo>
+            </WrapperBox>
+          </Col>
 
-        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-          <WrapperBox>
-            <Form>
-              <input type="text" placeholder="Adınız (vacib)" required />
-              <input type="email" placeholder="E-mail ünvanınız (vacib)" required />
-              <input type="tel" placeholder="Telefon nömrəniz" />
-              <textarea placeholder="Mətn" rows={4}></textarea>
-              <button type="submit">Göndər</button>
-            </Form>
-          </WrapperBox>
-        </Col>
+          <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+            <WrapperBox>
+              <Form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Adınız (vacib)"
+                  disabled={loading}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="E-mail ünvanınız (vacib)"
+                  disabled={loading}
+                  required
+                />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Mətn"
+                  rows={4}
+                  disabled={loading}
+                  required
+                />
+                <button type="submit" disabled={loading}>
+                  {loading ? "Göndərilir..." : "Göndər"}
+                </button>
+              </Form>
+            </WrapperBox>
+          </Col>
 
-        <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-          <WrapperBox>
-            <MapWrapper>
-            <iframe
-              width="100%"
-              height="100%"
-              title="HotelShop Location"
-              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-
-            </MapWrapper>
-          </WrapperBox>
-        </Col>
-      </Row>
+          <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+            <WrapperBox>
+              <MapWrapper>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  title="HotelShop Location"
+                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </MapWrapper>
+            </WrapperBox>
+          </Col>
+        </Row>
       </Container>
     </Section>
   );
@@ -136,6 +216,22 @@ const Form = styled.form`
     border: 1px solid ${theme.colors.border};
     border-radius: 6px;
     font-size: ${theme.fontSizes.sm};
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: ${theme.colors.sale};
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: #f5f5f5;
+    }
+  }
+
+  textarea {
+    resize: vertical;
   }
 
   button {
@@ -149,8 +245,19 @@ const Form = styled.form`
     cursor: pointer;
     transition: 0.3s ease;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: ${theme.colors.saleHover};
+      transform: translateY(-2px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
     }
   }
 `;
