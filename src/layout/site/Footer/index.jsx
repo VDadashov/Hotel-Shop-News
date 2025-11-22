@@ -126,7 +126,7 @@ export default Footer;
 
 const FooterWrapper = styled.footer`
   background: ${theme.colors.footerBg};
-  padding: 60px ${theme.spacing.sm} 30px;
+  padding: 60px ${theme.spacing.md} 30px;
   color: ${theme.colors.text};
 `;
 
@@ -142,6 +142,7 @@ const FooterLogo = styled.a`
     font-size: ${theme.fontSizes.sm};
     color: ${theme.colors.footerText};
     max-width: 300px;
+    margin-left: 25px;
   }
 `;
 

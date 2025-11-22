@@ -3,25 +3,37 @@ import styled from "styled-components";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import theme from "../../../../styles/common/theme";
 
-const ContactInfo = () => {
+const ContactInfo = ({ contactData, lang }) => {
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || '';
+    }
+    return '';
+  };
+
+  const pageTitle = getLocalizedText(contactData?.pageTitle) || "Bizimlə əlaqə";
+  const pageDescription = getLocalizedText(contactData?.pageDescription) || "Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz.";
+  const address = getLocalizedText(contactData?.address) || "Bakı şəhəri, Nərimanov rayonu, H.Əliyev 56";
+  const email = contactData?.email || "info@hotelshop.az";
+  const phone = contactData?.phone || "+994 55 555 55 55";
+
   return (
     <InfoWrapper>
-      <Title>Bizimlə əlaqə</Title>
-      <Text>
-        Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya
-        bilərsiniz.
-      </Text>
+      <Title>{pageTitle}</Title>
+      <Text>{pageDescription}</Text>
       <ContactItem>
         <FaMapMarkerAlt />
-        <span>Bakı şəhəri, Nərimanov rayonu, H.Əliyev 56</span>
+        <span>{address}</span>
       </ContactItem>
       <ContactItem>
         <FaEnvelope />
-        <span>info@hotelshop.az</span>
+        <span>{email}</span>
       </ContactItem>
       <ContactItem>
         <FaPhoneAlt />
-        <span>+994 55 555 55 55</span>
+        <span>{phone}</span>
       </ContactItem>
     </InfoWrapper>
   );
@@ -55,5 +67,6 @@ const ContactItem = styled.div`
 
   svg {
     color: ${theme.colors.sale};
+    flex-shrink: 0;
   }
 `;

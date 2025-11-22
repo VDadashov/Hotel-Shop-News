@@ -5,7 +5,7 @@ import { apiEndpoints } from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
 import { toast } from "react-toastify";
 
-const ContactForm = () => {
+const ContactForm = ({ contactData, lang }) => {
   const { i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -13,6 +13,15 @@ const ContactForm = () => {
     email: "",
     message: ""
   });
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || '';
+    }
+    return '';
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,44 +68,53 @@ const ContactForm = () => {
     }
   };
 
+  // Get dynamic labels and placeholders
+  const nameLabel = getLocalizedText(contactData?.formNameLabel) || "Adınız";
+  const namePlaceholder = getLocalizedText(contactData?.formNamePlaceholder) || "Adınızı daxil edin";
+  const emailLabel = getLocalizedText(contactData?.formEmailLabel) || "E-mail";
+  const emailPlaceholder = getLocalizedText(contactData?.formEmailPlaceholder) || "Email ünvanınız";
+  const messageLabel = getLocalizedText(contactData?.formMessageLabel) || "Mətn";
+  const messagePlaceholder = getLocalizedText(contactData?.formMessagePlaceholder) || "Mesajınızı yazın...";
+  const submitButtonText = getLocalizedText(contactData?.submitButtonText) || "Göndər";
+
   return (
     <FormWrapper>
       <Form onSubmit={handleSubmit}>
-        <label>Adınız *</label>
+        <label>{nameLabel} *</label>
         <input
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Adınızı daxil edin"
+          placeholder={namePlaceholder}
           disabled={loading}
           required
         />
 
-        <label>E-mail *</label>
+        <label>{emailLabel} *</label>
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          placeholder="Email ünvanınız"
+          placeholder={emailPlaceholder}
           disabled={loading}
           required
         />
 
-        <label>Mətn *</label>
+        <label>{messageLabel} *</label>
         <textarea
           name="message"
           value={formData.message}
           onChange={handleChange}
           rows={5}
-          placeholder="Mesajınızı yazın..."
+          placeholder={messagePlaceholder}
           disabled={loading}
           required
         />
 
         <button type="submit" disabled={loading}>
-          {loading ? "Göndərilir..." : "Göndər"}
+          {loading ? "Göndərilir..." : submitButtonText}
         </button>
       </Form>
     </FormWrapper>

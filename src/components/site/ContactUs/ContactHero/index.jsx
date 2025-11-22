@@ -1,19 +1,73 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import theme from "../../../../styles/common/theme";
 import { Container } from "../../../../styles/common/GridSystem";
+import { apiEndpoints } from "../../../../utils/api/baseApi";
+import { LanguageContext } from "../../../../context/LanguageContext";
+import MediaApi from "../../../../utils/api/MediaApi";
 
 const ContactHeroSection = () => {
+  const [heroData, setHeroData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { lang } = useContext(LanguageContext);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        const result = await apiEndpoints.getSections("hero", lang);
+        setHeroData(result.data?.[0] || result?.[0]);
+      } catch (error) {
+        console.error("Hero data fetch error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHeroData();
+  }, [lang]);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || '';
+    }
+    return '';
+  };
+
+  // Helper function to get image URL
+  const getImageUrl = (media) => {
+    if (!media?.url) return '/images/breadcrumb-bg.webp';
+    if (media.url.startsWith('http')) return media.url;
+    return `${MediaApi}${media.url}`;
+  };
+
+  if (loading) {
+    return (
+      <Wrapper $backgroundImage="/images/breadcrumb-bg.webp" $overlayOpacity={0.4}>
+        <Container>
+          <Content>
+            <SmallTitle>Loading...</SmallTitle>
+          </Content>
+        </Container>
+      </Wrapper>
+    );
+  }
+
+  const { additionalData, media } = heroData || {};
+  const backgroundImage = additionalData?.backgroundImage || getImageUrl(media) || '/images/breadcrumb-bg.webp';
+  const overlayOpacity = additionalData?.overlayOpacity || 0.4;
+  const subtitle = getLocalizedText(additionalData?.subtitle) || "Əlaqə saxlayın";
+  const title = getLocalizedText(additionalData?.title) || "Bizimlə əlaqə qurmaq çox asandır";
+  const description = getLocalizedText(additionalData?.description) || "Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz. Komandamız sizə yardım etməyə həmişə hazırdır.";
+
   return (
-    <Wrapper>
+    <Wrapper $backgroundImage={backgroundImage} $overlayOpacity={overlayOpacity}>
       <Container>
         <Content>
-        <SmallTitle>Əlaqə saxlayın</SmallTitle>
-        <MainTitle>Bizimlə əlaqə qurmaq çox asandır</MainTitle>
-        <Description>
-          Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz. Komandamız sizə yardım etməyə həmişə hazırdır.
-        </Description>
-      </Content>
+          <SmallTitle>{subtitle}</SmallTitle>
+          <MainTitle>{title}</MainTitle>
+          <Description>{description}</Description>
+        </Content>
       </Container>
     </Wrapper>
   );
@@ -24,7 +78,7 @@ export default ContactHeroSection;
 const Wrapper = styled.section`
   width: 100%;
   min-height: 450px;
-  background-image: url("/images/breadcrumb-bg.webp");
+  background-image: url(${props => props.$backgroundImage});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -45,7 +99,7 @@ const Wrapper = styled.section`
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, ${props => props.$overlayOpacity});
     z-index: 1;
   }
 `;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Row, Col } from "../../../../styles/common/GridSystem";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock } from "react-icons/fa";
@@ -6,15 +6,42 @@ import { useTranslation } from "react-i18next";
 import { apiEndpoints } from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
 import { toast } from "react-toastify";
+import { LanguageContext } from "../../../../context/LanguageContext";
 
 const ContactSection = () => {
   const { i18n } = useTranslation();
+  const { lang } = useContext(LanguageContext);
+  const [contactData, setContactData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: ""
   });
+
+  useEffect(() => {
+    const fetchContactData = async () => {
+      try {
+        const result = await apiEndpoints.getSections("contact", lang);
+        setContactData(result.data?.[0] || result?.[0]);
+      } catch (error) {
+        console.error("Contact data fetch error:", error);
+      } finally {
+        setDataLoading(false);
+      }
+    };
+    fetchContactData();
+  }, [lang]);
+
+  // Helper function to get localized text
+  const getLocalizedText = (text) => {
+    if (typeof text === 'string') return text;
+    if (typeof text === 'object' && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || '';
+    }
+    return '';
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,35 +88,67 @@ const ContactSection = () => {
     }
   };
 
+  if (dataLoading) {
+    return (
+      <Section>
+        <Container>
+          <div style={{ textAlign: 'center', padding: '40px' }}>
+            Loading...
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  const { additionalData } = contactData || {};
+  
+  // Get dynamic data
+  const pageTitle = getLocalizedText(additionalData?.pageTitle) || "Bizimlə əlaqə";
+  const pageDescription = getLocalizedText(additionalData?.pageDescription) || "Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.";
+  const address = getLocalizedText(additionalData?.address) || "Bakı şəhəri, Yasamal r.";
+  const phone = additionalData?.phone || "+994 55 123 45 67";
+  const email = additionalData?.email || "info@hotelshop.az";
+  const workingHours = getLocalizedText(additionalData?.workingHours) || "09:00 - 18:00 (B.e - C.a)";
+  const contactInfoTitle = getLocalizedText(additionalData?.contactInfoTitle) || "Əlaqə məlumatları";
+  
+  // Form labels
+  const namePlaceholder = getLocalizedText(additionalData?.formNamePlaceholder) || "Adınız (vacib)";
+  const emailPlaceholder = getLocalizedText(additionalData?.formEmailPlaceholder) || "E-mail ünvanınız (vacib)";
+  const messagePlaceholder = getLocalizedText(additionalData?.formMessagePlaceholder) || "Mətn";
+  const submitButtonText = getLocalizedText(additionalData?.submitButtonText) || "Göndər";
+  
+  // Map URL
+  const mapUrl = additionalData?.mapIframeUrl || "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz";
+
   return (
     <Section>
       <Container>
         <HeaderWrapper>
-          <MainTitle>Bizimlə əlaqə</MainTitle>
-          <Description>
-            Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.
-          </Description>
+          <MainTitle>{pageTitle}</MainTitle>
+          <Description>{pageDescription}</Description>
         </HeaderWrapper>
 
         <Row $r_gap="20px" $c_gap="20px" $justify="center">
           <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
             <WrapperBox>
               <ContactInfo>
-                <h4>Əlaqə məlumatları</h4>
+                <h4>{contactInfoTitle}</h4>
                 <InfoRow>
-                  <FaMapMarkerAlt /> <span>Bakı şəhəri, Yasamal r.</span>
+                  <FaMapMarkerAlt /> <span>{address}</span>
                 </InfoRow>
                 <InfoRow>
                   <FaPhoneAlt />
-                  <a href="tel:+994551234567">+994 55 123 45 67</a>
+                  <a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a>
                 </InfoRow>
                 <InfoRow>
                   <FaEnvelope />
-                  <a href="mailto:info@hotelshop.az">info@hotelshop.az</a>
+                  <a href={`mailto:${email}`}>{email}</a>
                 </InfoRow>
-                <InfoRow>
-                  <FaClock /> <span>09:00 - 18:00 (B.e - C.a)</span>
-                </InfoRow>
+                {workingHours && (
+                  <InfoRow>
+                    <FaClock /> <span>{workingHours}</span>
+                  </InfoRow>
+                )}
               </ContactInfo>
             </WrapperBox>
           </Col>
@@ -102,7 +161,7 @@ const ContactSection = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Adınız (vacib)"
+                  placeholder={namePlaceholder}
                   disabled={loading}
                   required
                 />
@@ -111,7 +170,7 @@ const ContactSection = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="E-mail ünvanınız (vacib)"
+                  placeholder={emailPlaceholder}
                   disabled={loading}
                   required
                 />
@@ -119,31 +178,21 @@ const ContactSection = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Mətn"
+                  placeholder={messagePlaceholder}
                   rows={4}
                   disabled={loading}
                   required
                 />
                 <button type="submit" disabled={loading}>
-                  {loading ? "Göndərilir..." : "Göndər"}
+                  {loading ? "Göndərilir..." : submitButtonText}
                 </button>
               </Form>
             </WrapperBox>
           </Col>
 
           <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-            <WrapperBox>
-              <MapWrapper>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  title="HotelShop Location"
-                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </MapWrapper>
+            <WrapperBox >
+              <MapContainer dangerouslySetInnerHTML={{ __html: additionalData?.mapIframeUrl }} />
             </WrapperBox>
           </Col>
         </Row>
@@ -195,12 +244,18 @@ const WrapperBox = styled.div`
   padding: ${theme.spacing.xs};
 `;
 
-const MapWrapper = styled.div`
+const MapContainer = styled.div`
   width: 100%;
-  height: 250px;
+  height: 280px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 6px 16px ${theme.colors.cardShadow};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 `;
 
 const Form = styled.form`
@@ -289,6 +344,7 @@ const InfoRow = styled.p`
 
   svg {
     color: ${theme.colors.sale};
+    flex-shrink: 0;
   }
 
   a {
