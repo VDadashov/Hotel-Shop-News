@@ -8,8 +8,6 @@ const DropdownMenu = ({
   activePaths = [],
   setActivePaths,
 }) => {
-  console.log(data);
-
   // Data transformasiyası - gələn data strukturunu komponentin gözlədiyi struktura çevir
   const transformData = (items) => {
     if (!items || !Array.isArray(items)) return [];

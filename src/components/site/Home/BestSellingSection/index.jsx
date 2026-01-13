@@ -3,8 +3,6 @@ import { Row, Col, Container } from "../../../../styles/common/GridSystem";
 import theme from "../../../../styles/common/theme";
 import CardModel from "../../../common/CardConponent/CardModel";
 const BestSellingSection = ({ products }) => {
-  console.log(products);
-  
   if (!Array.isArray(products.data)) return null;
 
   return (

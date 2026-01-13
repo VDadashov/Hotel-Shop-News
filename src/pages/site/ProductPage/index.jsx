@@ -42,7 +42,6 @@ const ProductPage = () => {
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get("searchQuery") || ""
   );
-  console.log(searchQuery);
   
   const [loading, setLoading] = useState(false);
   const [sortOrder, setSortOrder] = useState("");

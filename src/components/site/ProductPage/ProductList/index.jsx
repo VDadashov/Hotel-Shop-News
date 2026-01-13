@@ -155,7 +155,6 @@ const ProductList = ({ searchQuery, sort, page, pageSize, onPageChange, onPageSi
           params.categoryId = selectedCategoryId;
         }
 
-        console.log('API Params:', params);
         const result = await apiEndpoints.getProducts(params, lang);
 
         if (result.data) {

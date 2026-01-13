@@ -6,8 +6,6 @@ import theme from "../../../../styles/common/theme";
 import CardModel from "../../../common/CardConponent/CardModel.jsx";
 
 const TrendingNowSection = ({ products }) => {
-  console.log(products);
-
   if (!Array.isArray(products.data)) return null;
 
   return (

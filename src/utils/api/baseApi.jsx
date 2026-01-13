@@ -16,12 +16,6 @@ export const apiFetch = async (endpoint, options = {}, language = "az") => {
     ...options.headers,
   };
 
-  console.log("API Request:", {
-    url,
-    headers,
-    language
-  });
-
   const config = {
     ...options,
     headers,
