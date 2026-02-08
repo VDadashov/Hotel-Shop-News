@@ -85,7 +85,7 @@
     "backToProducts": "Back to Products",
     "breadcrumb": {
       "home": "Home",
-      "products": "Products"
+      "products": "Product"
     },
     "category": "Category:",
     "noDescription": "No detailed information available for this product.",
@@ -94,6 +94,21 @@
   },
   "promo": {
     "buyNow": "Buy Now",
-    "campaignEnded": "Campaign Ended"
+    "campaignEnded": "Campaign Ended",
+    "viewAll": "View all",
+    "loadMore": "Load more",
+    "pageTitle": "Promotions",
+    "breadcrumb": "Promotions"
+  },
+  "pageTitles": {
+    "products": "Products",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "returns": "Return Policy",
+    "feedbackProducts": "Requested Products",
+    "faq": "FAQ",
+    "test": "Test",
+    "notFound": "404 - Page Not Found",
+    "notFoundDescription": "The page you are looking for was not found"
   }
 }

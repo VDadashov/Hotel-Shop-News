@@ -85,7 +85,7 @@
     "backToProducts": "Вернуться к товарам",
     "breadcrumb": {
       "home": "Главная",
-      "products": "Товары"
+      "products": "Товар"
     },
     "category": "Категория:",
     "noDescription": "Подробная информация об этом товаре недоступна.",
@@ -94,6 +94,21 @@
   },
   "promo": {
     "buyNow": "Купить сейчас",
-    "campaignEnded": "Акция закончилась"
+    "campaignEnded": "Акция закончилась",
+    "viewAll": "Смотреть все",
+    "loadMore": "Показать еще",
+    "pageTitle": "Акции",
+    "breadcrumb": "Акции"
+  },
+  "pageTitles": {
+    "products": "Товары",
+    "privacy": "Политика конфиденциальности",
+    "terms": "Условия использования",
+    "returns": "Условия возврата",
+    "feedbackProducts": "Запрошенные товары",
+    "faq": "FAQ",
+    "test": "Тест",
+    "notFound": "404 - Страница не найдена",
+    "notFoundDescription": "Страница, которую вы ищете, не найдена"
   }
 }

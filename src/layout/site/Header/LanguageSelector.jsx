@@ -44,20 +44,18 @@ const LanguageSelector = () => {
         <Arrow $isOpen={isOpen}>▼</Arrow>
       </LanguageButton>
 
-      {isOpen && (
-        <DropdownList>
-          {languages.map((language) => (
-            <DropdownItem
-              key={language.code}
-              onClick={() => handleLanguageChange(language.code)}
-              $isActive={lang === language.code}
-            >
-              <img width={20} src={language.flag} alt="flag" />
-              <Label>{language.label}</Label>
-            </DropdownItem>
-          ))}
-        </DropdownList>
-      )}
+      <DropdownList $isOpen={isOpen}>
+        {languages.map((language) => (
+          <DropdownItem
+            key={language.code}
+            onClick={() => handleLanguageChange(language.code)}
+            $isActive={lang === language.code}
+          >
+            <img width={20} src={language.flag} alt="flag" />
+            <Label>{language.label}</Label>
+          </DropdownItem>
+        ))}
+      </DropdownList>
     </LanguageWrapper>
   );
 };
@@ -70,28 +68,51 @@ const LanguageWrapper = styled.div`
   position: relative;
   display: inline-block;
   margin-right: 20px;
+
+  @media (max-width: 768px) {
+    margin-right: 10px;
+  }
 `;
 
 const LanguageButton = styled.button`
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 12px;
+  padding: 8px 14px;
   background: ${theme.colors.white};
   border: 1px solid ${theme.colors.border};
-  border-radius: 6px;
+  border-radius: 999px;
   cursor: pointer;
   font-size: ${theme.fontSizes.sm};
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  line-height: 1;
 
   &:hover {
-    border-color: ${theme.colors.black};
+    border-color: ${theme.colors.sale};
     background: ${theme.colors.lightGray};
+    transform: translateY(-1px);
   }
 
   @media (max-width: 768px) {
     padding: 6px 10px;
     gap: 4px;
+    box-shadow: none;
+  }
+
+  @media (max-width: 600px) {
+    padding: 8px 12px;
+    gap: 6px;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 4px 8px;
   }
 `;
 
@@ -113,13 +134,38 @@ const Label = styled.span`
   @media (max-width: 768px) {
     font-size: 11px;
   }
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+    letter-spacing: 0.2px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
+  }
 `;
 
 const Arrow = styled.span`
   font-size: 10px;
   color: ${theme.colors.gray};
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
   transform: ${({ $isOpen }) => ($isOpen ? "rotate(180deg)" : "rotate(0)")};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+
+  @media (max-width: 600px) {
+    font-size: 11px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 9px;
+  }
 `;
 
 const DropdownList = styled.div`
@@ -128,22 +174,23 @@ const DropdownList = styled.div`
   right: 0;
   background: ${theme.colors.white};
   border: 1px solid ${theme.colors.border};
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   min-width: 100%;
   z-index: 1000;
-  animation: slideDown 0.2s ease;
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  transform: ${({ $isOpen }) =>
+    $isOpen ? "translateY(0)" : "translateY(-8px)"};
+  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  transform-origin: top right;
 
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @media (max-width: 480px) {
+    min-width: 100%;
+    right: 0;
   }
 `;
 
@@ -153,7 +200,9 @@ const DropdownItem = styled.div`
   gap: 8px;
   padding: 10px 14px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
   background: ${({ $isActive }) =>
     $isActive ? theme.colors.lightGray : "transparent"};
 
@@ -163,5 +212,11 @@ const DropdownItem = styled.div`
 
   ${Label} {
     font-weight: ${({ $isActive }) => ($isActive ? "700" : "600")};
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 10px;
+    justify-content: flex-start;
+    gap: 6px;
   }
 `;

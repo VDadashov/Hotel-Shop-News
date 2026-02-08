@@ -1,15 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
-import theme from '../../../styles/common/theme'; // theme importu
+import React from "react";
+import styled from "styled-components";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import theme from "../../../styles/common/theme"; // theme importu
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Helmet>
-        <title>404 - Səhifə Tapılmadı</title>
-        <meta name="description" content="Axtardığınız səhifə tapılmadı" />
+        <title>{t("pageTitles.notFound")}</title>
+        <meta
+          name="description"
+          content={t("pageTitles.notFoundDescription")}
+        />
       </Helmet>
 
       <Wrapper>

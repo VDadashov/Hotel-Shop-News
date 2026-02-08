@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import HeroSection from "../../../components/site/Home/HeroSection";
 import BrandSlider from "../../../components/site/Home/BrandSlider";
 import TrendingProducts from "../../../components/site/Home/TrendingProducts";
@@ -12,57 +13,85 @@ import ContactSection from "../../../components/site/Home/ContactSection";
 import LoadingLogo from "../../../components/common/Loading/Loading";
 import { LanguageContext } from "../../../context/LanguageContext";
 
+const getIntroPreference = () => {
+  const force = sessionStorage.getItem("homeIntroForce") === "true";
+  const shown = sessionStorage.getItem("homeIntroShown") === "true";
+  return force || !shown;
+};
+
 const Home = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [trending, setTrending] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [showIntro, setShowIntro] = useState(getIntroPreference);
+  const [loading, setLoading] = useState(getIntroPreference);
   const { lang } = useContext(LanguageContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
       const startTime = Date.now();
-      
+
       try {
         try {
           const trendingResult = await apiEndpoints.getTrendingProducts(lang);
           setTrending(trendingResult);
         } catch (trendingError) {
-          console.warn("Trending endpoint not available:", trendingError.message);
+          console.warn(
+            "Trending endpoint not available:",
+            trendingError.message,
+          );
           setTrending([]);
         }
 
         const testimonialsResult = await apiEndpoints.getTestimonials(lang);
-        
-        const testimonialsData = testimonialsResult?.data || testimonialsResult || [];
+
+        const testimonialsData =
+          testimonialsResult?.data || testimonialsResult || [];
         setTestimonials(testimonialsData);
 
         try {
-          const settingsResult = await apiEndpoints.getSettings("BestSellerProductIds", lang);
-          
+          const settingsResult = await apiEndpoints.getSettings(
+            "BestSellerProductIds",
+            lang,
+          );
+
           if (settingsResult && settingsResult.value) {
             const ids = settingsResult.value;
-            const bestSellersResult = await apiEndpoints.getBestSellers(ids, lang);
+            const bestSellersResult = await apiEndpoints.getBestSellers(
+              ids,
+              lang,
+            );
             setBestSellers(bestSellersResult);
           }
         } catch (settingsError) {
-          console.warn("Settings endpoint not available:", settingsError.message);
+          console.warn(
+            "Settings endpoint not available:",
+            settingsError.message,
+          );
           setBestSellers([]);
         }
       } catch (error) {
         console.error("Fetch error:", error);
       } finally {
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(6000 - elapsedTime, 0);
-        
-        setTimeout(() => {
+        if (showIntro) {
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(6000 - elapsedTime, 0);
+
+          setTimeout(() => {
+            setLoading(false);
+            setShowIntro(false);
+            sessionStorage.setItem("homeIntroShown", "true");
+            sessionStorage.removeItem("homeIntroForce");
+          }, remainingTime);
+        } else {
           setLoading(false);
-        }, remainingTime);
+        }
       }
     };
 
     fetchData();
-  }, [lang]);
+  }, [lang, showIntro]);
 
   if (loading) {
     return <LoadingLogo />;
@@ -71,13 +100,13 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Home</title>
+        <title>{t("header.home")}</title>
       </Helmet>
 
       <HeroSection />
       <BrandSlider />
-      <TrendingProducts products={trending} />
-      <BestSellingSection products={trending} />
+      {/* <TrendingProducts products={trending} /> */}
+      {/* <BestSellingSection products={trending} /> */}
       <PromoCountdownSection />
       <TestimonialsSection testimonials={testimonials} />
       <WhyChooseUsSection />

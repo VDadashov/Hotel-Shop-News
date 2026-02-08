@@ -33,7 +33,11 @@ const MobileDropdownPopup = ({ open, closePopup, closeAll, data = [] }) => {
         return (
           <li key={item.title + path}>
             <div className="item-row">
-              <ItemButton onClick={() => (hasChildren ? toggle(path) : handleItemClick(item))}>
+              <ItemButton
+                onClick={() =>
+                  hasChildren ? toggle(path) : handleItemClick(item)
+                }
+              >
                 {item.title}
               </ItemButton>
               {hasChildren && (
@@ -98,6 +102,11 @@ const PopupContainer = styled.div`
     display: none;
   }
 
+  @media (max-width: 480px) {
+    width: 85vw;
+    padding: 56px 16px 16px;
+  }
+
   .content ul {
     list-style: none;
     padding: 0;
@@ -129,8 +138,9 @@ const PopupContainer = styled.div`
         }
 
         li a {
+          font-family: ${theme.fonts.primary};
           font-size: ${theme.fontSizes.sm};
-          font-weight: 400;
+          font-weight: 500;
         }
 
         &.open {
@@ -145,14 +155,19 @@ const PopupContainer = styled.div`
 `;
 
 const ItemButton = styled.span`
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.base};
-  font-weight: 400;
+  font-weight: 600;
   color: ${theme.colors.black};
   cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
     color: ${theme.colors.sale};
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
   }
 `;
 
@@ -162,6 +177,10 @@ const ToggleButton = styled.button`
   font-size: ${theme.fontSizes.sm};
   color: ${theme.colors.mutedText};
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
 const CloseButton = styled.button`

@@ -1,3 +1,16 @@
+/* Remove mobile tap highlight and default blue focus ring */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(203, 165, 137, 0.6);
+  outline-offset: 2px;
+}
 /* Reset CSS */
 body {
   /* padding: 0; */

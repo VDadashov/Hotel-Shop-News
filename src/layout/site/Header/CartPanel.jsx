@@ -13,22 +13,17 @@ const CartPanel = ({ isOpen, onClose }) => {
   const [editItemId, setEditItemId] = useState(null);
   const [editQuantity, setEditQuantity] = useState("");
 
-  const {
-    cartItems,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-  } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
 
   const { lang } = useContext(LanguageContext);
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
 
   useEffect(() => {
@@ -56,9 +51,9 @@ const CartPanel = ({ isOpen, onClose }) => {
         return;
       }
 
-      const formattedItems = cartItems.map(item => ({
+      const formattedItems = cartItems.map((item) => ({
         id: item.id,
-        quantity: item.quantity
+        quantity: item.quantity,
       }));
 
       try {
@@ -80,7 +75,11 @@ const CartPanel = ({ isOpen, onClose }) => {
   };
 
   const handleQuantitySave = (item) => {
-    if (editQuantity && Number(editQuantity) > 0 && Number(editQuantity) !== item.quantity) {
+    if (
+      editQuantity &&
+      Number(editQuantity) > 0 &&
+      Number(editQuantity) !== item.quantity
+    ) {
       const newQty = Math.min(Number(editQuantity), 99999);
       updateQuantity(item.id, newQty);
     }
@@ -89,9 +88,11 @@ const CartPanel = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Overlay isOpen={isOpen}>
+    <Overlay $isOpen={isOpen}>
       <Header>
-        <CloseIcon onClick={onClose}><FaTimes /></CloseIcon>
+        <CloseIcon onClick={onClose}>
+          <FaTimes />
+        </CloseIcon>
         <Title>Səbət</Title>
       </Header>
 
@@ -101,7 +102,10 @@ const CartPanel = ({ isOpen, onClose }) => {
         ) : (
           cartItems.map((item) => (
             <CartItem key={item.id}>
-              <Img src={item.imageUrl || `${MediaApi}${item.mainImg}`} alt={getLocalizedText(item.name)} />
+              <Img
+                src={item.imageUrl || `${MediaApi}${item.mainImg}`}
+                alt={getLocalizedText(item.name)}
+              />
               <Details>
                 <p>{getLocalizedText(item.name)}</p>
                 {editItemId === item.id ? (
@@ -132,25 +136,47 @@ const CartPanel = ({ isOpen, onClose }) => {
                     }}
                   />
                 ) : (
-                  <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                  >
                     {item.quantity} ədəd
                     <FaPen
                       onClick={() => {
                         setEditItemId(item.id);
                         setEditQuantity(item.quantity);
                       }}
-                      style={{ fontSize: "12px", color: theme.colors.mutedText, cursor: "pointer" }}
+                      style={{
+                        fontSize: "12px",
+                        color: theme.colors.mutedText,
+                        cursor: "pointer",
+                      }}
                     />
                   </span>
                 )}
               </Details>
 
               <QuantityControls>
-                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity === 1}>−</button>
-                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} disabled={item.quantity >= 99999}>+</button>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  disabled={item.quantity === 1}
+                >
+                  −
+                </button>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  disabled={item.quantity >= 99999}
+                >
+                  +
+                </button>
               </QuantityControls>
 
-              <RemoveBtn onClick={() => removeFromCart(item.id)}><FaTimes /></RemoveBtn>
+              <RemoveBtn onClick={() => removeFromCart(item.id)}>
+                <FaTimes />
+              </RemoveBtn>
             </CartItem>
           ))
         )}
@@ -175,7 +201,7 @@ export default CartPanel;
 const Overlay = styled.div`
   position: fixed;
   top: 0;
-  right: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
+  right: ${({ $isOpen }) => ($isOpen ? "0" : "-100%")};
   width: 360px;
   height: 100vh;
   background: ${theme.colors.white};

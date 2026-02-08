@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { apiEndpoints } from "../../../utils/api/baseApi";
@@ -15,6 +17,7 @@ const FeedbackProduct = () => {
   const [limit, setLimit] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
   const { lang } = useContext(LanguageContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!token) return;
@@ -31,7 +34,10 @@ const FeedbackProduct = () => {
           await apiEndpoints.confirmCart(token, lang);
         }
       } catch (err) {
-        console.error("Məhsullar yüklənə bilmədi və ya Cart təsdiqlənmədi:", err);
+        console.error(
+          "Məhsullar yüklənə bilmədi və ya Cart təsdiqlənmədi:",
+          err,
+        );
       } finally {
         setLoading(false);
       }
@@ -49,7 +55,10 @@ const FeedbackProduct = () => {
 
   return (
     <>
-      <Title>Əlaqə istənilən məhsullar</Title>
+      <Helmet>
+        <title>{t("pageTitles.feedbackProducts")}</title>
+      </Helmet>
+      <Title>{t("pageTitles.feedbackProducts")}</Title>
 
       <OptionsBar>
         <Label>Məhsul sayı:</Label>
@@ -79,9 +88,15 @@ const FeedbackProduct = () => {
           </Row>
 
           <PaginationWrapper>
-            <PageButton onClick={handlePrev} disabled={page === 1}>⬅ Prev</PageButton>
-            <PageInfo>{page} / {totalPages}</PageInfo>
-            <PageButton onClick={handleNext} disabled={page === totalPages}>Next ➡</PageButton>
+            <PageButton onClick={handlePrev} disabled={page === 1}>
+              ⬅ Prev
+            </PageButton>
+            <PageInfo>
+              {page} / {totalPages}
+            </PageInfo>
+            <PageButton onClick={handleNext} disabled={page === totalPages}>
+              Next ➡
+            </PageButton>
           </PaginationWrapper>
         </>
       )}

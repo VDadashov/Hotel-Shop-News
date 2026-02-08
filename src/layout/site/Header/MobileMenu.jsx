@@ -54,6 +54,7 @@ export default MobileMenu;
 const PopupTrigger = styled.button`
   background: none;
   border: none;
+  font-family: ${theme.fonts.primary};
   font-size: ${theme.fontSizes.base};
   font-weight: 600;
   color: ${theme.colors.black};
@@ -65,6 +66,10 @@ const PopupTrigger = styled.button`
 
   &:hover {
     color: ${theme.colors.sale};
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
   }
 `;
 
@@ -80,6 +85,7 @@ const MenuWrapper = styled.div`
   box-shadow: -2px 0 8px ${theme.colors.cardShadow};
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
 
   &.open {
     transform: translateX(0);
@@ -95,6 +101,7 @@ const MenuWrapper = styled.div`
 
       a {
         text-decoration: none;
+        font-family: ${theme.fonts.primary};
         font-weight: 600;
         font-size: ${theme.fontSizes.base};
         color: ${theme.colors.black};
@@ -102,6 +109,37 @@ const MenuWrapper = styled.div`
 
         &:hover {
           color: ${theme.colors.sale};
+        }
+      }
+
+      button {
+        text-decoration: none;
+        font-family: ${theme.fonts.primary};
+        font-weight: 600;
+        font-size: ${theme.fontSizes.base};
+        color: ${theme.colors.black};
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 70vw;
+    padding: ${theme.spacing.md};
+
+    nav ul {
+      margin: 50px 0 0;
+
+      li {
+        margin-bottom: ${theme.spacing.sm};
+
+        a {
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        button {
+          font-size: 13px;
+          font-weight: 600;
         }
       }
     }
@@ -124,6 +162,12 @@ const CloseBtn = styled.button`
 
   &:hover {
     color: ${theme.colors.sale};
+  }
+
+  @media (max-width: 480px) {
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
   }
 `;
 

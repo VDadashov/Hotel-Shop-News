@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import theme from "../../../../styles/common/theme";
 import { Container } from "../../../../styles/common/GridSystem";
 import { apiEndpoints } from "../../../../utils/api/baseApi";
@@ -9,6 +12,7 @@ import MediaApi from "../../../../utils/api/MediaApi";
 const ContactHeroSection = () => {
   const [heroData, setHeroData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bgLoaded, setBgLoaded] = useState(false);
   const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
@@ -27,43 +31,80 @@ const ContactHeroSection = () => {
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || '';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "";
     }
-    return '';
+    return "";
   };
 
   // Helper function to get image URL
   const getImageUrl = (media) => {
-    if (!media?.url) return '/images/breadcrumb-bg.webp';
-    if (media.url.startsWith('http')) return media.url;
+    if (!media?.url) return "/images/breadcrumb-bg.webp";
+    if (media.url.startsWith("http")) return media.url;
     return `${MediaApi}${media.url}`;
   };
 
+  const { additionalData, media } = heroData || {};
+  const backgroundImage =
+    additionalData?.backgroundImage ||
+    getImageUrl(media) ||
+    "/images/breadcrumb-bg.webp";
+  const overlayOpacity = additionalData?.overlayOpacity || 0.4;
+  const subtitle =
+    getLocalizedText(additionalData?.subtitle) || "Əlaqə saxlayın";
+  const title =
+    getLocalizedText(additionalData?.title) ||
+    "Bizimlə əlaqə qurmaq çox asandır";
+  const description =
+    getLocalizedText(additionalData?.description) ||
+    "Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz. Komandamız sizə yardım etməyə həmişə hazırdır.";
+
+  useEffect(() => {
+    if (!backgroundImage) return;
+    setBgLoaded(false);
+    const img = new Image();
+    img.onload = () => setBgLoaded(true);
+    img.onerror = () => setBgLoaded(false);
+    img.src = backgroundImage;
+  }, [backgroundImage]);
+
   if (loading) {
     return (
-      <Wrapper $backgroundImage="/images/breadcrumb-bg.webp" $overlayOpacity={0.4}>
+      <Wrapper
+        as={motion.section}
+        $backgroundImage={null}
+        $overlayOpacity={0.4}
+        $bgLoaded={false}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <Container>
-          <Content>
-            <SmallTitle>Loading...</SmallTitle>
+          <Content as={motion.div} variants={itemVariants}>
+            <Skeleton height={16} width={140} style={{ marginBottom: 12 }} />
+            <Skeleton height={36} width={380} style={{ marginBottom: 12 }} />
+            <Skeleton height={16} width={520} count={2} />
           </Content>
         </Container>
       </Wrapper>
     );
   }
 
-  const { additionalData, media } = heroData || {};
-  const backgroundImage = additionalData?.backgroundImage || getImageUrl(media) || '/images/breadcrumb-bg.webp';
-  const overlayOpacity = additionalData?.overlayOpacity || 0.4;
-  const subtitle = getLocalizedText(additionalData?.subtitle) || "Əlaqə saxlayın";
-  const title = getLocalizedText(additionalData?.title) || "Bizimlə əlaqə qurmaq çox asandır";
-  const description = getLocalizedText(additionalData?.description) || "Əgər hər hansı bir sualınız varsa birbaşa saytdan bizə ünvanlaya bilərsiniz. Komandamız sizə yardım etməyə həmişə hazırdır.";
-
   return (
-    <Wrapper $backgroundImage={backgroundImage} $overlayOpacity={overlayOpacity}>
+    <Wrapper
+      as={motion.section}
+      $backgroundImage={backgroundImage}
+      $overlayOpacity={overlayOpacity}
+      $bgLoaded={bgLoaded}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={sectionVariants}
+    >
       <Container>
-        <Content>
+        <Content as={motion.div} variants={itemVariants}>
           <SmallTitle>{subtitle}</SmallTitle>
           <MainTitle>{title}</MainTitle>
           <Description>{description}</Description>
@@ -75,10 +116,26 @@ const ContactHeroSection = () => {
 
 export default ContactHeroSection;
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
+};
+
 const Wrapper = styled.section`
   width: 100%;
   min-height: 450px;
-  background-image: url(${props => props.$backgroundImage});
+  background-image: ${({ $bgLoaded, $backgroundImage }) =>
+    $bgLoaded && $backgroundImage ? `url(${$backgroundImage})` : "none"};
+  background-color: ${theme.colors.black};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -99,7 +156,7 @@ const Wrapper = styled.section`
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, ${props => props.$overlayOpacity});
+    background-color: rgba(0, 0, 0, ${(props) => props.$overlayOpacity});
     z-index: 1;
   }
 `;

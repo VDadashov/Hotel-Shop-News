@@ -23,7 +23,10 @@ const HeroSection = () => {
                 </Description>
                 <Row>
                   <Col $xs={12} $md={6} $xl={6} $xxl={6}>
-                    <Button onClick={() => navigator("/contact")} $variant="light">
+                    <Button
+                      onClick={() => navigator("/contact")}
+                      $variant="light"
+                    >
                       İNDİ AL
                     </Button>
                   </Col>
@@ -45,13 +48,20 @@ const HeroWrapper = styled.section`
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 60vh;
+  min-height: 520px;
+  height: 70vh;
   position: relative;
   color: ${theme.colors.white};
+
+  @media (max-width: 1024px) {
+    min-height: 460px;
+    height: 60vh;
+  }
 
   @media (max-width: 768px) {
     background-attachment: scroll;
     height: auto;
+    min-height: unset;
   }
 `;
 
@@ -61,10 +71,15 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
+  padding: 80px 0;
 
   @media (max-width: 768px) {
     height: auto;
-    padding: 60px 0;
+    padding: 56px 0;
+  }
+
+  @media (max-width: 576px) {
+    padding: 44px 0;
   }
 `;
 
@@ -73,6 +88,11 @@ const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.md};
+
+  @media (max-width: 768px) {
+    text-align: center;
+    align-items: center;
+  }
 `;
 
 const SmallTitle = styled.h4`
@@ -82,6 +102,11 @@ const SmallTitle = styled.h4`
   text-transform: uppercase;
   letter-spacing: 2px;
   color: ${theme.colors.sale};
+
+  @media (max-width: 576px) {
+    letter-spacing: 1px;
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
 const MainTitle = styled.h1`
@@ -90,8 +115,16 @@ const MainTitle = styled.h1`
   font-weight: 700;
   line-height: 1.2;
 
+  @media (max-width: 1024px) {
+    font-size: 40px;
+  }
+
   @media (max-width: 768px) {
-    font-size: ${theme.fontSizes.xl};
+    font-size: 30px;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 26px;
   }
 `;
 
@@ -101,4 +134,9 @@ const Description = styled.p`
   line-height: 1.7;
   color: ${theme.colors.mutedLight};
   max-width: 500px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    font-size: ${theme.fontSizes.sm};
+  }
 `;

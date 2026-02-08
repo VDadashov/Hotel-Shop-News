@@ -85,7 +85,7 @@
     "backToProducts": "Məhsullara qayıt",
     "breadcrumb": {
       "home": "Ana səhifə",
-      "products": "Məhsullar"
+      "products": "Məhsul"
     },
     "category": "Kateqoriya:",
     "noDescription": "Bu məhsul haqqında ətraflı məlumat mövcud deyil.",
@@ -94,6 +94,21 @@
   },
   "promo": {
     "buyNow": "İndi al",
-    "campaignEnded": "Kampaniya bitdi"
+    "campaignEnded": "Kampaniya bitdi",
+    "viewAll": "Daha çox",
+    "loadMore": "Daha çox",
+    "pageTitle": "Kampaniyalar",
+    "breadcrumb": "Kampaniyalar"
+  },
+  "pageTitles": {
+    "products": "Məhsullar",
+    "privacy": "Gizlilik Siyasəti",
+    "terms": "İstifadə Şərtləri",
+    "returns": "Qaytarılma Şərtləri",
+    "feedbackProducts": "Əlaqə istənilən məhsullar",
+    "faq": "FAQ",
+    "test": "Test",
+    "notFound": "404 - Səhifə Tapılmadı",
+    "notFoundDescription": "Axtardığınız səhifə tapılmadı"
   }
 }

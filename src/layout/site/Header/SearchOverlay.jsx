@@ -32,7 +32,7 @@ const SearchOverlay = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   return (
-    <OverlayContainer isOpen={isOpen}>
+    <OverlayContainer $isOpen={isOpen}>
       <CloseIcon onClick={onClose}>
         <FaTimes />
       </CloseIcon>
@@ -67,9 +67,10 @@ const OverlayContainer = styled.div`
   background: ${theme.colors.white};
   z-index: 1000;
   overflow: hidden;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  transform: ${({ $isOpen }) =>
+    $isOpen ? "translateX(0)" : "translateX(100%)"};
   transition: all 0.4s ease;
 
   @media (max-width: 768px) {

@@ -13,30 +13,30 @@ const CardModel = ({ product }) => {
   const handleAddToCart = () => {
     const productWithImage = {
       ...product,
-      imageUrl: getImageUrl(product.mainImg)
+      imageUrl: getImageUrl(product.mainImg),
     };
     addToCart(productWithImage);
   };
 
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
-  
+
   const getImageUrl = (imagePath) => {
-    if (!imagePath) return '/images/products-1.webp'; // fallback image
-    
-    if (imagePath.startsWith('http')) {
+    if (!imagePath) return "/images/products-1.webp"; // fallback image
+
+    if (imagePath.startsWith("http")) {
       return imagePath;
     }
-    
-    if (imagePath.startsWith('/uploads')) {
+
+    if (imagePath.startsWith("/uploads")) {
       return `${MediaApi}${imagePath}`;
     }
-    
+
     return `${MediaApi}/${imagePath}`;
   };
 
@@ -44,14 +44,17 @@ const CardModel = ({ product }) => {
     <CardWrapper>
       <Card home={true}>
         <ImageWrapper>
-          <img src={getImageUrl(product.mainImg)} alt={getLocalizedText(product.name)} />
+          <img
+            src={getImageUrl(product.mainImg)}
+            alt={getLocalizedText(product.name)}
+          />
           <Badge>Sale!</Badge>
           <CartIcon onClick={handleAddToCart}>
             <FaShoppingBag />
           </CartIcon>
         </ImageWrapper>
 
-        <ProductName href={`/products/${product.id}`}>
+        <ProductName href={`/product/${product.id}`}>
           {getLocalizedText(product.name)}
         </ProductName>
       </Card>

@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
 import { apiEndpoints } from "../../../utils/api/baseApi";
@@ -9,6 +11,7 @@ const Faq = () => {
   const [faqs, setFaqs] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const { lang } = useContext(LanguageContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -25,11 +28,11 @@ const Faq = () => {
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
 
   const toggleIndex = (index) => {
@@ -38,7 +41,10 @@ const Faq = () => {
 
   return (
     <>
-      <PageBanner title="FAQ" breadcrumb="Ana səhifə / FAQ" />
+      <Helmet>
+        <title>{t("pageTitles.faq")}</title>
+      </Helmet>
+      <PageBanner title={t("pageTitles.faq")} breadcrumb="Ana səhifə / FAQ" />
       <FaqWrapper>
         {faqs.map((item, index) => (
           <FaqItem key={index}>
@@ -100,9 +106,14 @@ const Answer = styled.div`
   transform-origin: top;
   transform: ${({ expanded }) => (expanded ? "scaleY(1)" : "scaleY(0)")};
   opacity: ${({ expanded }) => (expanded ? "1" : "0")};
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
   overflow: hidden;
-  padding: ${({ expanded }) => (expanded ? `${theme.spacing.sm} ${theme.spacing.md}` : `0 ${theme.spacing.md}`)};
+  padding: ${({ expanded }) =>
+    expanded
+      ? `${theme.spacing.sm} ${theme.spacing.md}`
+      : `0 ${theme.spacing.md}`};
   pointer-events: ${({ expanded }) => (expanded ? "auto" : "none")};
 
   p {

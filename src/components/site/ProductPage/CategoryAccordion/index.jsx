@@ -75,22 +75,22 @@ const CategoryAccordion = ({ onCategoryChange }) => {
     if (item.id) {
       setSelectedCategoryId(item.id);
     }
-    if (onCategoryChange) onCategoryChange();
+    if (onCategoryChange) onCategoryChange(getLocalizedText(item.title));
   };
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
 
   const handleAllProductsClick = () => {
     navigate("/products");
     setSelectedCategoryId(null);
-    if (onCategoryChange) onCategoryChange();
+    if (onCategoryChange) onCategoryChange(null);
   };
 
   const renderChildren = (items, parentPath = "") => {

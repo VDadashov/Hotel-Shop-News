@@ -5,20 +5,36 @@ import MainContext from "../../../context";
 import theme from "../../../styles/common/theme";
 
 const MegaDropdown = ({ data = [] }) => {
-  
   const [activeParent, setActiveParent] = useState(null);
   const [activeChild, setActiveChild] = useState(null);
   const { setSelectedCategoryId } = useContext(MainContext);
   const navigate = useNavigate();
 
-  const childItems = activeParent !== null ? data[activeParent]?.children || [] : [];
-  const grandChildren = activeChild !== null ? childItems[activeChild]?.children || [] : [];
+  const getChildren = (item) =>
+    item?.children ||
+    item?.subcategories ||
+    item?.subCategories ||
+    item?.childCategories ||
+    item?.items ||
+    [];
 
-  const getLink = (item) => item?.url ? `/products${(item.url)}` : "#";
+  const getTitle = (item) => item?.title || item?.name || "";
+
+  const childItems =
+    activeParent !== null ? getChildren(data[activeParent]) : [];
+  const grandChildren =
+    activeChild !== null ? getChildren(childItems[activeChild]) : [];
+
+  const getLink = (item) => {
+    if (item?.url) return `/products${item.url}`;
+    if (item?.id) return "/products";
+    return "#";
+  };
 
   const handleItemClick = (item) => {
-    if (item.id) setSelectedCategoryId(item.id);
-    if (item.url) navigate(`/products${(item.url)}`);
+    if (item?.id) setSelectedCategoryId(item.id);
+    const target = getLink(item);
+    if (target !== "#") navigate(target);
   };
 
   return (
@@ -36,7 +52,7 @@ const MegaDropdown = ({ data = [] }) => {
               as="div"
               onClick={() => handleItemClick(item)}
             >
-              {item.title}
+              {getTitle(item)}
             </Item>
           ))}
         </Column>
@@ -50,7 +66,7 @@ const MegaDropdown = ({ data = [] }) => {
               as="div"
               onClick={() => handleItemClick(item)}
             >
-              {item.title}
+              {getTitle(item)}
             </Item>
           ))}
         </AnimatedColumn>
@@ -60,9 +76,15 @@ const MegaDropdown = ({ data = [] }) => {
             <LinkItem
               key={index}
               to={getLink(item)}
-              onClick={() => setSelectedCategoryId(item.id)}
+              onClick={(event) => {
+                if (!item?.url && !item?.id) {
+                  event.preventDefault();
+                  return;
+                }
+                handleItemClick(item);
+              }}
             >
-              {item.title}
+              {getTitle(item)}
             </LinkItem>
           ))}
         </AnimatedColumn>
@@ -134,7 +156,9 @@ const Item = styled.div`
   font-weight: 500;
   color: ${theme.colors.text};
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
   font-size: ${theme.fontSizes.base};
   text-decoration: none;
 
@@ -160,7 +184,9 @@ const LinkItem = styled(Link)`
   font-size: ${theme.fontSizes.sm};
   color: ${theme.colors.text};
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
   cursor: pointer;
 
   &:hover {

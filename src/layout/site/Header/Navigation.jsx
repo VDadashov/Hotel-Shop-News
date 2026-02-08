@@ -105,6 +105,11 @@ const NavLink = styled.a`
     font-size: ${theme.fontSizes.sm};
     padding: 8px 12px;
   }
+
+  @media (min-width: 770px) and (max-width: 860px) {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
 `;
 
 const DropdownWrapper = styled.div`

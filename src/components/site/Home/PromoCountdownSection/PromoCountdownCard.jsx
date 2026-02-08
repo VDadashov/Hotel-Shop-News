@@ -28,11 +28,11 @@ const PromoCountdownCard = ({
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
 
   useEffect(() => {
@@ -106,12 +106,12 @@ const PromoCountdownCard = ({
 
           <ModernButton
             onClick={() => {
-              window.location.href = `/products/${product?.id}`;
+              window.location.href = `/product/${product?.id}`;
             }}
             disabled={isExpired}
             $isExpired={isExpired}
           >
-            {isExpired ? t('promo.campaignEnded') : t('promo.buyNow')}
+            {isExpired ? t("promo.campaignEnded") : t("promo.buyNow")}
           </ModernButton>
         </Content>
       </CardWrapper>
@@ -132,11 +132,10 @@ const Wrapper = styled.div`
 
 const CardWrapper = styled.div`
   position: relative;
-  background-image: url(${({ $backgroundImg }) => 
-    $backgroundImg && $backgroundImg.startsWith('http') 
-      ? $backgroundImg 
-      : MediaApi + $backgroundImg
-  });
+  background-image: url(${({ $backgroundImg }) =>
+    $backgroundImg && $backgroundImg.startsWith("http")
+      ? $backgroundImg
+      : MediaApi + $backgroundImg});
   background-size: cover;
   background-position: center;
   border-radius: 20px;
@@ -146,8 +145,10 @@ const CardWrapper = styled.div`
   align-items: center;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
@@ -162,7 +163,11 @@ const CardWrapper = styled.div`
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
   z-index: 1;
 `;
 
@@ -220,7 +225,11 @@ const Timer = styled.div`
   width: 100%;
   font-size: ${theme.fontSizes.xxl};
   font-weight: 800;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
   backdrop-filter: blur(10px);
   padding: ${theme.spacing.md} ${theme.spacing.lg};
   border-radius: 15px;
@@ -236,18 +245,17 @@ const Timer = styled.div`
 `;
 
 const ModernButton = styled.button`
-  background: ${({ $isExpired }) => 
-    $isExpired 
-      ? 'linear-gradient(135deg, #666 0%, #444 100%)'
-      : 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)'
-  };
+  background: ${({ $isExpired }) =>
+    $isExpired
+      ? "linear-gradient(135deg, #666 0%, #444 100%)"
+      : "linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)"};
   border: none;
   border-radius: 15px;
   padding: ${theme.spacing.md} ${theme.spacing.xl};
   color: ${theme.colors.white};
   font-weight: 700;
   font-size: ${theme.fontSizes.lg};
-  cursor: ${({ $isExpired }) => $isExpired ? 'not-allowed' : 'pointer'};
+  cursor: ${({ $isExpired }) => ($isExpired ? "not-allowed" : "pointer")};
   transition: all 0.3s ease;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   position: relative;

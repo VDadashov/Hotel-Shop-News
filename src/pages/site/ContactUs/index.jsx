@@ -1,18 +1,20 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import ContactHero from '../../../components/site/ContactUs/ContactHero'
-import ContactFormSection from '../../../components/site/ContactUs/ContactFormSection'
+import React from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+import ContactHero from "../../../components/site/ContactUs/ContactHero";
+import ContactFormSection from "../../../components/site/ContactUs/ContactFormSection";
 const ContactUs = () => {
-    
-  return ( 
-     <>
-    <Helmet>
-        <title>Contact Us</title>
-    </Helmet>
-    <ContactHero/>
-    <ContactFormSection/>
-    </>
-  )
-}
+  const { t } = useTranslation();
 
-export default ContactUs
+  return (
+    <>
+      <Helmet>
+        <title>{t("header.contact")}</title>
+      </Helmet>
+      <ContactHero />
+      <ContactFormSection />
+    </>
+  );
+};
+
+export default ContactUs;

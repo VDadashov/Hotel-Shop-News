@@ -1,7 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Row, Col } from "../../../../styles/common/GridSystem";
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaClock,
+} from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { apiEndpoints } from "../../../../utils/api/baseApi";
 import theme from "../../../../styles/common/theme";
@@ -17,7 +25,7 @@ const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   useEffect(() => {
@@ -36,18 +44,18 @@ const ContactSection = () => {
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || '';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "";
     }
-    return '';
+    return "";
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -55,7 +63,11 @@ const ContactSection = () => {
     e.preventDefault();
 
     // Validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
       toast.error("Bütün xanaları doldurun");
       return;
     }
@@ -71,14 +83,14 @@ const ContactSection = () => {
 
     try {
       await apiEndpoints.submitContactForm(formData, i18n.language);
-      
+
       toast.success("Mesajınız uğurla göndərildi!");
-      
+
       // Reset form
       setFormData({
         name: "",
         email: "",
-        message: ""
+        message: "",
       });
     } catch (error) {
       console.error("Contact form error:", error);
@@ -90,47 +102,112 @@ const ContactSection = () => {
 
   if (dataLoading) {
     return (
-      <Section>
+      <Section
+        as={motion.section}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <Container>
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            Loading...
-          </div>
+          <HeaderWrapper as={motion.div} variants={itemVariants}>
+            <Skeleton height={28} width={220} style={{ margin: "0 auto" }} />
+            <Skeleton
+              height={16}
+              width={520}
+              style={{ margin: "12px auto 0" }}
+            />
+          </HeaderWrapper>
+
+          <Row $r_gap="20px" $c_gap="20px" $justify="center">
+            <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+              <WrapperBox as={motion.div} variants={itemVariants}>
+                <CardSkeleton>
+                  <Skeleton
+                    height={20}
+                    width={160}
+                    style={{ marginBottom: 12 }}
+                  />
+                  <Skeleton height={14} count={4} style={{ marginBottom: 8 }} />
+                </CardSkeleton>
+              </WrapperBox>
+            </Col>
+
+            <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+              <WrapperBox as={motion.div} variants={itemVariants}>
+                <CardSkeleton>
+                  <Skeleton height={44} style={{ marginBottom: 12 }} />
+                  <Skeleton height={44} style={{ marginBottom: 12 }} />
+                  <Skeleton height={90} style={{ marginBottom: 12 }} />
+                  <Skeleton height={44} width={160} />
+                </CardSkeleton>
+              </WrapperBox>
+            </Col>
+
+            <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
+              <WrapperBox as={motion.div} variants={itemVariants}>
+                <CardSkeleton>
+                  <Skeleton height={280} />
+                </CardSkeleton>
+              </WrapperBox>
+            </Col>
+          </Row>
         </Container>
       </Section>
     );
   }
 
   const { additionalData } = contactData || {};
-  
+
   // Get dynamic data
-  const pageTitle = getLocalizedText(additionalData?.pageTitle) || "Bizimlə əlaqə";
-  const pageDescription = getLocalizedText(additionalData?.pageDescription) || "Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.";
-  const address = getLocalizedText(additionalData?.address) || "Bakı şəhəri, Yasamal r.";
+  const pageTitle =
+    getLocalizedText(additionalData?.pageTitle) || "Bizimlə əlaqə";
+  const pageDescription =
+    getLocalizedText(additionalData?.pageDescription) ||
+    "Əgər hər hansı bir sualınız varsa bir başa saytdan bizə ünvanlaya bilərsiniz.";
+  const address =
+    getLocalizedText(additionalData?.address) || "Bakı şəhəri, Yasamal r.";
   const phone = additionalData?.phone || "+994 55 123 45 67";
   const email = additionalData?.email || "info@hotelshop.az";
-  const workingHours = getLocalizedText(additionalData?.workingHours) || "09:00 - 18:00 (B.e - C.a)";
-  const contactInfoTitle = getLocalizedText(additionalData?.contactInfoTitle) || "Əlaqə məlumatları";
-  
+  const workingHours =
+    getLocalizedText(additionalData?.workingHours) ||
+    "09:00 - 18:00 (B.e - C.a)";
+  const contactInfoTitle =
+    getLocalizedText(additionalData?.contactInfoTitle) || "Əlaqə məlumatları";
+
   // Form labels
-  const namePlaceholder = getLocalizedText(additionalData?.formNamePlaceholder) || "Adınız (vacib)";
-  const emailPlaceholder = getLocalizedText(additionalData?.formEmailPlaceholder) || "E-mail ünvanınız (vacib)";
-  const messagePlaceholder = getLocalizedText(additionalData?.formMessagePlaceholder) || "Mətn";
-  const submitButtonText = getLocalizedText(additionalData?.submitButtonText) || "Göndər";
-  
+  const namePlaceholder =
+    getLocalizedText(additionalData?.formNamePlaceholder) || "Adınız (vacib)";
+  const emailPlaceholder =
+    getLocalizedText(additionalData?.formEmailPlaceholder) ||
+    "E-mail ünvanınız (vacib)";
+  const messagePlaceholder =
+    getLocalizedText(additionalData?.formMessagePlaceholder) || "Mətn";
+  const submitButtonText =
+    getLocalizedText(additionalData?.submitButtonText) || "Göndər";
+
   // Map URL
-  const mapUrl = additionalData?.mapIframeUrl || "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz";
+  const mapUrl =
+    additionalData?.mapIframeUrl ||
+    "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3037.776955505772!2d49.901317576010925!3d40.41379167144008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2saz!4v1761383084232!5m2!1sen!2saz";
 
   return (
-    <Section>
+    <Section
+      as={motion.section}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
+    >
       <Container>
-        <HeaderWrapper>
+        <HeaderWrapper as={motion.div} variants={itemVariants}>
           <MainTitle>{pageTitle}</MainTitle>
           <Description>{pageDescription}</Description>
         </HeaderWrapper>
 
         <Row $r_gap="20px" $c_gap="20px" $justify="center">
           <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-            <WrapperBox>
+            <WrapperBox as={motion.div} variants={itemVariants}>
               <ContactInfo>
                 <h4>{contactInfoTitle}</h4>
                 <InfoRow>
@@ -138,7 +215,7 @@ const ContactSection = () => {
                 </InfoRow>
                 <InfoRow>
                   <FaPhoneAlt />
-                  <a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a>
+                  <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
                 </InfoRow>
                 <InfoRow>
                   <FaEnvelope />
@@ -154,7 +231,7 @@ const ContactSection = () => {
           </Col>
 
           <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-            <WrapperBox>
+            <WrapperBox as={motion.div} variants={itemVariants}>
               <Form onSubmit={handleSubmit}>
                 <input
                   type="text"
@@ -191,8 +268,8 @@ const ContactSection = () => {
           </Col>
 
           <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
-            <WrapperBox >
-              <MapContainer dangerouslySetInnerHTML={{ __html: additionalData?.mapIframeUrl }} />
+            <WrapperBox as={motion.div} variants={itemVariants}>
+              <MapContainer dangerouslySetInnerHTML={{ __html: mapUrl }} />
             </WrapperBox>
           </Col>
         </Row>
@@ -202,6 +279,20 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
+};
 
 const Section = styled.section`
   padding: 60px 0;
@@ -242,6 +333,13 @@ const Description = styled.p`
 
 const WrapperBox = styled.div`
   padding: ${theme.spacing.xs};
+`;
+
+const CardSkeleton = styled.div`
+  padding: ${theme.spacing.md};
+  background: ${theme.colors.white};
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 `;
 
 const MapContainer = styled.div`

@@ -16,7 +16,7 @@ import LanguageSelector from "./LanguageSelector";
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsData, setProductsData] = useState([]);
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -61,21 +61,26 @@ const Header = () => {
       <FixedHeader $isFixed={isFixed}>
         <HeaderWrapper>
           <Row $justify="space-between" $align="center">
-            <Col $xs={2} $md={2}>
-              <Logo href="/">
+            <LogoCol $xs={5} $md={2} $lg={2} $xl={2} $xxl={2}>
+              <Logo
+                href="/"
+                onClick={() => {
+                  sessionStorage.setItem("homeIntroForce", "true");
+                }}
+              >
                 <img src="/images/logo.png" alt="Logo" />
               </Logo>
-            </Col>
+            </LogoCol>
 
-            <Col $xs={8} $md={8}>
+            <NavCol $xs={12} $md={7} $lg={7} $xl={8} $xxl={8}>
               <Navigation
                 productsData={productsData}
                 loading={loading}
                 error={error}
               />
-            </Col>
+            </NavCol>
 
-            <Col $xs={2} $md={2}>
+            <RightCol $xs={7} $md={3} $lg={3} $xl={2} $xxl={2}>
               <RightSide>
                 <LanguageSelector />
 
@@ -91,7 +96,7 @@ const Header = () => {
                   <FaBars />
                 </MobileToggle>
               </RightSide>
-            </Col>
+            </RightCol>
           </Row>
 
           <SearchOverlay
@@ -150,12 +155,25 @@ const FixedHeader = styled.div`
 
 const HeaderWrapper = styled.header`
   width: 100%;
-  padding: ${theme.spacing.md};
+  padding: 20px 20px 8px 0px;
   background: ${theme.colors.white};
 
-  @media (max-width: 768px) {
-    padding: ${theme.spacing.sm};
+  @media (max-width: 500px) {
+    padding: 15px 15px 4px 0px;
   }
+`;
+
+const NavCol = styled(Col)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const LogoCol = styled(Col)``;
+
+const RightCol = styled(Col)`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const Logo = styled.a`
@@ -165,6 +183,13 @@ const Logo = styled.a`
   img {
     max-height: 60px;
     object-fit: contain;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 500px) {
+    img {
+      margin-bottom: 16px;
+    }
   }
 `;
 
@@ -172,6 +197,11 @@ const RightSide = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
+
+  @media (max-width: 600px) {
+    gap: ${theme.spacing.sm};
+    align-items: center;
+  }
 `;
 
 const Icons = styled.div`
@@ -223,6 +253,9 @@ const MobileToggle = styled.div`
   margin-left: 15px;
 
   @media (max-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
   }
 `;

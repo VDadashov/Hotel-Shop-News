@@ -1,19 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import PageBanner from "../../../components/common/PageBanner";
 import { apiEndpoints } from "../../../utils/api/baseApi";
 import { LanguageContext } from "../../../context/LanguageContext";
 import theme from "../../../styles/common/theme";
 
-const TITLES = {
-  "gizlilik-siyaseti": "Gizlilik Siyasəti",
-  "istifade-sertleri": "İstifadə Şərtləri",
-  "qaytarilma-sertleri": "Qaytarılma Şərtləri",
+const TITLE_KEYS = {
+  "gizlilik-siyaseti": "pageTitles.privacy",
+  "istifade-sertleri": "pageTitles.terms",
+  "qaytarilma-sertleri": "pageTitles.returns",
 };
 
 const PolicyPage = ({ type }) => {
   const [content, setContent] = useState("");
   const { lang } = useContext(LanguageContext);
+  const { t } = useTranslation();
+  const title = t(TITLE_KEYS[type]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +35,10 @@ const PolicyPage = ({ type }) => {
 
   return (
     <>
-      <PageBanner title={TITLES[type]} breadcrumb={`Ana səhifə / ${TITLES[type]}`} />
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      <PageBanner title={title} breadcrumb={`Ana səhifə / ${title}`} />
       <ContentWrapper dangerouslySetInnerHTML={{ __html: content }} />
     </>
   );
@@ -54,7 +61,9 @@ const ContentWrapper = styled.div`
     margin-bottom: ${theme.spacing.md};
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     margin: ${theme.spacing.md} 0 ${theme.spacing.sm};
     color: ${theme.colors.darkText};
   }

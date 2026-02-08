@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { apiEndpoints } from '../../../utils/api/baseApi';
-import { LanguageContext } from '../../../context/LanguageContext';
-import { Container, Row, Col } from '../../../styles/common/GridSystem';
-import MediaApi from '../../../utils/api/MediaApi';
-import theme from '../../../styles/common/theme';
-import { FaArrowLeft, FaShoppingCart } from 'react-icons/fa';
-import PageBanner from '../../../components/common/PageBanner';
-import { useCart } from '../../../providers/CartProvider';
+import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { apiEndpoints } from "../../../utils/api/baseApi";
+import { LanguageContext } from "../../../context/LanguageContext";
+import { Container, Row, Col } from "../../../styles/common/GridSystem";
+import MediaApi from "../../../utils/api/MediaApi";
+import theme from "../../../styles/common/theme";
+import { FaArrowLeft, FaShoppingCart } from "react-icons/fa";
+import PageBanner from "../../../components/common/PageBanner";
+import { useCart } from "../../../providers/CartProvider";
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -39,37 +40,37 @@ const DetailsPage = () => {
 
   // Helper function to get localized text
   const getLocalizedText = (text) => {
-    if (typeof text === 'string') return text;
-    if (typeof text === 'object' && text !== null) {
-      return text[lang] || text.az || text.en || text.ru || 'N/A';
+    if (typeof text === "string") return text;
+    if (typeof text === "object" && text !== null) {
+      return text[lang] || text.az || text.en || text.ru || "N/A";
     }
-    return 'N/A';
+    return "N/A";
   };
 
   // Helper function to get image URL
   const getImageUrl = (imagePath) => {
-    if (!imagePath) return '/images/products-1.webp';
-    if (imagePath.startsWith('http')) return imagePath;
+    if (!imagePath) return "/images/products-1.webp";
+    if (imagePath.startsWith("http")) return imagePath;
     // If imagePath starts with /uploads, just prepend MediaApi
-    if (imagePath.startsWith('/uploads')) return `${MediaApi}${imagePath}`;
+    if (imagePath.startsWith("/uploads")) return `${MediaApi}${imagePath}`;
     // Otherwise, assume it's a relative path and prepend MediaApi
     return `${MediaApi}/${imagePath}`;
   };
 
   // Quantity handlers
   const handleQuantityIncrease = () => {
-    setQuantity(prev => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
 
   const handleQuantityDecrease = () => {
-    setQuantity(prev => Math.max(1, prev - 1));
+    setQuantity((prev) => Math.max(1, prev - 1));
   };
 
   const handleAddToCart = () => {
     if (product) {
       const productWithImage = {
         ...product,
-        imageUrl: getImageUrl(product.mainImg)
+        imageUrl: getImageUrl(product.mainImg),
       };
       addToCart(productWithImage, quantity);
     }
@@ -79,7 +80,7 @@ const DetailsPage = () => {
     return (
       <Container>
         <LoadingWrapper>
-          <LoadingText>{t('detailsPage.loading')}</LoadingText>
+          <LoadingText>{t("detailsPage.loading")}</LoadingText>
         </LoadingWrapper>
       </Container>
     );
@@ -89,30 +90,40 @@ const DetailsPage = () => {
     return (
       <Container>
         <ErrorWrapper>
-          <ErrorText>{t('detailsPage.notFound')}</ErrorText>
-          <BackButton onClick={() => navigate('/products')}>
-            <FaArrowLeft /> {t('detailsPage.backToProducts')}
+          <ErrorText>{t("detailsPage.notFound")}</ErrorText>
+          <BackButton onClick={() => navigate("/products")}>
+            <FaArrowLeft /> {t("detailsPage.backToProducts")}
           </BackButton>
         </ErrorWrapper>
       </Container>
     );
   }
 
-  const breadcrumb = `${t('detailsPage.breadcrumb.home')} > ${t('detailsPage.breadcrumb.products')} > ${getLocalizedText(product.name)}`;
+  const breadcrumb = `${t("detailsPage.breadcrumb.home")} > ${t("detailsPage.breadcrumb.products")} > ${getLocalizedText(product.name)}`;
 
   return (
     <>
-      <PageBanner title={getLocalizedText(product.name)} breadcrumb={breadcrumb} />
-      
+      <Helmet>
+        <title>
+          {product
+            ? `${getLocalizedText(product.name)} | ${t("detailsPage.breadcrumb.products")}`
+            : t("detailsPage.loading")}
+        </title>
+      </Helmet>
+      <PageBanner
+        title={getLocalizedText(product.name)}
+        breadcrumb={breadcrumb}
+      />
+
       <Wrapper>
         <Container>
           <Row $r_gap="40px" $c_gap="20px" $align="flex-start">
             {/* Product Image */}
             <Col $xs={12} $sm={12} $md={4} $lg={4} $xl={4} $xxl={4}>
               <ImageSection>
-                <ProductImage 
-                  src={getImageUrl(product.mainImg)} 
-                  alt={getLocalizedText(product.name)} 
+                <ProductImage
+                  src={getImageUrl(product.mainImg)}
+                  alt={getLocalizedText(product.name)}
                 />
               </ImageSection>
             </Col>
@@ -121,31 +132,39 @@ const DetailsPage = () => {
             <Col $xs={12} $sm={12} $md={7} $lg={7} $xl={7} $xxl={7}>
               <ProductInfo>
                 <ProductTitle>{getLocalizedText(product.name)}</ProductTitle>
-                
+
                 <CategorySection>
-                  <CategoryLabel>{t('detailsPage.category')}</CategoryLabel>
-                  <CategoryValue>{getLocalizedText(product.category?.name) || `${t('detailsPage.category')} ${product.categoryId}`}</CategoryValue>
+                  <CategoryLabel>{t("detailsPage.category")}</CategoryLabel>
+                  <CategoryValue>
+                    {getLocalizedText(product.category?.name) ||
+                      `${t("detailsPage.category")} ${product.categoryId}`}
+                  </CategoryValue>
                 </CategorySection>
 
                 <Description>
                   <DescriptionText>
-                    {getLocalizedText(product.description) || t('detailsPage.noDescription')}
+                    {getLocalizedText(product.description) ||
+                      t("detailsPage.noDescription")}
                   </DescriptionText>
                 </Description>
 
                 <QuantitySection>
-                  <QuantityLabel>{t('detailsPage.quantity')}</QuantityLabel>
+                  <QuantityLabel>{t("detailsPage.quantity")}</QuantityLabel>
                   <QuantityControls>
-                    <QuantityButton onClick={handleQuantityDecrease}>-</QuantityButton>
+                    <QuantityButton onClick={handleQuantityDecrease}>
+                      -
+                    </QuantityButton>
                     <QuantityInput value={quantity} readOnly />
-                    <QuantityButton onClick={handleQuantityIncrease}>+</QuantityButton>
+                    <QuantityButton onClick={handleQuantityIncrease}>
+                      +
+                    </QuantityButton>
                   </QuantityControls>
                 </QuantitySection>
 
                 <ActionButtonsSection>
                   <AddToCartButton onClick={handleAddToCart}>
                     <FaShoppingCart />
-                    {t('detailsPage.addToCart')}
+                    {t("detailsPage.addToCart")}
                   </AddToCartButton>
                 </ActionButtonsSection>
               </ProductInfo>
@@ -460,7 +479,7 @@ const FeatureItem = styled.div`
 `;
 
 const FeatureIcon = styled.span`
-  color: ${theme.colors.success || '#28a745'};
+  color: ${theme.colors.success || "#28a745"};
   font-size: ${theme.fontSizes.lg};
 `;
 
